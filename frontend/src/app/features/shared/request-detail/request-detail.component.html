@@ -1,0 +1,262 @@
+<div class="page">
+  @if (loading()) {
+    <div class="loading-container"><div class="spinner"></div></div>
+  } @else if (request()) {
+
+    <!-- Header -->
+    <div class="detail-header">
+      <div class="detail-header-left">
+        <a [routerLink]="backRoute()" class="back-link">
+          <span class="material-icons">arrow_back</span> Back
+        </a>
+        <div>
+          <div class="ref-badge">{{ request()!.referenceNumber }}</div>
+          <h1 class="page-title" style="margin-top:4px">{{ request()!.patientName }}</h1>
+          <div class="header-meta">
+            <app-status-badge [status]="request()!.status" />
+            <app-priority-badge [priority]="request()!.priority" />
+            <span class="meta-text">{{ request()!.serviceType }}</span>
+            <span class="meta-text">Created {{ request()!.createdAt | date:'MMM d, y' }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="detail-actions">
+        @if (isPayer() && (request()!.status === 'SUBMITTED' || request()!.status === 'RESUBMITTED' || request()!.status === 'IN_REVIEW')) {
+          <a [routerLink]="reviewRoute()" class="btn btn-primary">
+            <span class="material-icons">rate_review</span> Review
+          </a>
+        }
+        @if (isProvider() && request()!.status === 'INFO_REQUESTED') {
+          <a [routerLink]="resubmitRoute()" class="btn btn-warning">
+            <span class="material-icons">replay</span> Resubmit
+          </a>
+        }
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn" [class.active]="activeTab() === 'details'" (click)="setTab('details')">
+        <span class="material-icons">description</span> Details
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'ai'" (click)="setTab('ai')">
+        <span class="material-icons">smart_toy</span> AI Analysis
+      </button>
+      <button class="tab-btn" [class.active]="activeTab() === 'audit'" (click)="setTab('audit')">
+        <span class="material-icons">timeline</span> Audit Trail
+        <span class="tab-count">{{ auditLogs().length }}</span>
+      </button>
+    </div>
+
+    <!-- ── Tab: Details ───────────────────────────────────────────────────── -->
+    @if (activeTab() === 'details') {
+      <div class="details-grid">
+
+        <!-- Patient Info -->
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Patient Information</h3></div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item"><label>Full Name</label><span>{{ request()!.patientName }}</span></div>
+              <div class="info-item"><label>Date of Birth</label><span>{{ request()!.patientDob }}</span></div>
+              <div class="info-item"><label>Member ID</label><span>{{ request()!.patientMemberId }}</span></div>
+              <div class="info-item"><label>Insurance Plan</label><span>{{ request()!.patientInsurancePlan || '—' }}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clinical Info -->
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Clinical Information</h3></div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Diagnosis (ICD-10)</label>
+                <span><strong>{{ request()!.diagnosisCode }}</strong> — {{ request()!.diagnosisDescription }}</span>
+              </div>
+              <div class="info-item">
+                <label>Procedure (CPT)</label>
+                <span><strong>{{ request()!.procedureCode }}</strong> — {{ request()!.procedureDescription }}</span>
+              </div>
+              <div class="info-item"><label>Service Type</label><span>{{ request()!.serviceType }}</span></div>
+              <div class="info-item">
+                <label>Service Dates</label>
+                <span>{{ request()!.requestedServiceDate | date:'MMM d, y' }} — {{ request()!.requestedServiceEndDate | date:'MMM d, y' }}</span>
+              </div>
+              <div class="info-item"><label>Facility</label><span>{{ request()!.facilityName || '—' }}</span></div>
+              <div class="info-item"><label>Treating Physician</label><span>{{ request()!.treatingPhysician || '—' }}</span></div>
+            </div>
+
+            @if (request()!.clinicalNotes) {
+              <div class="notes-block">
+                <label>Clinical Notes</label>
+                <p>{{ request()!.clinicalNotes }}</p>
+              </div>
+            }
+
+            @if (request()!.supportingDocuments) {
+              <div class="notes-block" style="margin-top:12px">
+                <label>Supporting Documents</label>
+                <div class="doc-chips">
+                  @for (doc of request()!.supportingDocuments.split(','); track doc) {
+                    <span class="doc-chip">
+                      <span class="material-icons">attach_file</span>{{ doc.trim() }}
+                    </span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Provider Info -->
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Provider</h3></div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item"><label>Name</label><span>{{ request()!.providerName }}</span></div>
+              <div class="info-item"><label>Organization</label><span>{{ request()!.providerOrganization || '—' }}</span></div>
+              <div class="info-item"><label>Submitted</label><span>{{ (request()!.submittedAt | date:'MMM d, y h:mm a') || '—' }}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payer Review Info -->
+        @if (request()!.reviewerName || request()!.reviewerNotes || request()!.denialReason || request()!.additionalInfoRequested) {
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Payer Review</h3></div>
+            <div class="card-body">
+              <div class="info-grid">
+                @if (request()!.reviewerName) {
+                  <div class="info-item"><label>Reviewed By</label><span>{{ request()!.reviewerName }}</span></div>
+                }
+                @if (request()!.reviewedAt) {
+                  <div class="info-item"><label>Reviewed At</label><span>{{ request()!.reviewedAt | date:'MMM d, y h:mm a' }}</span></div>
+                }
+              </div>
+              @if (request()!.reviewerNotes) {
+                <div class="notes-block">
+                  <label>Reviewer Notes</label>
+                  <p>{{ request()!.reviewerNotes }}</p>
+                </div>
+              }
+              @if (request()!.denialReason) {
+                <div class="notes-block denial-block">
+                  <label>Denial Reason</label>
+                  <p>{{ request()!.denialReason }}</p>
+                </div>
+              }
+              @if (request()!.additionalInfoRequested) {
+                <div class="notes-block info-req-block">
+                  <label>Information Requested</label>
+                  <p>{{ request()!.additionalInfoRequested }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+      </div>
+    }
+
+    <!-- ── Tab: AI Analysis ────────────────────────────────────────────────── -->
+    @if (activeTab() === 'ai') {
+      @if (aiAnalysis()) {
+        <div class="ai-tab-content">
+          <div class="ai-scores-row">
+            <div class="ai-score-card" [ngClass]="scoreClass(aiAnalysis()!.completenessScore)">
+              <div class="score-num">{{ aiAnalysis()!.completenessScore }}%</div>
+              <div class="score-lbl">Completeness Score</div>
+              <div class="score-bar"><div [style.width.%]="aiAnalysis()!.completenessScore"></div></div>
+            </div>
+            <div class="ai-score-card" [ngClass]="scoreClass(aiAnalysis()!.approvalProbability)">
+              <div class="score-num">{{ aiAnalysis()!.approvalProbability }}%</div>
+              <div class="score-lbl">Approval Probability</div>
+              <div class="score-bar"><div [style.width.%]="aiAnalysis()!.approvalProbability"></div></div>
+            </div>
+            <div class="ai-risk-card" [ngClass]="'risk-' + aiAnalysis()!.riskLevel.toLowerCase()">
+              <div class="risk-label">Risk Level</div>
+              <div class="risk-value">{{ aiAnalysis()!.riskLevel }}</div>
+            </div>
+          </div>
+
+          <div class="alert alert-info" style="margin-bottom:24px">
+            <span class="material-icons">smart_toy</span>
+            <span>{{ aiAnalysis()!.summary }}</span>
+          </div>
+
+          <div class="ai-sections-grid">
+            @if (aiAnalysis()!.recommendations.length > 0) {
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title" style="color:var(--primary)">
+                    <span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:6px">lightbulb</span>
+                    Recommendations
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <ul class="detail-ai-list">
+                    @for (r of aiAnalysis()!.recommendations; track r) {
+                      <li><span class="material-icons">check_circle_outline</span>{{ r }}</li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            }
+            @if (aiAnalysis()!.missingFields.length > 0) {
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title" style="color:var(--danger)">
+                    <span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:6px">report_problem</span>
+                    Missing Information
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <ul class="detail-ai-list missing">
+                    @for (m of aiAnalysis()!.missingFields; track m) {
+                      <li><span class="material-icons">remove_circle_outline</span>{{ m }}</li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+
+    <!-- ── Tab: Audit Timeline ─────────────────────────────────────────────── -->
+    @if (activeTab() === 'audit') {
+      <div class="card">
+        <div class="card-body">
+          @if (auditLogs().length === 0) {
+            <div class="empty-state"><span class="material-icons">timeline</span><h3>No audit logs</h3></div>
+          } @else {
+            <div class="timeline">
+              @for (log of auditLogs(); track log.id; let last = $last) {
+                <div class="timeline-item">
+                  <div class="timeline-dot" [ngClass]="'dot-' + auditColor(log.action)">
+                    <span class="material-icons">{{ auditIcon(log.action) }}</span>
+                  </div>
+                  @if (!last) { <div class="timeline-line"></div> }
+                  <div class="timeline-content">
+                    <div class="timeline-action">{{ log.actionDisplayName }}</div>
+                    <div class="timeline-desc">{{ log.description }}</div>
+                    @if (log.details) {
+                      <div class="timeline-details">{{ log.details }}</div>
+                    }
+                    <div class="timeline-meta">
+                      <span class="material-icons">person</span>
+                      {{ log.performedByName }} · {{ log.performedByRole }}
+                      <span class="timeline-date">{{ log.createdAt | date:'MMM d, y h:mm a' }}</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

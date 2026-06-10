@@ -1,0 +1,191 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">My Profile</h1>
+      <p class="page-subtitle">Your account information and credentials.</p>
+    </div>
+  </div>
+
+  @if (user()) {
+    <div class="profile-layout">
+
+      <!-- Left: identity card -->
+      <div class="card identity-card">
+        <div class="avatar-wrap">
+          <div class="avatar-lg">{{ initials }}</div>
+          <div class="avatar-role" [class.role-payer]="!isProvider()">
+            {{ user()!.role }}
+          </div>
+        </div>
+
+        <h2 class="identity-name">{{ user()!.fullName }}</h2>
+        <p class="identity-org">{{ user()!.organization }}</p>
+        <p class="identity-since">Member since {{ joinedDate }}</p>
+
+        <button class="btn btn-danger" style="margin-top:24px;width:100%" (click)="auth.logout()">
+          <span class="material-icons">logout</span>
+          Sign Out
+        </button>
+      </div>
+
+      <!-- Right: details -->
+      <div class="details-col">
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Account Details</h3>
+          </div>
+
+          <div class="card-body">
+
+            <div class="detail-row">
+              <div class="detail-icon">
+                <span class="material-icons">person</span>
+              </div>
+              <div class="detail-body">
+                <label>Full Name</label>
+                <span>{{ user()!.fullName }}</span>
+              </div>
+            </div>
+
+            <div class="detail-row">
+              <div class="detail-icon">
+                <span class="material-icons">mail_outline</span>
+              </div>
+              <div class="detail-body">
+                <label>Email Address</label>
+                <span>{{ user()!.email }}</span>
+              </div>
+              <button class="btn btn-ghost btn-sm" (click)="copyEmail()" title="Copy email">
+                <span class="material-icons">
+                  {{ copied() ? 'check' : 'content_copy' }}
+                </span>
+                {{ copied() ? 'Copied!' : 'Copy' }}
+              </button>
+            </div>
+
+            <div class="detail-row">
+              <div class="detail-icon">
+                <span class="material-icons">business</span>
+              </div>
+              <div class="detail-body">
+                <label>Organization</label>
+                <span>{{ user()!.organization || '—' }}</span>
+              </div>
+            </div>
+
+            <div class="detail-row">
+              <div class="detail-icon">
+                <span class="material-icons">badge</span>
+              </div>
+              <div class="detail-body">
+                <label>Role</label>
+                <span class="role-chip" [class.role-payer]="!isProvider()">
+                  {{ user()!.role }}
+                </span>
+              </div>
+            </div>
+
+            @if (isProvider()) {
+              <div class="detail-row">
+                <div class="detail-icon">
+                  <span class="material-icons">fingerprint</span>
+                </div>
+                <div class="detail-body">
+                  <label>NPI Number</label>
+                  <span class="npi">Not configured</span>
+                </div>
+              </div>
+            }
+
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="card-header">
+            <h3 class="card-title">Security</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="detail-row">
+              <div class="detail-icon">
+                <span class="material-icons">lock</span>
+              </div>
+              <div class="detail-body">
+                <label>Password</label>
+                <span class="text-muted">••••••••••••</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" disabled>
+                Change
+              </button>
+            </div>
+
+            <div class="detail-row">
+              <div class="detail-icon">
+                <span class="material-icons">verified_user</span>
+              </div>
+              <div class="detail-body">
+                <label>Authentication</label>
+                <span style="color:var(--success);font-size:var(--font-sm)">
+                  <span class="material-icons" style="font-size:14px;vertical-align:middle">
+                    check_circle
+                  </span>
+                  JWT — Active session
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="card-header">
+            <h3 class="card-title">Quick Links</h3>
+          </div>
+
+          <div class="card-body">
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+
+              @if (isProvider()) {
+
+                <a routerLink="/provider/dashboard" class="btn btn-secondary btn-sm">
+                  <span class="material-icons">dashboard</span>
+                  Dashboard
+                </a>
+
+                <a routerLink="/provider/requests/new" class="btn btn-primary btn-sm">
+                  <span class="material-icons">add</span>
+                  New Request
+                </a>
+
+                <a routerLink="/provider/notifications" class="btn btn-secondary btn-sm">
+                  <span class="material-icons">notifications</span>
+                  Notifications
+                </a>
+
+              } @else {
+
+                <a routerLink="/payer/dashboard" class="btn btn-secondary btn-sm">
+                  <span class="material-icons">dashboard</span>
+                  Dashboard
+                </a>
+
+                <a routerLink="/payer/queue" class="btn btn-primary btn-sm">
+                  <span class="material-icons">inbox</span>
+                  Review Queue
+                </a>
+
+                <a routerLink="/payer/reports" class="btn btn-secondary btn-sm">
+                  <span class="material-icons">bar_chart</span>
+                  Reports
+                </a>
+
+              }
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  }
+</div>

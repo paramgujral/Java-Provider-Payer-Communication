@@ -1,0 +1,69 @@
+<tbody>
+  @for (req of pagedRequests; track req.id) {
+    <tr class="clickable-row" [routerLink]="['/provider/requests', req.id]">
+      <td>
+        <span class="ref-num">{{ req.referenceNumber }}</span>
+      </td>
+      <td>
+        <div class="patient-cell">
+          <div class="patient-name">{{ req.patientName }}</div>
+          <div class="patient-id">{{ req.patientMemberId }}</div>
+        </div>
+      </td>
+      <td>
+        <span class="code-pill">{{ req.diagnosisCode }}</span>
+        <span class="code-desc">{{ req.diagnosisDescription }}</span>
+      </td>
+      <td>
+        <span class="code-pill">{{ req.procedureCode }}</span>
+        <span class="code-desc">{{ req.procedureDescription }}</span>
+      </td>
+      <td class="date-cell">
+        {{ req.requestedServiceDate | date:'MMM d, y' }}
+      </td>
+      <td><app-priority-badge [priority]="req.priority" /></td>
+      <td><app-status-badge [status]="req.status" /></td>
+      <td>
+        @if (req.aiCompletenessScore != null) {
+          <div class="ai-score-cell">
+            <div class="ai-mini-bar">
+              <div class="ai-mini-fill"
+                   [style.width.%]="req.aiCompletenessScore"
+                   [ngClass]="req.aiCompletenessScore >= 80 ? 'fill-green' :
+                              req.aiCompletenessScore >= 50 ? 'fill-yellow' : 'fill-red'">
+              </div>
+            </div>
+            <span class="ai-pct">{{ req.aiCompletenessScore }}%</span>
+          </div>
+        } @else {
+          <span class="text-muted">—</span>
+        }
+      </td>
+      <td (click)="$event.stopPropagation()">
+        <div class="action-btns">
+          <a [routerLink]="['/provider/requests', req.id]"
+             class="btn btn-ghost btn-sm btn-icon"
+             title="View details">
+            <span class="material-icons">visibility</span>
+          </a>
+
+          @if (canSubmit(req)) {
+            <button class="btn btn-primary btn-sm"
+                    (click)="submitRequest(req.id, $event)">
+              <span class="material-icons">send</span>
+              Submit
+            </button>
+          }
+
+          @if (canResubmit(req)) {
+            <a [routerLink]="['/provider/requests', req.id, 'resubmit']"
+               class="btn btn-warning btn-sm">
+              <span class="material-icons">replay</span>
+              Resubmit
+            </a>
+          }
+        </div>
+      </td>
+    </tr>
+  }
+</tbody>

@@ -1,0 +1,209 @@
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Payer Dashboard</h1>
+      <p class="page-subtitle">Welcome back, {{ user()?.fullName }} — {{ user()?.organization }}</p>
+    </div>
+    <a routerLink="/payer/queue" class="btn btn-primary">
+      <span class="material-icons">inbox</span>
+      Open Review Queue
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container"><div class="spinner"></div></div>
+  } @else if (dashboard()) {
+
+    <!-- Stats -->
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-icon icon-yellow">
+          <span class="material-icons">inbox</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">{{ dashboard()!.pendingReviews }}</div>
+          <div class="stat-label">Pending Reviews</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-blue">
+          <span class="material-icons">today</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">{{ dashboard()!.processedToday }}</div>
+          <div class="stat-label">Processed Today</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" [ngClass]="'icon-' + approvalRateColor(dashboard()!.approvalRate)">
+          <span class="material-icons">percent</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">{{ dashboard()!.approvalRate }}%</div>
+          <div class="stat-label">Approval Rate</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-orange">
+          <span class="material-icons">help_outline</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">{{ dashboard()!.infoRequestedCount }}</div>
+          <div class="stat-label">Info Requested</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Today breakdown -->
+    <div class="today-row">
+      <div class="today-card approved">
+        <span class="material-icons">check_circle</span>
+        <div>
+          <div class="today-count">{{ dashboard()!.approvedToday }}</div>
+          <div class="today-label">Approved Today</div>
+        </div>
+      </div>
+      <div class="today-card denied">
+        <span class="material-icons">cancel</span>
+        <div>
+          <div class="today-count">{{ dashboard()!.deniedToday }}</div>
+          <div class="today-label">Denied Today</div>
+        </div>
+      </div>
+      <div class="today-card queue">
+        <span class="material-icons">inventory_2</span>
+        <div>
+          <div class="today-count">{{ dashboard()!.totalInQueue }}</div>
+          <div class="today-label">Total In Queue</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column grid -->
+    <div class="dashboard-grid">
+
+      <!-- Priority Queue Preview -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Priority Queue</h2>
+          <a routerLink="/payer/queue" class="btn btn-ghost btn-sm">
+            Full queue <span class="material-icons" style="font-size:16px">arrow_forward</span>
+          </a>
+        </div>
+        <div class="card-body" style="padding-top:12px">
+          @if (pendingReqs().length === 0) {
+            <div class="empty-state" style="padding:32px">
+              <span class="material-icons">inbox</span>
+              <h3>Queue is clear!</h3>
+              <p>No pending authorization requests.</p>
+            </div>
+          } @else {
+            <div class="queue-list">
+              @for (req of pendingReqs(); track req.id) {
+                <a class="queue-row" [routerLink]="['/payer/queue', req.id]">
+                  <div class="queue-priority-indicator"
+                       [ngClass]="'qi-' + req.priority.toLowerCase()"></div>
+                  <div class="queue-main">
+                    <div class="queue-ref">{{ req.referenceNumber }}</div>
+                    <div class="queue-patient">{{ req.patientName }}</div>
+                    <div class="queue-proc">{{ req.procedureDescription }}</div>
+                  </div>
+                  <div class="queue-meta">
+                    <app-priority-badge [priority]="req.priority" />
+                    <app-status-badge [status]="req.status" />
+                    <span class="wait-days" [class.overdue]="waitDays(req.createdAt) > 3">
+                      <span class="material-icons">schedule</span>
+                      {{ waitDays(req.createdAt) }}d
+                    </span>
+                  </div>
+                </a>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Recent Activity</h2>
+          @if (notifications().length > 0) {
+            <span class="notif-count">{{ notifications().length }} unread</span>
+          }
+        </div>
+        <div class="card-body" style="padding-top:12px">
+          @if (notifications().length === 0) {
+            <div class="empty-state" style="padding:32px">
+              <span class="material-icons">notifications_none</span>
+              <h3>All caught up!</h3>
+              <p>No unread notifications.</p>
+            </div>
+          } @else {
+            <div class="notif-list">
+              @for (n of notifications(); track n.id) {
+                <div class="notif-item" [ngClass]="notifClass(n.type)">
+                  <div class="notif-icon">
+                    <span class="material-icons">{{ notifIcon(n.type) }}</span>
+                  </div>
+                  <div class="notif-body">
+                    <div class="notif-title">{{ n.title }}</div>
+                    <div class="notif-msg">{{ n.message }}</div>
+                    @if (n.referenceNumber) {
+                      <a [routerLink]="['/payer/requests', n.requestId]"
+                         class="notif-link">View {{ n.referenceNumber }}</a>
+                    }
+                  </div>
+                  <button class="btn btn-ghost btn-icon notif-dismiss"
+                          (click)="markRead(n.id)">
+                    <span class="material-icons">close</span>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Approval Rate Gauge -->
+    <div class="card" style="margin-top:24px">
+      <div class="card-header"><h2 class="card-title">Today's Performance</h2></div>
+      <div class="card-body">
+        <div class="perf-row">
+          <div class="perf-stat">
+            <div class="perf-label">Approval Rate</div>
+            <div class="perf-track">
+              <div class="perf-fill approved-fill"
+                   [style.width.%]="dashboard()!.approvalRate"></div>
+            </div>
+            <div class="perf-pct" style="color:var(--success)">
+              {{ dashboard()!.approvalRate }}%
+            </div>
+          </div>
+          <div class="perf-stat">
+            <div class="perf-label">Denial Rate</div>
+            <div class="perf-track">
+              <div class="perf-fill denied-fill"
+                   [style.width.%]="dashboard()!.processedToday > 0 ? (dashboard()!.deniedToday / dashboard()!.processedToday * 100) : 0">
+              </div>
+            </div>
+            <div class="perf-pct" style="color:var(--danger)">
+              {{ dashboard()!.processedToday > 0
+                  ? (dashboard()!.deniedToday / dashboard()!.processedToday * 100 | number:'1.0-1')
+                  : 0 }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  }
+</div>

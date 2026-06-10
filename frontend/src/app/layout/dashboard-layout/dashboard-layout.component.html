@@ -1,0 +1,79 @@
+<div class="app-shell" [class.sidebar-collapsed]="!sidebarOpen()">
+
+  <!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <span class="material-icons">health_and_safety</span>
+        <span class="sidebar-logo-text">HealthConnect<strong>AI</strong></span>
+      </div>
+    </div>
+
+    <div class="sidebar-portal-tag">
+      <span class="material-icons">{{ isProvider() ? 'medical_services' : 'business' }}</span>
+      {{ portalLabel() }}
+    </div>
+
+    <nav class="sidebar-nav">
+      @for (item of navItems(); track item.route) {
+        <a class="nav-item" [routerLink]="item.route" routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: item.route.includes('new') ? true : false }">
+          <span class="material-icons">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">{{ user()?.fullName?.charAt(0) }}</div>
+        <div class="user-info">
+          <p class="user-name">{{ user()?.fullName }}</p>
+          <p class="user-org">{{ user()?.organization }}</p>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-icon sidebar-logout" (click)="logout()" title="Sign out">
+        <span class="material-icons">logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── Main ──────────────────────────────────────────────────────────────── -->
+  <div class="main-area">
+
+    <!-- Header -->
+    <header class="app-header">
+      <button class="btn btn-ghost btn-icon" (click)="toggleSidebar()">
+        <span class="material-icons">{{ sidebarOpen() ? 'menu_open' : 'menu' }}</span>
+      </button>
+
+      <div class="header-right">
+        <!-- Notification bell -->
+        <div class="notif-wrapper">
+          <button class="btn btn-ghost btn-icon" (click)="goToNotifications()" title="Notifications">
+            <span class="material-icons">notifications</span>
+            @if (unreadCount() > 0) {
+              <span class="notif-badge">{{ unreadCount() > 9 ? '9+' : unreadCount() }}</span>
+            }
+          </button>
+        </div>
+
+        <!-- User chip -->
+        <a class="user-chip" [routerLink]="isProvider() ? '/provider/profile' : '/payer/profile'"
+           title="My Profile" style="text-decoration:none">
+          <div class="user-avatar-sm">{{ user()?.fullName?.charAt(0) }}</div>
+          <span class="user-chip-name">{{ user()?.fullName }}</span>
+          <span class="role-tag" [class.role-payer]="isPayer()">
+            {{ user()?.role }}
+          </span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="page-content">
+      <router-outlet />
+    </main>
+
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Notification Center</h1>
+      <p class="page-subtitle">
+        @if (unreadCount() > 0) {
+          You have <strong>{{ unreadCount() }}</strong> unread notification{{ unreadCount() !== 1 ? 's' : '' }}.
+        } @else {
+          You're all caught up — no unread notifications.
+        }
+      </p>
+    </div>
+    @if (unreadCount() > 0) {
+      <button class="btn btn-secondary" (click)="markAllRead()">
+        <span class="material-icons">done_all</span>
+        Mark all as read
+      </button>
+    }
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="notif-tabs">
+    @for (tab of tabs; track tab.key) {
+      <button class="notif-tab" [class.active]="activeTab() === tab.key"
+              (click)="setTab(tab.key)">
+        <span class="material-icons">{{ tab.icon }}</span>
+        {{ tab.label }}
+        @if (tabCount(tab.key) > 0) {
+          <span class="tab-pill" [class.tab-pill-unread]="tab.key === 'unread' && tabCount('unread') > 0">
+            {{ tabCount(tab.key) }}
+          </span>
+        }
+      </button>
+    }
+  </div>
+
+  <!-- Content -->
+  @if (loading()) {
+    <div class="loading-container"><div class="spinner"></div></div>
+  } @else if (filtered().length === 0) {
+    <div class="card">
+      <div class="empty-state">
+        <span class="material-icons">notifications_none</span>
+        <h3>No notifications here</h3>
+        <p>{{ activeTab() === 'unread' ? 'All notifications have been read.' : 'Nothing to show for this filter.' }}</p>
+      </div>
+    </div>
+  } @else {
+    <div class="notif-list">
+      @for (n of filtered(); track n.id) {
+        <a class="notif-card" [class.unread]="!n.read" [ngClass]="notifColorClass(n.type)"
+           [routerLink]="detailRoute(n)" [class.no-link]="!n.requestId">
+
+          <!-- Left icon -->
+          <div class="notif-icon-wrap">
+            <span class="material-icons">{{ notifIcon(n.type) }}</span>
+            @if (!n.read) { <div class="unread-dot"></div> }
+          </div>
+
+          <!-- Body -->
+          <div class="notif-body">
+            <div class="notif-title-row">
+              <span class="notif-title">{{ n.title }}</span>
+              <span class="notif-time">{{ timeAgo(n.createdAt) }}</span>
+            </div>
+            <p class="notif-message">{{ n.message }}</p>
+            <div class="notif-footer">
+              <span class="type-chip">{{ n.typeDisplayName }}</span>
+              @if (n.referenceNumber) {
+                <span class="ref-chip">
+                  <span class="material-icons">tag</span>
+                  {{ n.referenceNumber }}
+                </span>
+              }
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="notif-actions" (click)="$event.preventDefault()">
+            @if (!n.read) {
+              <button class="action-btn" title="Mark as read"
+                      (click)="markRead(n.id, $event)">
+                <span class="material-icons">mark_email_read</span>
+              </button>
+            }
+            @if (n.requestId) {
+              <a [routerLink]="detailRoute(n)" class="action-btn" title="View request">
+                <span class="material-icons">open_in_new</span>
+              </a>
+            }
+          </div>
+
+        </a>
+      }
+    </div>
+  }
+</div>

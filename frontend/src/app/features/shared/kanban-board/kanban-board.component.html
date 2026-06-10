@@ -1,0 +1,75 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Status Board</h1>
+      <p class="page-subtitle">Visual overview of all authorization requests by workflow stage.</p>
+    </div>
+    <span class="total-badge">
+      <span class="material-icons">grid_view</span>
+      {{ totalCards() }} total
+    </span>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container"><div class="spinner"></div></div>
+  } @else {
+    <div class="kanban-board">
+      @for (col of columns(); track col.status) {
+        <div class="kanban-col">
+
+          <!-- Column Header -->
+          <div class="col-header" [ngClass]="col.color">
+            <div class="col-header-left">
+              <span class="material-icons col-icon">{{ col.icon }}</span>
+              <span class="col-title">{{ col.label }}</span>
+            </div>
+            <span class="col-count">{{ col.items.length }}</span>
+          </div>
+
+          <!-- Cards -->
+          <div class="col-body">
+            @if (col.items.length === 0) {
+              <div class="empty-col">
+                <span class="material-icons">inbox</span>
+                <span>None</span>
+              </div>
+            } @else {
+              @for (req of col.items; track req.id) {
+                <a class="kanban-card" [routerLink]="detailRoute(req)"
+                   [class.card-urgent]="req.priority === 'URGENT'"
+                   [class.card-high]="req.priority === 'HIGH'">
+
+                  <div class="card-ref">{{ req.referenceNumber }}</div>
+
+                  <div class="card-patient">{{ req.patientName }}</div>
+
+                  <div class="card-proc">
+                    <span class="code-pill-sm">{{ req.procedureCode }}</span>
+                    {{ req.procedureDescription }}
+                  </div>
+
+                  <div class="card-footer">
+                    <app-priority-badge [priority]="req.priority" />
+                    @if (req.aiApprovalProbability != null) {
+                      <span class="card-ai"
+                            [class.ai-g]="req.aiApprovalProbability >= 70"
+                            [class.ai-y]="req.aiApprovalProbability >= 40 && req.aiApprovalProbability < 70"
+                            [class.ai-r]="req.aiApprovalProbability < 40">
+                        {{ req.aiApprovalProbability }}%
+                      </span>
+                    }
+                  </div>
+
+                  <div class="card-date">
+                    {{ req.createdAt | date:'MMM d' }}
+                  </div>
+                </a>
+              }
+            }
+          </div>
+
+        </div>
+      }
+    </div>
+  }
+</div>

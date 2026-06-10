@@ -1,0 +1,137 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Resubmit Request</h1>
+      <p class="page-subtitle">Address the requested information and resubmit for review.</p>
+    </div>
+    <a routerLink="/provider/requests" class="btn btn-secondary">
+      <span class="material-icons">arrow_back</span> Back
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container"><div class="spinner"></div></div>
+  } @else if (request()) {
+
+    <!-- Info Requested Banner -->
+    <div class="alert alert-warning" style="margin-bottom:24px">
+      <span class="material-icons">info</span>
+      <div>
+        <strong>Additional Information Requested</strong>
+        <p style="margin-top:4px">{{ request()!.additionalInfoRequested }}</p>
+      </div>
+    </div>
+
+    <div class="resubmit-layout">
+      <!-- Form -->
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @if (error()) {
+          <div class="alert alert-error" style="margin-bottom:16px">
+            <span class="material-icons">error_outline</span>{{ error() }}
+          </div>
+        }
+
+        <div class="card" style="margin-bottom:24px">
+          <div class="card-body">
+            <h3 class="section-title">
+              <span class="material-icons">clinical_notes</span>
+              Update Clinical Information
+            </h3>
+            <div class="form-group" style="margin-bottom:20px">
+              <label>Updated Clinical Notes</label>
+              <textarea class="form-control" formControlName="clinicalNotes" rows="7"
+                        placeholder="Add detailed clinical history, medical necessity, prior treatment details..."></textarea>
+            </div>
+            <div class="form-group" style="margin-bottom:20px">
+              <label>Supporting Documents</label>
+              <input class="form-control" formControlName="supportingDocuments"
+                     placeholder="List document names separated by commas">
+            </div>
+            <div class="form-group" style="margin-bottom:20px">
+              <label>Additional Response to Payer</label>
+              <textarea class="form-control" formControlName="additionalInfo" rows="4"
+                        placeholder="Directly address the payer's information request..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:24px">
+          <div class="card-body">
+            <h3 class="section-title">
+              <span class="material-icons">edit</span>
+              Update Provider Details (optional)
+            </h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Facility Name</label>
+                <input class="form-control" formControlName="facilityName">
+              </div>
+              <div class="form-group">
+                <label>Treating Physician</label>
+                <input class="form-control" formControlName="treatingPhysician">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a routerLink="/provider/requests" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary" [disabled]="saving()">
+            @if (saving()) { <span class="spinner-sm"></span> }
+            @else { <span class="material-icons">replay</span> }
+            Resubmit for Review
+          </button>
+        </div>
+      </form>
+
+      <!-- Sidebar: original request info -->
+      <div class="sidebar-info">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="section-title">Original Request</h4>
+            <div class="info-row">
+              <span>Reference</span>
+              <strong>{{ request()!.referenceNumber }}</strong>
+            </div>
+            <div class="info-row">
+              <span>Patient</span>
+              <strong>{{ request()!.patientName }}</strong>
+            </div>
+            <div class="info-row">
+              <span>Diagnosis</span>
+              <strong>{{ request()!.diagnosisCode }}</strong>
+            </div>
+            <div class="info-row">
+              <span>Procedure</span>
+              <strong>{{ request()!.procedureCode }}</strong>
+            </div>
+            <div class="info-row">
+              <span>Status</span>
+              <app-status-badge [status]="request()!.status" />
+            </div>
+            @if (request()!.aiCompletenessScore) {
+              <div class="info-row">
+                <span>AI Score</span>
+                <strong>{{ request()!.aiCompletenessScore }}%</strong>
+              </div>
+            }
+          </div>
+        </div>
+
+        @if (request()!.denialReason) {
+          <div class="card" style="margin-top:16px">
+            <div class="card-body">
+              <h4 class="section-title" style="color:var(--danger)">
+                <span class="material-icons" style="font-size:16px">cancel</span>
+                Previous Denial
+              </h4>
+              <p style="font-size:var(--font-sm);color:var(--gray-600)">
+                {{ request()!.denialReason }}
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

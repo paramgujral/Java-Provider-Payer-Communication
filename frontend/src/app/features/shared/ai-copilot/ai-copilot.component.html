@@ -1,0 +1,209 @@
+<div class="ai-copilot" [class.theme-light]="theme === 'light'" [class.compact]="compact">
+
+  <!-- Header -->
+  <div class="ai-header">
+    <div class="ai-title-row">
+      <div class="ai-logo">
+        <span class="material-icons">smart_toy</span>
+      </div>
+      <div>
+        <h3 class="ai-title">AI Copilot</h3>
+        <p class="ai-subtitle">Authorization Assessment Engine</p>
+      </div>
+    </div>
+    <button class="ai-refresh-btn" (click)="refresh()" [disabled]="loading()" title="Refresh analysis">
+      <span class="material-icons" [class.spinning]="loading()">refresh</span>
+    </button>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="ai-loading">
+      <div class="ai-pulse"></div>
+      <div class="ai-pulse" style="animation-delay:.15s"></div>
+      <div class="ai-pulse" style="animation-delay:.3s"></div>
+      <span>Analyzing request…</span>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error() && !loading()) {
+    <div class="ai-error">
+      <span class="material-icons">error_outline</span>
+      {{ error() }}
+      <button class="btn-retry" (click)="refresh()">Retry</button>
+    </div>
+  }
+
+  <!-- Results -->
+  @if (analysis() && !loading()) {
+    <!-- Circular Gauges -->
+    <div class="gauge-row">
+
+      <!-- Completeness Gauge -->
+      <div class="gauge-wrap">
+        <svg class="gauge-svg" viewBox="0 0 88 88">
+          <circle class="gauge-track" cx="44" cy="44" r="36"
+                  fill="none" stroke-width="7"/>
+          <circle class="gauge-fill" cx="44" cy="44" r="36"
+                  fill="none" stroke-width="7"
+                  [attr.stroke]="scoreHex(displayCompleteness())"
+                  [attr.stroke-dasharray]="circumference"
+                  [attr.stroke-dashoffset]="dashOffset(displayCompleteness())"
+                  stroke-linecap="round"
+                  transform="rotate(-90 44 44)"/>
+          <text x="44" y="40" text-anchor="middle" class="gauge-value-text">
+            {{ displayCompleteness() }}%
+          </text>
+          <text x="44" y="54" text-anchor="middle" class="gauge-label-text">
+            Complete
+          </text>
+        </svg>
+      </div>
+
+      <!-- Approval Gauge -->
+      <div class="gauge-wrap">
+        <svg class="gauge-svg" viewBox="0 0 88 88">
+          <circle class="gauge-track" cx="44" cy="44" r="36"
+                  fill="none" stroke-width="7"/>
+          <circle class="gauge-fill" cx="44" cy="44" r="36"
+                  fill="none" stroke-width="7"
+                  [attr.stroke]="scoreHex(displayApproval())"
+                  [attr.stroke-dasharray]="circumference"
+                  [attr.stroke-dashoffset]="dashOffset(displayApproval())"
+                  stroke-linecap="round"
+                  transform="rotate(-90 44 44)"/>
+          <text x="44" y="40" text-anchor="middle" class="gauge-value-text">
+            {{ displayApproval() }}%
+          </text>
+          <text x="44" y="54" text-anchor="middle" class="gauge-label-text">
+            Approval
+          </text>
+        </svg>
+      </div>
+
+    </div>
+
+    <!-- Risk Banner -->
+    <div class="risk-banner" [ngClass]="'risk-' + analysis()!.riskLevel.toLowerCase()">
+      <span class="material-icons">{{ riskIcon(analysis()!.riskLevel) }}</span>
+      <div class="risk-text">
+        <span class="risk-label">Risk Level</span>
+        <span class="risk-value">{{ analysis()!.riskLevel }}</span>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    @if (!compact) {
+      <div class="ai-summary">
+        <span class="material-icons">info_outline</span>
+        <p>{{ analysis()!.summary }}</p>
+      </div>
+    }
+
+    <!-- Severity-tiered Issues (new) -->
+    @if (analysis()?.issues?.length) {
+      <div class="ai-section section-issues">
+        <div class="section-head">
+          <span class="material-icons">fact_check</span>
+          <span>Issues</span>
+          <span class="section-count">{{ analysis()!.issues.length }}</span>
+        </div>
+        <ul class="ai-items">
+          @for (issue of analysis()!.issues; track issue.title) {
+            <li class="ai-item issue-item"
+                [ngClass]="issue.severity === 'ERROR' ? 'item-missing' : issue.severity === 'WARNING' ? 'item-warning' : 'item-info'">
+              <span class="material-icons">
+                {{ issue.severity === 'ERROR' ? 'error' : issue.severity === 'WARNING' ? 'warning_amber' : 'info_outline' }}
+              </span>
+              <div class="issue-body">
+                <div class="issue-title">{{ issue.title }}</div>
+                @if (!compact && issue.suggestion) {
+                  <div class="issue-suggestion">→ {{ issue.suggestion }}</div>
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- Suggested narrative (when notes are empty) -->
+    @if (analysis()!.suggestedNarrative) {
+      <div class="ai-section section-narrative">
+        <div class="section-head">
+          <span class="material-icons">edit_note</span>
+          <span>Suggested narrative</span>
+        </div>
+        <div class="narrative-text">{{ analysis()!.suggestedNarrative }}</div>
+      </div>
+    }
+
+    <!-- Missing Fields -->
+    @if (analysis()!.missingFields.length > 0) {
+      <div class="ai-section section-missing">
+        <div class="section-head">
+          <span class="material-icons">report_problem</span>
+          <span>Missing Information</span>
+          <span class="section-count">{{ analysis()!.missingFields.length }}</span>
+        </div>
+        <ul class="ai-items">
+          @for (item of analysis()!.missingFields; track item) {
+            <li class="ai-item item-missing">
+              <span class="material-icons">remove_circle_outline</span>
+              <span>{{ item }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- Warnings -->
+    @if (analysis()!.warnings.length > 0) {
+      <div class="ai-section section-warning">
+        <div class="section-head">
+          <span class="material-icons">warning_amber</span>
+          <span>Warnings</span>
+          <span class="section-count">{{ analysis()!.warnings.length }}</span>
+        </div>
+        <ul class="ai-items">
+          @for (item of analysis()!.warnings; track item) {
+            <li class="ai-item item-warning">
+              <span class="material-icons">error_outline</span>
+              <span>{{ item }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- Recommendations -->
+    @if (analysis()!.recommendations.length > 0) {
+      <div class="ai-section section-rec">
+        <div class="section-head">
+          <span class="material-icons">lightbulb</span>
+          <span>Recommendations</span>
+          <span class="section-count">{{ analysis()!.recommendations.length }}</span>
+        </div>
+        <ul class="ai-items">
+          @for (item of analysis()!.recommendations; track item) {
+            <li class="ai-item item-rec">
+              <span class="material-icons">arrow_right</span>
+              <span>{{ item }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- All Clear -->
+    @if (analysis()!.missingFields.length === 0 &&
+         analysis()!.warnings.length === 0 &&
+         analysis()!.recommendations.length === 0) {
+      <div class="ai-all-clear">
+        <span class="material-icons">verified</span>
+        <p>No issues detected. Request looks complete!</p>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,144 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Review Queue</h1>
+      <p class="page-subtitle">Pending and active authorization requests requiring payer review.</p>
+    </div>
+    <div class="queue-summary">
+      <span class="queue-badge">
+        <span class="material-icons">inbox</span>
+        {{ requests().length }} requests
+      </span>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <div class="search-box">
+      <span class="material-icons">search</span>
+      <input class="form-control" [(ngModel)]="searchTerm"
+             (input)="onSearch()" placeholder="Search patient name or reference…">
+    </div>
+
+    <select class="form-control" [(ngModel)]="statusFilter" (change)="onFilterChange()">
+      @for (opt of statusOptions; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+
+    @if (searchTerm || statusFilter) {
+      <button class="btn btn-ghost btn-sm" (click)="clearFilters()">
+        <span class="material-icons">clear</span> Clear
+      </button>
+    }
+  </div>
+
+  <!-- Table -->
+  <div class="card">
+    @if (loading()) {
+      <div class="loading-container"><div class="spinner"></div></div>
+    } @else if (requests().length === 0) {
+      <div class="empty-state">
+        <span class="material-icons">inbox</span>
+        <h3>No requests found</h3>
+        <p>{{ searchTerm || statusFilter ? 'Try adjusting your filters.' : 'The review queue is empty.' }}</p>
+      </div>
+    } @else {
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Priority</th>
+              <th>Reference</th>
+              <th>Patient</th>
+              <th>Diagnosis / Procedure</th>
+              <th>Service Type</th>
+              <th>Provider</th>
+              <th>Waiting</th>
+              <th>AI Score</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (req of sorted(); track req.id) {
+              <tr [class.actionable-row]="isActionable(req)"
+                  [class.resolved-row]="!isActionable(req)">
+                <td>
+                  <app-priority-badge [priority]="req.priority" />
+                </td>
+                <td>
+                  <span class="ref-num">{{ req.referenceNumber }}</span>
+                </td>
+                <td>
+                  <div class="patient-cell">
+                    <div class="patient-name">{{ req.patientName }}</div>
+                    <div class="patient-id">{{ req.patientMemberId }}</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="diag-cell">
+                    <span class="code-pill">{{ req.diagnosisCode }}</span>
+                    <span class="code-desc">{{ req.diagnosisDescription }}</span>
+                  </div>
+                  <div class="diag-cell" style="margin-top:4px">
+                    <span class="code-pill">{{ req.procedureCode }}</span>
+                    <span class="code-desc">{{ req.procedureDescription }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="service-tag">{{ req.serviceType }}</span>
+                </td>
+                <td>
+                  <div class="provider-cell">
+                    <div class="provider-name">{{ req.providerName }}</div>
+                    <div class="provider-org">{{ req.providerOrganization }}</div>
+                  </div>
+                </td>
+                <td>
+                  <div class="sla-cell">
+                    <span class="wait-chip"
+                          [class.wait-urgent]="waitDays(req.createdAt) > 5"
+                          [class.wait-warning]="waitDays(req.createdAt) > 2 && waitDays(req.createdAt) <= 5">
+                      <span class="material-icons">schedule</span>
+                      {{ waitDays(req.createdAt) }}d
+                    </span>
+                    @if (waitDays(req.createdAt) > 5 && isActionable(req)) {
+                      <span class="sla-breach">OVERDUE</span>
+                    } @else if (waitDays(req.createdAt) > 2 && isActionable(req)) {
+                      <span class="sla-warning">SLA risk</span>
+                    }
+                  </div>
+                </td>
+                <td>
+                  @if (req.aiApprovalProbability != null) {
+                    <div class="ai-prob-cell" [ngClass]="aiClass(req.aiApprovalProbability)">
+                      <div class="ai-prob-value">{{ req.aiApprovalProbability }}%</div>
+                      <div class="ai-prob-label">approval</div>
+                    </div>
+                  } @else {
+                    <span style="color:var(--gray-300)">—</span>
+                  }
+                </td>
+                <td>
+                  <app-status-badge [status]="req.status" />
+                </td>
+                <td>
+                  @if (isActionable(req)) {
+                    <a [routerLink]="['/payer/queue', req.id]" class="btn btn-primary btn-sm">
+                      <span class="material-icons">rate_review</span> Review
+                    </a>
+                  } @else {
+                    <a [routerLink]="['/payer/requests', req.id]" class="btn btn-ghost btn-sm">
+                      <span class="material-icons">visibility</span> View
+                    </a>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,135 @@
+<div class="page">
+
+  @if (loading()) {
+    <div class="loading-container"><div class="spinner"></div></div>
+  } @else if (request()) {
+
+    <div class="page-header">
+      <div>
+        <a [routerLink]="backRoute()" class="back-link">
+          <span class="material-icons">arrow_back</span> Back to Request
+        </a>
+        <h1 class="page-title" style="margin-top:8px">
+          Audit Trail — {{ request()!.referenceNumber }}
+        </h1>
+        <p class="page-subtitle">
+          Complete history for {{ request()!.patientName }}
+          &nbsp;·&nbsp;
+          <app-status-badge [status]="request()!.status" />
+        </p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-chip">
+          <span class="material-icons">history</span>
+          {{ logs().length }} event{{ logs().length !== 1 ? 's' : '' }}
+        </div>
+        <div class="stat-chip">
+          <span class="material-icons">schedule</span>
+          {{ request()!.createdAt | date:'MMM d, y' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-chips">
+      @for (f of actionFilters; track f.value) {
+        <button class="filter-chip" [class.active]="filter() === f.value"
+                (click)="setFilter(f.value)">
+          {{ f.label }}
+        </button>
+      }
+    </div>
+
+    <div class="timeline-layout">
+
+      <!-- Timeline -->
+      <div class="timeline-column">
+        @if (filtered().length === 0) {
+          <div class="card">
+            <div class="empty-state">
+              <span class="material-icons">timeline</span>
+              <h3>No events match this filter</h3>
+            </div>
+          </div>
+        } @else {
+          <div class="timeline">
+            @for (log of filtered(); track log.id; let last = $last) {
+              <div class="tl-item">
+                @if (!last) { <div class="tl-connector"></div> }
+                <div class="tl-dot-wrap">
+                  <div class="tl-dot" [ngClass]="'dot-' + dotColor(log.action)">
+                    <span class="material-icons">{{ dotIcon(log.action) }}</span>
+                  </div>
+                </div>
+                <div class="tl-card">
+                  <div class="tl-card-header">
+                    <div class="tl-action-label">{{ log.actionDisplayName }}</div>
+                    <div class="tl-timestamp">
+                      <span class="material-icons">access_time</span>
+                      {{ log.createdAt | date:'MMM d, y · h:mm a' }}
+                    </div>
+                  </div>
+                  <div class="tl-description">{{ log.description }}</div>
+                  @if (log.details) {
+                    <div class="tl-details">
+                      <div class="tl-details-label">
+                        <span class="material-icons">subject</span>Details
+                      </div>
+                      <p>{{ log.details }}</p>
+                    </div>
+                  }
+                  <div class="tl-actor">
+                    <div class="actor-avatar">{{ log.performedByName.charAt(0) }}</div>
+                    <div class="actor-info">
+                      <span class="actor-name">{{ log.performedByName }}</span>
+                      <span class="role-badge" [ngClass]="roleBadgeClass(log.performedByRole)">
+                        {{ log.performedByRole }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Sidebar -->
+      <div class="summary-column">
+        <div class="card" style="position:sticky;top:20px">
+          <div class="card-header"><h3 class="card-title">Request Summary</h3></div>
+          <div class="card-body">
+            <div class="summary-status">
+              <app-status-badge [status]="request()!.status" />
+            </div>
+            <div class="summary-items">
+              <div class="si"><span class="si-label">Reference</span><span class="si-value ref">{{ request()!.referenceNumber }}</span></div>
+              <div class="si"><span class="si-label">Patient</span><span class="si-value">{{ request()!.patientName }}</span></div>
+              <div class="si"><span class="si-label">Diagnosis</span><span class="si-value">{{ request()!.diagnosisCode }}</span></div>
+              <div class="si"><span class="si-label">Procedure</span><span class="si-value">{{ request()!.procedureCode }}</span></div>
+              <div class="si"><span class="si-label">Provider</span><span class="si-value">{{ request()!.providerName }}</span></div>
+              @if (request()!.reviewerName) {
+                <div class="si"><span class="si-label">Reviewer</span><span class="si-value">{{ request()!.reviewerName }}</span></div>
+              }
+              <div class="si"><span class="si-label">Created</span><span class="si-value">{{ request()!.createdAt | date:'MMM d, y' }}</span></div>
+              @if (request()!.resolvedAt) {
+                <div class="si"><span class="si-label">Resolved</span><span class="si-value">{{ request()!.resolvedAt | date:'MMM d, y' }}</span></div>
+              }
+            </div>
+            <div class="event-breakdown">
+              <div class="breakdown-title">Events Breakdown</div>
+              @for (f of actionFilters.slice(1); track f.value) {
+                @if (countByAction(f.value) > 0) {
+                  <div class="breakdown-item">
+                    <span class="breakdown-label">{{ f.label }}</span>
+                    <span class="breakdown-count">{{ countByAction(f.value) }}</span>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  }
+</div>

@@ -1,0 +1,338 @@
+<div class="page">
+  @if (loading()) {
+    <div class="loading-container"><div class="spinner"></div></div>
+  } @else if (request()) {
+
+    <!-- Header -->
+    <div class="detail-header">
+      <div class="header-left">
+        <a routerLink="/payer/queue" class="back-link">
+          <span class="material-icons">arrow_back</span> Review Queue
+        </a>
+        <div>
+          <div class="ref-badge">{{ request()!.referenceNumber }}</div>
+          <h1 class="page-title" style="margin-top:6px">{{ request()!.patientName }}</h1>
+          <div class="header-meta">
+            <app-status-badge [status]="request()!.status" />
+            <app-priority-badge [priority]="request()!.priority" />
+            <span class="meta-chip">
+              <span class="material-icons">schedule</span> Waiting {{ waitDays() }} day(s)
+            </span>
+            <span class="meta-chip">{{ request()!.serviceType }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decision buttons (shown when in-review and not resolved) -->
+      @if (reviewStarted() && !isResolved()) {
+        <div class="decision-btns">
+          <button class="btn btn-success" [class.active-mode]="mode() === 'approve'"
+                  (click)="setMode('approve')">
+            <span class="material-icons">check_circle</span> Approve
+          </button>
+          <button class="btn btn-danger"  [class.active-mode]="mode() === 'deny'"
+                  (click)="setMode('deny')">
+            <span class="material-icons">cancel</span> Deny
+          </button>
+          <button class="btn btn-warning" [class.active-mode]="mode() === 'info'"
+                  (click)="setMode('info')">
+            <span class="material-icons">help_outline</span> Request Info
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- Alerts -->
+    @if (success()) {
+      <div class="alert alert-success" style="margin-bottom:20px">
+        <span class="material-icons">check_circle</span>{{ success() }}
+      </div>
+    }
+    @if (error()) {
+      <div class="alert alert-error" style="margin-bottom:20px">
+        <span class="material-icons">error_outline</span>{{ error() }}
+      </div>
+    }
+
+    <!-- Decision Forms (slide-in panels) -->
+    @if (mode() !== 'none') {
+      <div class="decision-panel" [ngClass]="'panel-' + mode()">
+
+        <!-- Approve -->
+        @if (mode() === 'approve') {
+          <div class="decision-panel-header">
+            <span class="material-icons">check_circle</span>
+            <h3>Approve Authorization Request</h3>
+            <button class="btn btn-ghost btn-icon" (click)="setMode('none')">
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+          <div class="decision-panel-body" [formGroup]="approveForm">
+            <div class="form-group">
+              <label>Reviewer Notes (optional)</label>
+              <textarea class="form-control" formControlName="reviewerNotes" rows="3"
+                        placeholder="Add notes about this approval decision…"></textarea>
+            </div>
+            <div class="decision-actions">
+              <button class="btn btn-secondary" (click)="setMode('none')">Cancel</button>
+              <button class="btn btn-success" [disabled]="saving()" (click)="approve()">
+                @if (saving()) { <span class="spinner-sm"></span> }
+                @else { <span class="material-icons">check_circle</span> }
+                Confirm Approval
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Deny -->
+        @if (mode() === 'deny') {
+          <div class="decision-panel-header">
+            <span class="material-icons">cancel</span>
+            <h3>Deny Authorization Request</h3>
+            <button class="btn btn-ghost btn-icon" (click)="setMode('none')">
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+          <div class="decision-panel-body" [formGroup]="denyForm">
+            <div class="form-group">
+              <label>Denial Reason <span class="required">*</span></label>
+              <textarea class="form-control" formControlName="denialReason" rows="4"
+                        [class.is-invalid]="denyForm.get('denialReason')!.invalid && denyForm.get('denialReason')!.touched"
+                        placeholder="Provide a clear, specific reason for denial. This will be sent to the provider."></textarea>
+              @if (denyForm.get('denialReason')!.invalid && denyForm.get('denialReason')!.touched) {
+                <span class="form-error">Denial reason is required</span>
+              }
+            </div>
+            <div class="form-group" style="margin-top:14px">
+              <label>Internal Notes (optional)</label>
+              <textarea class="form-control" formControlName="reviewerNotes" rows="2"
+                        placeholder="Internal reviewer notes (not sent to provider)…"></textarea>
+            </div>
+            <div class="decision-actions">
+              <button class="btn btn-secondary" (click)="setMode('none')">Cancel</button>
+              <button class="btn btn-danger" [disabled]="saving()" (click)="deny()">
+                @if (saving()) { <span class="spinner-sm"></span> }
+                @else { <span class="material-icons">cancel</span> }
+                Confirm Denial
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Request Info -->
+        @if (mode() === 'info') {
+          <div class="decision-panel-header">
+            <span class="material-icons">help_outline</span>
+            <h3>Request Additional Information</h3>
+            <button class="btn btn-ghost btn-icon" (click)="setMode('none')">
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+          <div class="decision-panel-body" [formGroup]="infoForm">
+            <div class="form-group">
+              <label>Information Required <span class="required">*</span></label>
+              <textarea class="form-control" formControlName="additionalInfoRequested" rows="4"
+                        [class.is-invalid]="infoForm.get('additionalInfoRequested')!.invalid && infoForm.get('additionalInfoRequested')!.touched"
+                        placeholder="Specify exactly what documents or information the provider must supply…"></textarea>
+              @if (infoForm.get('additionalInfoRequested')!.invalid && infoForm.get('additionalInfoRequested')!.touched) {
+                <span class="form-error">Please specify what information is needed</span>
+              }
+            </div>
+            <div class="form-group" style="margin-top:14px">
+              <label>Internal Notes (optional)</label>
+              <textarea class="form-control" formControlName="reviewerNotes" rows="2"
+                        placeholder="Internal notes…"></textarea>
+            </div>
+            <div class="decision-actions">
+              <button class="btn btn-secondary" (click)="setMode('none')">Cancel</button>
+              <button class="btn btn-warning" [disabled]="saving()" (click)="requestInfo()">
+                @if (saving()) { <span class="spinner-sm"></span> }
+                @else { <span class="material-icons">send</span> }
+                Send Request
+              </button>
+            </div>
+          </div>
+        }
+
+      </div>
+    }
+
+    <!-- Main review workspace -->
+    <div class="review-workspace">
+
+      <!-- Left: Request Details -->
+      <div class="workspace-main">
+
+        <!-- Patient & Clinical -->
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-header"><h3 class="card-title">Patient Information</h3></div>
+          <div class="card-body">
+            <div class="info-grid-4">
+              <div class="info-item"><label>Full Name</label><span>{{ request()!.patientName }}</span></div>
+              <div class="info-item"><label>Date of Birth</label><span>{{ request()!.patientDob }}</span></div>
+              <div class="info-item"><label>Member ID</label><span>{{ request()!.patientMemberId }}</span></div>
+              <div class="info-item"><label>Insurance Plan</label><span>{{ request()!.patientInsurancePlan || '—' }}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-header"><h3 class="card-title">Clinical Information</h3></div>
+          <div class="card-body">
+            <div class="info-grid-4">
+              <div class="info-item">
+                <label>Diagnosis (ICD-10)</label>
+                <span><span class="code-tag">{{ request()!.diagnosisCode }}</span> {{ request()!.diagnosisDescription }}</span>
+              </div>
+              <div class="info-item">
+                <label>Procedure (CPT)</label>
+                <span><span class="code-tag">{{ request()!.procedureCode }}</span> {{ request()!.procedureDescription }}</span>
+              </div>
+              <div class="info-item"><label>Service Type</label><span>{{ request()!.serviceType }}</span></div>
+              <div class="info-item">
+                <label>Service Dates</label>
+                <span>{{ request()!.requestedServiceDate | date:'MMM d, y' }} – {{ request()!.requestedServiceEndDate | date:'MMM d, y' }}</span>
+              </div>
+              <div class="info-item"><label>Facility</label><span>{{ request()!.facilityName || '—' }}</span></div>
+              <div class="info-item"><label>Physician</label><span>{{ request()!.treatingPhysician || '—' }}</span></div>
+              <div class="info-item"><label>Provider</label><span>{{ request()!.providerName }}</span></div>
+              <div class="info-item"><label>Organization</label><span>{{ request()!.providerOrganization || '—' }}</span></div>
+            </div>
+
+            @if (request()!.clinicalNotes) {
+              <div class="notes-block" style="margin-top:16px">
+                <label>Clinical Notes</label>
+                <p>{{ request()!.clinicalNotes }}</p>
+              </div>
+            }
+
+            @if (request()!.supportingDocuments) {
+              <div style="margin-top:14px">
+                <label class="info-label">Supporting Documents</label>
+                <div class="doc-chips">
+                  @for (doc of request()!.supportingDocuments.split(','); track doc) {
+                    <span class="doc-chip">
+                      <span class="material-icons">attach_file</span>{{ doc.trim() }}
+                    </span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Audit Timeline -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:6px">timeline</span>
+              Audit Trail
+            </h3>
+          </div>
+          <div class="card-body">
+            @if (auditLogs().length === 0) {
+              <p style="color:var(--gray-400);font-size:var(--font-sm)">No activity yet.</p>
+            } @else {
+              <div class="compact-timeline">
+                @for (log of auditLogs(); track log.id; let last = $last) {
+                  <div class="ct-item">
+                    <div class="ct-dot" [ngClass]="'dot-' + auditColor(log.action)">
+                      <span class="material-icons">{{ auditIcon(log.action) }}</span>
+                    </div>
+                    @if (!last) { <div class="ct-line"></div> }
+                    <div class="ct-content">
+                      <div class="ct-action">{{ log.actionDisplayName }}</div>
+                      <div class="ct-meta">{{ log.performedByName }} · {{ log.createdAt | date:'MMM d, y h:mm a' }}</div>
+                      @if (log.details) {
+                        <div class="ct-details">{{ log.details }}</div>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: AI Copilot sidebar -->
+      <div class="workspace-sidebar">
+        <div class="ai-sidebar">
+          <div class="ai-sidebar-header">
+            <span class="material-icons">smart_toy</span>
+            <div>
+              <h4>AI Copilot</h4>
+              <p>Authorization assessment</p>
+            </div>
+          </div>
+
+          @if (aiAnalysis()) {
+            <div class="ai-scores-compact">
+              <div class="ais-item" [ngClass]="scoreClass(aiAnalysis()!.completenessScore)">
+                <div class="ais-value">{{ aiAnalysis()!.completenessScore }}%</div>
+                <div class="ais-label">Completeness</div>
+              </div>
+              <div class="ais-item" [ngClass]="scoreClass(aiAnalysis()!.approvalProbability)">
+                <div class="ais-value">{{ aiAnalysis()!.approvalProbability }}%</div>
+                <div class="ais-label">Approval Prob.</div>
+              </div>
+            </div>
+
+            <div class="ai-risk-banner" [ngClass]="'risk-' + aiAnalysis()!.riskLevel.toLowerCase()">
+              <span class="material-icons">
+                {{ aiAnalysis()!.riskLevel === 'LOW' ? 'check_circle' : aiAnalysis()!.riskLevel === 'HIGH' ? 'warning' : 'info' }}
+              </span>
+              <span>Risk: <strong>{{ aiAnalysis()!.riskLevel }}</strong></span>
+            </div>
+
+            <div class="ai-summary">{{ aiAnalysis()!.summary }}</div>
+
+            @if (aiAnalysis()!.missingFields.length > 0) {
+              <div class="ai-block missing-block">
+                <div class="ai-block-title">
+                  <span class="material-icons">report_problem</span>Missing Fields
+                </div>
+                <ul>
+                  @for (m of aiAnalysis()!.missingFields; track m) {
+                    <li>{{ m }}</li>
+                  }
+                </ul>
+              </div>
+            }
+
+            @if (aiAnalysis()!.warnings.length > 0) {
+              <div class="ai-block warning-block">
+                <div class="ai-block-title">
+                  <span class="material-icons">warning_amber</span>Warnings
+                </div>
+                <ul>
+                  @for (w of aiAnalysis()!.warnings; track w) {
+                    <li>{{ w }}</li>
+                  }
+                </ul>
+              </div>
+            }
+
+            @if (aiAnalysis()!.recommendations.length > 0) {
+              <div class="ai-block rec-block">
+                <div class="ai-block-title">
+                  <span class="material-icons">lightbulb</span>Recommendations
+                </div>
+                <ul>
+                  @for (r of aiAnalysis()!.recommendations; track r) {
+                    <li>{{ r }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          } @else {
+            <div class="ai-loading">
+              <div class="spinner"></div>
+              <span>Analyzing…</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

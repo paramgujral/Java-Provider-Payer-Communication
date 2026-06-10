@@ -1,0 +1,394 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">New Authorization Request</h1>
+      <p class="page-subtitle">Complete all fields to maximize approval probability.</p>
+    </div>
+    <a routerLink="/provider/requests" class="btn btn-secondary">
+      <span class="material-icons">arrow_back</span> Back
+    </a>
+  </div>
+
+  <!-- Progress Stepper -->
+  <div class="stepper card" style="margin-bottom:28px">
+    <div class="stepper-body">
+      @for (s of steps; track s.num) {
+        <div class="step" [class.active]="step() === s.num" [class.done]="step() > s.num">
+          <div class="step-circle">
+            @if (step() > s.num) {
+              <span class="material-icons">check</span>
+            } @else {
+              <span class="material-icons">{{ s.icon }}</span>
+            }
+          </div>
+          <span class="step-label">{{ s.label }}</span>
+        </div>
+        @if (s.num < totalSteps) {
+          <div class="step-line" [class.done]="step() > s.num"></div>
+        }
+      }
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" [style.width.%]="progressPct()"></div>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert-error" style="margin-bottom:20px">
+      <span class="material-icons">error_outline</span>{{ error() }}
+    </div>
+  }
+
+  <form [formGroup]="form" novalidate>
+    <div class="wizard-layout" [class.has-ai]="step() === 3">
+
+      <!-- ─── STEP 1: Patient Info ──────────────────────────────────────── -->
+      @if (step() === 1) {
+        <div class="card wizard-card">
+          <div class="card-body">
+            <h3 class="section-title">
+              <span class="material-icons">person</span> Patient Information
+            </h3>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Patient Full Name <span class="required">*</span></label>
+                <input class="form-control" formControlName="patientName"
+                       [class.is-invalid]="isInvalid('patientName')"
+                       placeholder="e.g. Emily Johnson">
+                @if (isInvalid('patientName')) {
+                  <span class="form-error">Patient name is required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Date of Birth <span class="required">*</span></label>
+                <input type="date" class="form-control" formControlName="patientDob"
+                       [class.is-invalid]="isInvalid('patientDob')">
+                @if (isInvalid('patientDob')) {
+                  <span class="form-error">Date of birth is required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Member ID <span class="required">*</span></label>
+                <input class="form-control" formControlName="patientMemberId"
+                       [class.is-invalid]="isInvalid('patientMemberId')"
+                       placeholder="e.g. BCB-123456">
+                @if (isInvalid('patientMemberId')) {
+                  <span class="form-error">Member ID is required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Insurance Plan</label>
+                <input class="form-control" formControlName="patientInsurancePlan"
+                       placeholder="e.g. BlueCross PPO Gold">
+              </div>
+
+              <div class="form-group">
+                <label>Priority <span class="required">*</span></label>
+                <select class="form-control" formControlName="priority">
+                  @for (p of priorities; track p.value) {
+                    <option [value]="p.value">{{ p.label }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- ─── STEP 2: Clinical Info ─────────────────────────────────────── -->
+      @if (step() === 2) {
+        <div class="card wizard-card">
+          <div class="card-body">
+            <h3 class="section-title">
+              <span class="material-icons">biotech</span> Diagnosis & Procedure
+            </h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>ICD-10 Diagnosis Code <span class="required">*</span></label>
+                <input class="form-control" formControlName="diagnosisCode"
+                       [class.is-invalid]="isInvalid('diagnosisCode')"
+                       placeholder="e.g. M54.5" style="text-transform:uppercase">
+                @if (isInvalid('diagnosisCode')) {
+                  <span class="form-error">
+                    {{ f('diagnosisCode').hasError('required') ? 'Required' : 'Invalid ICD-10 format (e.g. M54.5)' }}
+                  </span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Diagnosis Description <span class="required">*</span></label>
+                <input class="form-control" formControlName="diagnosisDescription"
+                       [class.is-invalid]="isInvalid('diagnosisDescription')"
+                       placeholder="e.g. Low back pain">
+                @if (isInvalid('diagnosisDescription')) {
+                  <span class="form-error">Required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>CPT Procedure Code <span class="required">*</span></label>
+                <input class="form-control" formControlName="procedureCode"
+                       [class.is-invalid]="isInvalid('procedureCode')"
+                       placeholder="e.g. 97110">
+                @if (isInvalid('procedureCode')) {
+                  <span class="form-error">Required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Procedure Description <span class="required">*</span></label>
+                <input class="form-control" formControlName="procedureDescription"
+                       [class.is-invalid]="isInvalid('procedureDescription')"
+                       placeholder="e.g. Therapeutic exercises">
+                @if (isInvalid('procedureDescription')) {
+                  <span class="form-error">Required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Service Type <span class="required">*</span></label>
+                <select class="form-control" formControlName="serviceType"
+                        [class.is-invalid]="isInvalid('serviceType')">
+                  <option value="">Select service type…</option>
+                  @for (st of serviceTypes; track st) {
+                    <option [value]="st">{{ st }}</option>
+                  }
+                </select>
+                @if (isInvalid('serviceType')) {
+                  <span class="form-error">Required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Service Start Date <span class="required">*</span></label>
+                <input type="date" class="form-control" formControlName="requestedServiceDate"
+                       [class.is-invalid]="isInvalid('requestedServiceDate')">
+                @if (isInvalid('requestedServiceDate')) {
+                  <span class="form-error">Required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Service End Date <span class="required">*</span></label>
+                <input type="date" class="form-control" formControlName="requestedServiceEndDate"
+                       [class.is-invalid]="isInvalid('requestedServiceEndDate')">
+                @if (isInvalid('requestedServiceEndDate')) {
+                  <span class="form-error">Required</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Facility Name</label>
+                <input class="form-control" formControlName="facilityName"
+                       placeholder="e.g. Spine & Rehab Center">
+              </div>
+
+              <div class="form-group">
+                <label>Treating Physician</label>
+                <input class="form-control" formControlName="treatingPhysician"
+                       placeholder="e.g. Dr. Alan Torres">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top:4px">
+              <label>Clinical Notes
+                <span class="hint-text">(More detail = higher approval probability)</span>
+              </label>
+              <textarea class="form-control" formControlName="clinicalNotes" rows="5"
+                        placeholder="Describe clinical history, prior treatments, medical necessity..."></textarea>
+            </div>
+
+            <div class="form-group" style="margin-top:16px">
+              <label>Supporting Documents</label>
+              <input class="form-control" formControlName="supportingDocuments"
+                     placeholder="e.g. MRI Report, Referral Letter, Lab Results">
+              <span class="hint-text" style="margin-top:4px;display:block">
+                List document names separated by commas
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- ─── STEP 3: Review + AI ────────────────────────────────────────── -->
+      @if (step() === 3) {
+        <!-- Summary -->
+        <div class="card wizard-card">
+          <div class="card-body">
+            <h3 class="section-title">
+              <span class="material-icons">fact_check</span> Request Summary
+            </h3>
+
+            <div class="summary-grid">
+              <div class="summary-row">
+                <span class="summary-key">Patient</span>
+                <span class="summary-val">{{ f('patientName').value }}</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">DOB</span>
+                <span class="summary-val">{{ f('patientDob').value }}</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Member ID</span>
+                <span class="summary-val">{{ f('patientMemberId').value }}</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Insurance Plan</span>
+                <span class="summary-val">{{ f('patientInsurancePlan').value || '—' }}</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Diagnosis</span>
+                <span class="summary-val">
+                  <strong>{{ f('diagnosisCode').value }}</strong> — {{ f('diagnosisDescription').value }}
+                </span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Procedure</span>
+                <span class="summary-val">
+                  <strong>{{ f('procedureCode').value }}</strong> — {{ f('procedureDescription').value }}
+                </span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Service Type</span>
+                <span class="summary-val">{{ f('serviceType').value }}</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-key">Service Dates</span>
+                <span class="summary-val">
+                  {{ f('requestedServiceDate').value }} → {{ f('requestedServiceEndDate').value }}
+                </span>
+              </div>
+              @if (f('facilityName').value) {
+                <div class="summary-row">
+                  <span class="summary-key">Facility</span>
+                  <span class="summary-val">{{ f('facilityName').value }}</span>
+                </div>
+              }
+              @if (f('treatingPhysician').value) {
+                <div class="summary-row">
+                  <span class="summary-key">Physician</span>
+                  <span class="summary-val">{{ f('treatingPhysician').value }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Panel -->
+        <div class="ai-panel">
+          <div class="ai-panel-header">
+            <span class="material-icons ai-icon">smart_toy</span>
+            <div>
+              <h3>AI Copilot Analysis</h3>
+              <p>Real-time authorization assessment</p>
+            </div>
+          </div>
+
+          @if (aiLoading()) {
+            <div class="ai-loading">
+              <div class="spinner"></div>
+              <span>Analyzing your request…</span>
+            </div>
+          } @else if (aiResult()) {
+            <div class="ai-scores">
+              <div class="score-circle" [ngClass]="scoreColor(aiResult()!.completenessScore)">
+                <div class="score-value">{{ aiResult()!.completenessScore }}%</div>
+                <div class="score-label">Completeness</div>
+              </div>
+              <div class="score-circle" [ngClass]="scoreColor(aiResult()!.approvalProbability)">
+                <div class="score-value">{{ aiResult()!.approvalProbability }}%</div>
+                <div class="score-label">Approval Prob.</div>
+              </div>
+            </div>
+
+            <div class="alert" [ngClass]="riskClass(aiResult()!.riskLevel)"
+                 style="margin-bottom:16px">
+              <span class="material-icons">{{ aiResult()!.riskLevel === 'LOW' ? 'check_circle' : aiResult()!.riskLevel === 'HIGH' ? 'warning' : 'info' }}</span>
+              <span>Risk Level: <strong>{{ aiResult()!.riskLevel }}</strong> — {{ aiResult()!.summary }}</span>
+            </div>
+
+            @if (aiResult()!.recommendations.length > 0) {
+              <div class="ai-section">
+                <div class="ai-section-title">
+                  <span class="material-icons">lightbulb</span>Recommendations
+                </div>
+                <ul class="ai-list">
+                  @for (rec of aiResult()!.recommendations; track rec) {
+                    <li><span class="material-icons">arrow_right</span>{{ rec }}</li>
+                  }
+                </ul>
+              </div>
+            }
+
+            @if (aiResult()!.missingFields.length > 0) {
+              <div class="ai-section">
+                <div class="ai-section-title missing">
+                  <span class="material-icons">report_problem</span>Missing Information
+                </div>
+                <ul class="ai-list missing">
+                  @for (m of aiResult()!.missingFields; track m) {
+                    <li><span class="material-icons">remove_circle_outline</span>{{ m }}</li>
+                  }
+                </ul>
+              </div>
+            }
+
+            @if (aiResult()!.warnings.length > 0) {
+              <div class="ai-section">
+                <div class="ai-section-title warning">
+                  <span class="material-icons">warning_amber</span>Warnings
+                </div>
+                <ul class="ai-list warning">
+                  @for (w of aiResult()!.warnings; track w) {
+                    <li><span class="material-icons">error_outline</span>{{ w }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Actions -->
+    <div class="wizard-actions card">
+      <div class="card-body" style="padding:16px 24px">
+        <div class="actions-inner">
+          <div class="actions-left">
+            @if (step() > 1) {
+              <button type="button" class="btn btn-secondary" (click)="back()">
+                <span class="material-icons">arrow_back</span> Back
+              </button>
+            }
+          </div>
+          <div class="actions-right">
+            @if (step() < totalSteps) {
+              <button type="button" class="btn btn-primary" (click)="next()">
+                Continue <span class="material-icons">arrow_forward</span>
+              </button>
+            } @else {
+              <button type="button" class="btn btn-secondary" (click)="saveDraft()"
+                      [disabled]="saving()">
+                <span class="material-icons">save</span> Save as Draft
+              </button>
+              <button type="button" class="btn btn-success" (click)="submitRequest()"
+                      [disabled]="saving()">
+                @if (saving()) {
+                  <span class="spinner-sm"></span>
+                } @else {
+                  <span class="material-icons">send</span>
+                }
+                Submit for Review
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>

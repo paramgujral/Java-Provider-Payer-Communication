@@ -1,0 +1,350 @@
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">
+        {{ greeting }},
+        {{ user()?.fullName ? user()!.fullName.split(' ')[0] : 'User' }}
+        👋
+      </h1>
+      <p class="page-subtitle">
+        Here's an overview of your authorization requests.
+      </p>
+    </div>
+
+    <a routerLink="/provider/requests/new" class="btn btn-primary">
+      <span class="material-icons">add</span>
+      New Request
+    </a>
+  </div>
+
+  @if (loading()) {
+
+    <div class="loading-container">
+      <div class="spinner"></div>
+    </div>
+
+  } @else if (dashboard()) {
+
+    <!-- Stats -->
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-icon icon-blue">
+          <span class="material-icons">assignment</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">{{ animTotal() }}</div>
+          <div class="stat-label">Total Requests</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-yellow">
+          <span class="material-icons">pending</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">{{ animPending() }}</div>
+          <div class="stat-label">Pending Review</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-green">
+          <span class="material-icons">check_circle</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">{{ animApproved() }}</div>
+          <div class="stat-label">Approved</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-red">
+          <span class="material-icons">cancel</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">{{ animDenied() }}</div>
+          <div class="stat-label">Denied</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Two-column content -->
+    <div class="dashboard-grid">
+
+      <!-- Recent Requests -->
+      <div class="card">
+
+        <div class="card-header">
+          <h2 class="card-title">Recent Requests</h2>
+
+          <a
+            routerLink="/provider/requests"
+            class="btn btn-ghost btn-sm">
+
+            View all
+            <span
+              class="material-icons"
+              style="font-size:16px">
+              arrow_forward
+            </span>
+
+          </a>
+        </div>
+
+        <div class="card-body" style="padding-top:16px">
+
+          @if (recentReqs().length === 0) {
+
+            <div class="empty-state" style="padding:32px">
+
+              <span class="material-icons">assignment</span>
+
+              <h3>No requests yet</h3>
+
+              <p>Create your first authorization request.</p>
+
+              <a
+                routerLink="/provider/requests/new"
+                class="btn btn-primary"
+                style="margin-top:16px">
+
+                New Request
+
+              </a>
+
+            </div>
+
+          } @else {
+
+            <div class="request-list">
+
+              @for (req of recentReqs(); track req.id) {
+
+                <a
+                  class="request-row"
+                  [routerLink]="['/provider/requests', req.id]">
+
+                  <div class="request-row-main">
+
+                    <div class="request-ref">
+                      {{ req.referenceNumber }}
+                    </div>
+
+                    <div class="request-patient">
+                      {{ req.patientName }}
+                    </div>
+
+                    <div class="request-proc">
+                      {{ req.procedureDescription }}
+                    </div>
+
+                  </div>
+
+                  <div class="request-row-meta">
+
+                    <app-status-badge
+                      [status]="req.status">
+                    </app-status-badge>
+
+                    <span class="request-date">
+                      {{ req.createdAt | date:'MMM d' }}
+                    </span>
+
+                  </div>
+
+                </a>
+
+              }
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+      <!-- Notifications -->
+      <div class="card">
+
+        <div class="card-header">
+
+          <h2 class="card-title">
+            Notifications
+          </h2>
+
+          @if (notifications().length > 0) {
+            <span class="notif-count">
+              {{ notifications().length }} unread
+            </span>
+          }
+
+        </div>
+
+        <div class="card-body" style="padding-top:16px">
+
+          @if (notifications().length === 0) {
+
+            <div class="empty-state" style="padding:32px">
+
+              <span class="material-icons">
+                notifications_none
+              </span>
+
+              <h3>All caught up!</h3>
+
+              <p>No unread notifications.</p>
+
+            </div>
+
+          } @else {
+
+            <div class="notif-list">
+
+              @for (n of notifications(); track n.id) {
+
+                <div
+                  class="notif-item"
+                  [ngClass]="notifClass(n.type)">
+
+                  <div class="notif-icon">
+                    <span class="material-icons">
+                      {{ notifIcon(n.type) }}
+                    </span>
+                  </div>
+
+                  <div class="notif-body">
+
+                    <div class="notif-title">
+                      {{ n.title }}
+                    </div>
+
+                    <div class="notif-msg">
+                      {{ n.message }}
+                    </div>
+
+                    <div class="notif-time">
+                      {{ timeAgo(n.createdAt) }}
+                    </div>
+
+                  </div>
+
+                  <button
+                    class="btn btn-ghost btn-icon notif-dismiss"
+                    (click)="markRead(n.id); $event.stopPropagation()">
+
+                    <span class="material-icons">
+                      close
+                    </span>
+
+                  </button>
+
+                </div>
+
+              }
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Status breakdown -->
+    <div class="card" style="margin-top:24px">
+
+      <div class="card-header">
+        <h2 class="card-title">
+          Status Overview
+        </h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="status-breakdown">
+
+          <div class="status-item">
+            <span class="badge badge-draft">Draft</span>
+            <div class="status-bar-wrap">
+              <div
+                class="status-bar bar-draft"
+                [style.width.%]="pct(dashboard()!.draftRequests, dashboard()!.totalRequests)">
+              </div>
+            </div>
+            <span class="status-count">
+              {{ dashboard()!.draftRequests }}
+            </span>
+          </div>
+
+          <div class="status-item">
+            <span class="badge badge-submitted">Submitted</span>
+            <div class="status-bar-wrap">
+              <div
+                class="status-bar bar-submitted"
+                [style.width.%]="pct(dashboard()!.pendingRequests, dashboard()!.totalRequests)">
+              </div>
+            </div>
+            <span class="status-count">
+              {{ dashboard()!.pendingRequests }}
+            </span>
+          </div>
+
+          <div class="status-item">
+            <span class="badge badge-approved">Approved</span>
+            <div class="status-bar-wrap">
+              <div
+                class="status-bar bar-approved"
+                [style.width.%]="pct(dashboard()!.approvedRequests, dashboard()!.totalRequests)">
+              </div>
+            </div>
+            <span class="status-count">
+              {{ dashboard()!.approvedRequests }}
+            </span>
+          </div>
+
+          <div class="status-item">
+            <span class="badge badge-denied">Denied</span>
+            <div class="status-bar-wrap">
+              <div
+                class="status-bar bar-denied"
+                [style.width.%]="pct(dashboard()!.deniedRequests, dashboard()!.totalRequests)">
+              </div>
+            </div>
+            <span class="status-count">
+              {{ dashboard()!.deniedRequests }}
+            </span>
+          </div>
+
+          <div class="status-item">
+            <span class="badge badge-info_requested">
+              Info Req.
+            </span>
+
+            <div class="status-bar-wrap">
+              <div
+                class="status-bar bar-info"
+                [style.width.%]="pct(dashboard()!.infoRequestedRequests, dashboard()!.totalRequests)">
+              </div>
+            </div>
+
+            <span class="status-count">
+              {{ dashboard()!.infoRequestedRequests }}
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

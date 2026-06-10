@@ -1,0 +1,141 @@
+.queue-summary { display: flex; align-items: center; }
+
+.queue-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: var(--font-sm);
+  font-weight: 600;
+
+  .material-icons { font-size: 16px; }
+}
+
+.actionable-row { background: white; }
+.resolved-row   { background: var(--gray-50); opacity: .85; }
+
+.ref-num {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.patient-cell { display: flex; flex-direction: column; gap: 1px; }
+.patient-name { font-weight: 600; color: var(--gray-800); font-size: var(--font-sm); }
+.patient-id   { font-size: 11px; color: var(--gray-400); }
+
+.diag-cell {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.code-pill {
+  display: inline-block;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  flex-shrink: 0;
+}
+
+.code-desc {
+  font-size: 12px;
+  color: var(--gray-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.service-tag {
+  font-size: 12px;
+  background: var(--gray-100);
+  color: var(--gray-600);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.provider-cell { display: flex; flex-direction: column; gap: 2px; }
+.provider-name { font-size: var(--font-sm); font-weight: 500; color: var(--gray-700); }
+.provider-org  { font-size: 11px; color: var(--gray-400); }
+
+.sla-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+}
+
+.sla-breach {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--danger);
+  background: var(--danger-light);
+  padding: 1px 5px;
+  border-radius: 4px;
+  letter-spacing: .3px;
+}
+
+.sla-warning {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--warning);
+  background: var(--warning-light);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.wait-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  background: var(--gray-100);
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+
+  .material-icons { font-size: 12px; }
+
+  &.wait-warning { background: #fff7ed; color: var(--warning); }
+  &.wait-urgent  { background: var(--danger-light); color: var(--danger); }
+}
+
+// ─── AI probability cell ──────────────────────────────────────────────────────
+.ai-prob-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  min-width: 54px;
+
+  &.ai-high   { background: var(--success-light); }
+  &.ai-medium { background: var(--warning-light); }
+  &.ai-low    { background: var(--danger-light); }
+}
+
+.ai-prob-value {
+  font-size: var(--font-sm);
+  font-weight: 700;
+
+  .ai-high   & { color: var(--success); }
+  .ai-medium & { color: var(--warning); }
+  .ai-low    & { color: var(--danger); }
+}
+
+.ai-prob-label {
+  font-size: 10px;
+  color: var(--gray-400);
+}

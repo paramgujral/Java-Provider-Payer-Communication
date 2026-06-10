@@ -1,0 +1,181 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+
+  @media (max-width: 1024px) { grid-template-columns: 1fr; }
+}
+
+// ─── Request List ─────────────────────────────────────────────────────────────
+.request-list { display: flex; flex-direction: column; }
+
+.request-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background var(--transition);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  &:hover { background: var(--gray-50); padding-left: 8px; }
+  &:last-child { border-bottom: none; }
+}
+
+.request-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.request-ref {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: .3px;
+}
+
+.request-patient {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.request-proc {
+  font-size: 12px;
+  color: var(--gray-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.request-row-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.request-date {
+  font-size: 11px;
+  color: var(--gray-400);
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+.notif-count {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.notif-list { display: flex; flex-direction: column; gap: 8px; }
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--gray-50);
+  border-left: 3px solid var(--gray-300);
+  position: relative;
+
+  &.notif-success { background: var(--success-light); border-color: var(--success); }
+  &.notif-danger  { background: var(--danger-light);  border-color: var(--danger); }
+  &.notif-warning { background: var(--warning-light); border-color: var(--warning); }
+  &.notif-info    { background: var(--info-light);    border-color: var(--info); }
+}
+
+.notif-icon {
+  flex-shrink: 0;
+  .material-icons { font-size: 20px; color: var(--gray-500); }
+
+  .notif-success & .material-icons { color: var(--success); }
+  .notif-danger  & .material-icons { color: var(--danger); }
+  .notif-warning & .material-icons { color: var(--warning); }
+  .notif-info    & .material-icons { color: var(--info); }
+}
+
+.notif-body { flex: 1; min-width: 0; }
+
+.notif-title {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 2px;
+}
+
+.notif-msg {
+  font-size: 12px;
+  color: var(--gray-600);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notif-time {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 4px;
+}
+
+.notif-dismiss {
+  flex-shrink: 0;
+  padding: 4px;
+  color: var(--gray-400) !important;
+  .material-icons { font-size: 16px; }
+}
+
+// ─── Status Breakdown ────────────────────────────────────────────────────────
+.status-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .badge { min-width: 110px; justify-content: flex-start; }
+}
+
+.status-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--gray-100);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.status-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .5s ease;
+  min-width: 4px;
+
+  &.bar-draft     { background: var(--gray-400); }
+  &.bar-submitted { background: var(--primary); }
+  &.bar-approved  { background: var(--success); }
+  &.bar-denied    { background: var(--danger); }
+  &.bar-info      { background: var(--warning); }
+}
+
+.status-count {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--gray-700);
+  min-width: 24px;
+  text-align: right;
+}
