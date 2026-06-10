@@ -1,0 +1,40 @@
+# AuthBridge — local full-stack environment.
+#   docker compose up --build
+# Frontend → http://localhost:3000   Backend → http://localhost:8080
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: authbridge
+      POSTGRES_USER: authbridge
+      POSTGRES_PASSWORD: authbridge
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U authbridge"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:postgresql://db:5432/authbridge
+      DB_USER: authbridge
+      DB_PASSWORD: authbridge
+    ports: ["8080:8080"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      # Point the BFF at the Java backend; omit to run on in-memory routes.
+      BACKEND_URL: http://backend:8080
+    ports: ["3000:3000"]
+    depends_on: [backend]
+
+volumes:
+  pgdata:
