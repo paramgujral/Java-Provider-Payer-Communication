@@ -1,0 +1,381 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f7fb;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 1000px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.top-bar h1 {
+  color: #1e3a8a;
+  font-size: 30px;
+}
+
+.top-bar p {
+  color: #666;
+  margin-top: 5px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+.top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notification-btn {
+  position: relative;
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.notification-btn:hover {
+  background: #d97706;
+}
+
+.notification-btn .bell {
+  font-size: 18px;
+}
+
+.notification-btn .badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #dc2626;
+  color: white;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-panel {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.notification-item {
+  background: #fff1f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+  color: #991b1b;
+}
+
+.notification-item.unread {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  font-weight: 500;
+}
+
+.cancel-btn {
+  background: #6b7280;
+}
+
+.cancel-btn:hover {
+  background: #4b5563;
+}
+
+.secondary-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.secondary-btn:hover {
+  background: #1d4ed8;
+}
+
+.form-header {
+  margin-bottom: 25px;
+}
+
+.form-header h1 {
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+
+.form-header p {
+  color: #666;
+}
+
+.form-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.form-input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.submit-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.submit-btn:hover {
+  background: #1d4ed8;
+}
+
+.submit-btn:disabled {
+  opacity: .7;
+}
+
+.message {
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.login-hint {
+  margin-top: 25px;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.login-hint p {
+  margin-bottom: 8px;
+}
+
+.request-table-section {
+  margin-top: 20px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.request-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.request-table th {
+  background: #2563eb;
+  color: white;
+}
+
+.request-table th,
+.request-table td {
+  padding: 14px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.request-table tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.request-table tr:hover {
+  background: #eef4ff;
+}
+
+.empty-row {
+  color: #666;
+  padding: 20px;
+}
+
+.action-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  margin: 2px;
+}
+
+.approve-btn {
+  background: #16a34a;
+}
+
+.approve-btn:hover {
+  background: #15803d;
+}
+
+.reject-btn {
+  background: #dc2626;
+}
+
+.reject-btn:hover {
+  background: #b91c1c;
+}
+
+.reject-panel {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.reject-panel h2 {
+  margin-bottom: 8px;
+  color: #991b1b;
+}
+
+.reject-panel p {
+  color: #7f1d1d;
+  margin-bottom: 12px;
+}
+
+.reject-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.reject-action-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.cancel-btn {
+  background: #6b7280;
+}
+
+.cancel-btn:hover {
+  background: #4b5563;
+}
+
+@media (max-width: 768px) {
+
+  .form-card {
+    padding: 20px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .top-bar h1 {
+    font-size: 24px;
+  }
+
+  .request-table th,
+  .request-table td {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.dashboard-card {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+}
+
+.dashboard-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #1d4ed8;
+}
