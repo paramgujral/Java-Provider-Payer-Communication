@@ -1,0 +1,241 @@
+.auth-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ==================================
+   LEFT SIDE
+=================================== */
+
+.left-panel {
+  flex: 1.6;
+  position: relative;
+
+  background: linear-gradient(
+      rgba(8, 44, 104, 0.65),
+      rgba(8, 44, 104, 0.65)
+    ),
+    url('./../../assets/images/hospital.jpg');
+
+  background-size: cover;
+  background-position: center;
+}
+
+.quote-content {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  transform: translateY(-50%);
+  color: white;
+}
+
+.quote-icon {
+  font-size: 70px;
+  color: #8bc3ff;
+  margin-bottom: 10px;
+}
+
+.quote-end {
+  font-size: 70px;
+  color: #8bc3ff;
+  text-align: right;
+}
+
+.quote-content h1 {
+  font-family: Georgia, serif;
+  font-size: 58px;
+  font-weight: 400;
+  line-height: 1.15;
+  max-width: 650px;
+}
+
+/* ==================================
+   RIGHT SIDE
+=================================== */
+
+.right-panel {
+  flex: 1;
+  background: #f5f7fa;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 460px;
+
+  background: #fff;
+  border-radius: 18px;
+
+  padding: 40px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.logo i {
+  font-size: 44px;
+  color: #0f5fd7;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 6px;
+  font-size: 38px;
+  color: #22314a;
+  font-family: Georgia, serif;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7b8794;
+  margin-bottom: 30px;
+}
+
+/* ==================================
+   ROLE TABS
+=================================== */
+
+.role-tabs {
+  display: flex;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.role-tabs button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: #ffffff;
+  color: #374151;   // Dark text for inactive tab
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.role-tabs button.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* ==================================
+   INPUTS
+=================================== */
+
+.input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2f3d4f;
+}
+
+.input-group input {
+  width: 100%;
+  height: 50px;
+  padding-left: 45px;
+  border-radius: 8px;
+  background-color: #ffffff;   // White background
+  color: #333333; 
+  border: 1px solid #d8dee8;
+}
+
+.input-group input:focus {
+  border-color: #0f5fd7;
+  box-shadow: none;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  color: #95a1b3;
+}
+
+/* ==================================
+   EXTRA OPTIONS
+=================================== */
+
+.extra-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.remember {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.extra-options a {
+  color: #0f5fd7;
+  text-decoration: none;
+}
+
+/* ==================================
+   BUTTON
+=================================== */
+
+.signin-btn {
+  width: 100%;
+  height: 50px;
+  border: none !important;
+  background: #0f5fd7 !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 8px !important;
+}
+
+/* ==================================
+   SUPPORT
+=================================== */
+
+.support-section {
+  margin-top: 30px;
+  text-align: center;
+  color: #8b96a6;
+}
+
+.support-section a {
+  color: #0f5fd7;
+  text-decoration: none;
+  margin-left: 8px;
+}
+
+/* ==================================
+   MOBILE
+=================================== */
+
+@media (max-width: 992px) {
+
+  .left-panel {
+    display: none;
+  }
+
+  .right-panel {
+    flex: 1;
+    width: 100%;
+  }
+
+  .login-card {
+    max-width: 500px;
+  }
+}

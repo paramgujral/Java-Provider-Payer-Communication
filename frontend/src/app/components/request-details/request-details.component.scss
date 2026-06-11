@@ -1,0 +1,404 @@
+.request-details-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f7fafc;
+}
+
+.details-content {
+  flex: 1;
+  padding: 32px 24px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+
+  .details-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: #667eea;
+      cursor: pointer;
+      font-size: 20px;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: white;
+      }
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a202c;
+      margin: 0;
+    }
+  }
+
+  .loading-state {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .details-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    margin-bottom: 24px;
+
+    .main-details {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+      .detail-section {
+        margin-bottom: 32px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid #e2e8f0;
+
+        &:last-child {
+          margin-bottom: 0;
+          padding-bottom: 0;
+          border-bottom: none;
+        }
+
+        h2 {
+          font-size: 18px;
+          font-weight: 600;
+          color: #1a202c;
+          margin-bottom: 16px;
+        }
+
+        .details-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+
+          .detail-item {
+            &.full-width {
+              grid-column: 1 / -1;
+            }
+
+            label {
+              display: block;
+              font-size: 12px;
+              font-weight: 600;
+              color: #718096;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              margin-bottom: 6px;
+            }
+
+            span {
+              display: block;
+              font-size: 14px;
+              color: #2d3748;
+              word-break: break-word;
+            }
+
+            .clinical-notes {
+              line-height: 1.6;
+              margin: 0;
+            }
+          }
+        }
+
+        .status-info {
+          :deep(.p-tag) {
+            margin-bottom: 16px;
+          }
+
+          .status-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+
+            .status-item {
+              label {
+                display: block;
+                font-size: 12px;
+                font-weight: 600;
+                color: #718096;
+                text-transform: uppercase;
+                margin-bottom: 6px;
+              }
+
+              span {
+                display: block;
+                font-size: 14px;
+                color: #2d3748;
+
+                &.rejection-reason {
+                  color: #c53030;
+                  font-weight: 500;
+                }
+              }
+            }
+          }
+        }
+
+        .documents-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          .document-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background-color: #f7fafc;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+
+            i {
+              color: #667eea;
+              font-size: 18px;
+              flex-shrink: 0;
+            }
+
+            a {
+              flex: 1;
+              color: #667eea;
+              text-decoration: none;
+              font-weight: 500;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+
+            .doc-size {
+              font-size: 12px;
+              color: #a0aec0;
+            }
+
+            &:hover {
+              background-color: #edf2f7;
+            }
+          }
+        }
+
+        .empty-message {
+          color: #a0aec0;
+          text-align: center;
+          padding: 20px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .copilot-panel {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+
+        i {
+          font-size: 20px;
+        }
+
+        h3 {
+          font-size: 16px;
+          font-weight: 600;
+          margin: 0;
+        }
+      }
+
+      .completeness-score {
+        margin-bottom: 20px;
+
+        .score-label {
+          display: block;
+          font-size: 12px;
+          font-weight: 600;
+          margin-bottom: 8px;
+          opacity: 0.9;
+        }
+
+        .score-bar {
+          height: 8px;
+          background-color: rgba(255, 255, 255, 0.2);
+          border-radius: 4px;
+          overflow: hidden;
+          margin-bottom: 8px;
+
+          .score-fill {
+            height: 100%;
+            background-color: #48bb78;
+            transition: width 0.3s ease;
+          }
+        }
+
+        .score-value {
+          display: block;
+          font-size: 18px;
+          font-weight: 700;
+          text-align: center;
+        }
+      }
+
+      .section {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        &:last-child {
+          margin-bottom: 0;
+          padding-bottom: 0;
+          border-bottom: none;
+        }
+
+        h4 {
+          font-size: 13px;
+          font-weight: 600;
+          margin-bottom: 10px;
+          opacity: 0.95;
+        }
+
+        ul,
+        ol {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+
+            i {
+              margin-top: 2px;
+              flex-shrink: 0;
+              font-size: 14px;
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+
+    button {
+      padding: 10px 24px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+
+      &.btn-success {
+        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        color: white;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+      }
+
+      &.btn-danger {
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        color: white;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .request-details-container {
+    .details-content {
+      .details-layout {
+        grid-template-columns: 1fr;
+
+        .copilot-panel {
+          position: static;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .request-details-container {
+    .details-content {
+      padding: 16px;
+
+      .details-header {
+        h1 {
+          font-size: 20px;
+        }
+      }
+
+      .details-layout {
+        .main-details {
+          padding: 16px;
+
+          .detail-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+
+            h2 {
+              font-size: 16px;
+            }
+
+            .details-grid {
+              grid-template-columns: 1fr;
+            }
+          }
+        }
+      }
+
+      .action-buttons {
+        flex-direction: column;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.text-danger {
+  color: #f56565;
+}
+
+.text-success {
+  color: #48bb78;
+}

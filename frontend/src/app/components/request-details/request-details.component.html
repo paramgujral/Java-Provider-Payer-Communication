@@ -1,0 +1,267 @@
+<div class="request-details-container">
+  <app-header></app-header>
+
+  <div class="details-content">
+    <div class="details-header">
+      <button pButton type="button" icon="pi pi-arrow-left" (click)="goBack()" class="back-btn"></button>
+
+      <h1 *ngIf="!isNewRequest">
+        Authorization Request Details
+      </h1>
+
+      <h1 *ngIf="isNewRequest">
+        Create New Authorization Request
+      </h1>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state">
+      <p-skeleton height="400px"></p-skeleton>
+    </div>
+
+    <div *ngIf="!isLoading && request" class="details-layout">
+
+      <!-- MAIN DETAILS -->
+      <div class="main-details">
+
+        <!-- PATIENT INFORMATION -->
+        <div class="detail-section">
+          <h2>Patient Information</h2>
+
+          <div class="details-grid">
+
+            <div class="detail-item">
+              <label>Patient Name:</label>
+
+              <span *ngIf="!isEditing">
+                {{ request.patientName }}
+              </span>
+
+              <input *ngIf="isEditing" type="text" class="form-control" [(ngModel)]="request.patientName" />
+            </div>
+
+            <div class="detail-item">
+              <label>Patient ID:</label>
+
+              <span *ngIf="!isEditing">
+                {{ request.patientId }}
+              </span>
+
+              <input *ngIf="isEditing" type="text" class="form-control" [(ngModel)]="request.patientId" />
+            </div>
+
+            <div class="detail-item">
+              <label>Insurance ID:</label>
+
+              <span *ngIf="!isEditing">
+                {{ request.insuranceId }}
+              </span>
+
+              <input *ngIf="isEditing" type="text" class="form-control" [(ngModel)]="request.insuranceId" />
+            </div>
+
+            <div class="detail-item">
+              <label>Insurance Provider:</label>
+
+              <span *ngIf="!isEditing">
+                {{ request.insuranceProvider }}
+              </span>
+
+              <input *ngIf="isEditing" type="text" class="form-control" [(ngModel)]="request.insuranceProvider" />
+            </div>
+
+          </div>
+        </div>
+
+        <!-- MEDICAL INFORMATION -->
+        <div class="detail-section">
+          <h2>Medical Information</h2>
+
+          <div class="details-grid">
+
+            <div class="detail-item full-width">
+              <label>Diagnosis:</label>
+
+              <span *ngIf="!isEditing">
+                {{ request.diagnosis }}
+              </span>
+
+              <input *ngIf="isEditing" type="text" class="form-control" [(ngModel)]="request.diagnosis" />
+            </div>
+
+            <div class="detail-item full-width">
+              <label>Procedure:</label>
+
+              <span *ngIf="!isEditing">
+                {{ request.procedure }}
+              </span>
+
+              <input *ngIf="isEditing" type="text" class="form-control" [(ngModel)]="request.procedure" />
+            </div>
+
+            <div class="detail-item full-width">
+              <label>Clinical Notes:</label>
+
+              <p *ngIf="!isEditing" class="clinical-notes">
+                {{ request.clinicalNotes }}
+              </p>
+
+              <textarea *ngIf="isEditing" rows="5" class="form-control" [(ngModel)]="request.clinicalNotes"></textarea>
+            </div>
+
+            <div class="detail-item">
+              <label>Estimated Cost:</label>
+
+              <span *ngIf="!isEditing">
+                ${{ request.estimatedCost | number }}
+              </span>
+
+              <input *ngIf="isEditing" type="number" class="form-control" [(ngModel)]="request.estimatedCost" />
+            </div>
+
+          </div>
+        </div>
+
+        <!-- REQUEST STATUS -->
+        <div class="detail-section">
+          <h2>Request Status</h2>
+
+          <div class="status-info">
+            <p-tag [value]="request.status" [severity]="getStatusSeverity(request.status)">
+            </p-tag>
+
+            <div class="status-details">
+
+              <div class="status-item">
+                <label>Request Date:</label>
+                <span>
+                  {{ request.requestDate | date:'MMM dd, yyyy' }}
+                </span>
+              </div>
+
+              <div class="status-item">
+                <label>Last Updated:</label>
+                <span>
+                  {{ request.lastUpdated | date:'MMM dd, yyyy' }}
+                </span>
+              </div>
+
+              <div *ngIf="request.approvedBy" class="status-item">
+                <label>Approved By:</label>
+                <span>{{ request.approvedBy }}</span>
+              </div>
+
+              <div *ngIf="request.rejectionReason" class="status-item">
+                <label>Rejection Reason:</label>
+
+                <span class="rejection-reason">
+                  {{ request.rejectionReason }}
+                </span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCUMENTS -->
+        <div class="detail-section">
+          <h2>Supporting Documents</h2>
+
+          <div *ngIf="request.supportingDocuments &&
+            request.supportingDocuments.length > 0">
+
+            <div class="documents-list">
+
+              <div *ngFor="let doc of request.supportingDocuments" class="document-item">
+
+                <i class="pi pi-file"></i>
+
+                <a [href]="doc.url" target="_blank">
+                  {{ doc.name }}
+                </a>
+
+                <span class="doc-size">
+                  {{ (doc.size / 1024).toFixed(2) }} KB
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div *ngIf="!request.supportingDocuments ||
+            request.supportingDocuments.length === 0">
+
+            <p class="empty-message">
+              No documents uploaded
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COPILOT -->
+      <div class="copilot-panel" *ngIf="copilotRecommendations">
+
+        <div class="panel-header">
+          <i class="pi pi-star-fill"></i>
+          <h3>AI Copilot Recommendations</h3>
+        </div>
+
+        <div class="completeness-score">
+          <span class="score-label">
+            Completeness Score
+          </span>
+
+          <div class="score-bar">
+            <div class="score-fill" [style.width.%]="copilotRecommendations.completenessScore">
+            </div>
+          </div>
+
+          <span class="score-value">
+            {{ copilotRecommendations.completenessScore }}%
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div *ngIf="!isLoading && request" class="action-buttons">
+
+      <!-- Back -->
+      <button pButton type="button" icon="pi pi-arrow-left" label="Back" (click)="goBack()">
+      </button>
+
+      <!-- Save Draft (only for New Request) -->
+      <button *ngIf="isNewRequest" pButton type="button" icon="pi pi-save" label="Save Draft" class="p-button-secondary"
+        (click)="saveDraft()">
+      </button>
+
+      <!-- Create Request / Save Changes -->
+      <button *ngIf="isEditing" pButton type="button" [icon]="isNewRequest ? 'pi pi-check' : 'pi pi-save'"
+        [label]="isNewRequest ? 'Create Request' : 'Save Changes'" class="p-button-success" (click)="saveRequest()">
+      </button>
+
+      <!-- Payer Actions -->
+      <button *ngIf="currentUser?.role === 'Payer' && !isEditing" pButton type="button" icon="pi pi-check"
+        label="Approve" (click)="approveRequest()">
+      </button>
+
+      <button *ngIf="currentUser?.role === 'Payer' && !isEditing" pButton type="button" icon="pi pi-times"
+        label="Reject" class="p-button-danger" (click)="rejectRequest()">
+      </button>
+
+      <button *ngIf="currentUser?.role === 'Payer' && !isEditing" pButton type="button" icon="pi pi-check"
+        label="Approve" (click)="approveRequest()">
+      </button>
+
+      <button *ngIf="currentUser?.role === 'Payer' && !isEditing" pButton type="button" icon="pi pi-times"
+        label="Reject" (click)="rejectRequest()" class="p-button-danger">
+      </button>
+
+    </div>
+  </div>
+</div>

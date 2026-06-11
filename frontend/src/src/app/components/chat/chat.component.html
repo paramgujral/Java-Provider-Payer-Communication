@@ -1,0 +1,61 @@
+<div class="chat-container">
+  <app-header></app-header>
+
+  <div class="chat-content">
+    <div class="chat-header">
+      <button pButton type="button" icon="pi pi-arrow-left" (click)="goBack()" class="back-btn"></button>
+      <h1>Request Chat</h1>
+      <span class="request-id" *ngIf="requestId">Request ID: {{ requestId }}</span>
+    </div>
+
+    <div class="chat-messages">
+      <div *ngFor="let message of messages" class="message" [class.sent]="message.sender === 'You'">
+        <div class="message-content">
+          <div class="message-header">
+            <span class="sender-name">{{ message.sender }}</span>
+            <span class="message-time">{{ message.timestamp | date: 'short' }}</span>
+          </div>
+          <p class="message-text">{{ message.message }}</p>
+          <div *ngIf="message.attachments && message.attachments.length > 0" class="attachments">
+            <a *ngFor="let attachment of message.attachments" [href]="attachment.url" class="attachment">
+              <i class="pi pi-file"></i>
+              {{ attachment.name }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showTypingIndicator" class="message received">
+        <div class="message-content">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-section">
+      <div class="input-container">
+        <textarea
+          [(ngModel)]="newMessage"
+          placeholder="Type your message..."
+          class="message-input"
+          (keydown)="onKeyDown($event)"
+        ></textarea>
+        <button pButton type="button" icon="pi pi-send" (click)="sendMessage()" class="send-btn"></button>
+      </div>
+      <p-fileUpload
+        name="attachments[]"
+        [multiple]="true"
+        accept="image/*,.pdf,.doc,.docx"
+        [maxFileSize]="10000000"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        (onSelect)="uploadFile($event)"
+        class="file-upload"
+      ></p-fileUpload>
+    </div>
+  </div>
+</div>

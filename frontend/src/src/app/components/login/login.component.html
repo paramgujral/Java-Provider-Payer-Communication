@@ -1,0 +1,129 @@
+<div class="auth-wrapper">
+
+  <!-- LEFT SECTION -->
+  <div class="left-panel">
+    <div class="overlay"></div>
+
+    <div class="quote-content">
+      <div class="quote-icon">❝</div>
+
+      <h1>
+        Quality healthcare <br />
+        through seamless <br />
+        provider-payer <br />
+        collaboration
+      </h1>
+
+      <div class="quote-end">❞</div>
+    </div>
+  </div>
+
+  <!-- RIGHT SECTION -->
+  <div class="right-panel">
+
+    <div class="login-card">
+
+      <div class="logo">
+        <i class="pi pi-heart"></i>
+      </div>
+
+      <h2>Healthcare Portal</h2>
+      <p class="subtitle">
+        Sign in to access your account
+      </p>
+
+      <!-- Role Tabs -->
+      <div class="role-tabs">
+
+        <button
+          type="button"
+          [class.active]="selectedRole==='Provider'"
+          (click)="selectRole('Provider')">
+
+          <i class="pi pi-user"></i>
+          Provider
+        </button>
+
+        <button
+          type="button"
+          [class.active]="selectedRole==='Payer'"
+          (click)="selectRole('Payer')">
+
+          <i class="pi pi-building"></i>
+          Payer
+        </button>
+
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+        <div class="input-group">
+
+          <label>Username</label>
+
+          <span class="input-icon">
+            <i class="pi pi-user"></i>
+          </span>
+
+          <input
+            pInputText
+            type="text"
+            formControlName="username"
+            placeholder="Enter your username"
+          />
+        </div>
+
+        <div class="input-group">
+
+          <label>Password</label>
+
+          <span class="input-icon">
+            <i class="pi pi-lock"></i>
+          </span>
+
+          <input
+            pInputText
+            type="password"
+            formControlName="password"
+            placeholder="Enter your password"
+          />
+        </div>
+
+        <div class="extra-options">
+
+          <div class="remember">
+            <input type="checkbox" />
+            <span>Remember me</span>
+          </div>
+
+          <a href="#">Forgot password?</a>
+
+        </div>
+
+        <button
+          pButton
+          type="submit"
+          class="signin-btn"
+          [loading]="isLoading">
+
+          Sign In
+
+        </button>
+
+      </form>
+
+      <div class="support-section">
+
+        <span>Need help?</span>
+
+        <a href="#">
+          Contact Support
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

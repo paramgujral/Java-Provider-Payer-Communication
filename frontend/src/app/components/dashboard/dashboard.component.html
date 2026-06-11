@@ -1,0 +1,98 @@
+<div class="dashboard-container">
+  <app-header></app-header>
+
+  <div class="dashboard-content">
+    <div class="welcome-section">
+      <h1>Welcome Provider</h1>
+      <p>Manage your authorization requests</p>
+    </div>
+
+    <div class="table-section">
+      <div class="section-header">
+        <h2>Authorization Requests</h2>
+        <div class="section-header">
+          <button pButton type="button" icon="pi pi-plus" label="New Request" (click)="createNewRequest()">
+          </button>
+        </div>
+      </div>
+
+      <p-table #dt [value]="requests" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['patientName', 'patientId', 'diagnosis', 'procedure']" [loading]="isLoading"
+        responsiveLayout="scroll" [tableStyle]="{ 'min-width': '100%' }">
+        <ng-template pTemplate="caption">
+          <div class="table-header">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" #globalFilter
+                (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search requests..." />
+            </span>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="id">S.No <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="patientName">
+              Patient Name <p-sortIcon field="patientName"></p-sortIcon>
+            </th>
+            <th pSortableColumn="patientId">
+              Patient ID <p-sortIcon field="patientId"></p-sortIcon>
+            </th>
+            <th pSortableColumn="insuranceProvider">
+              Insurance Provider <p-sortIcon field="insuranceProvider"></p-sortIcon>
+            </th>
+            <th pSortableColumn="diagnosis">Diagnosis <p-sortIcon field="diagnosis"></p-sortIcon></th>
+            <th pSortableColumn="procedure">Procedure <p-sortIcon field="procedure"></p-sortIcon></th>
+            <th pSortableColumn="requestDate">
+              Request Date <p-sortIcon field="requestDate"></p-sortIcon>
+            </th>
+            <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+            <th style="width: 150px">Actions</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-request>
+          <tr>
+            <td>{{ request.id }}</td>
+            <td>{{ request.patientName }}</td>
+            <td>{{ request.patientId }}</td>
+            <td>{{ request.insuranceProvider }}</td>
+            <td>{{ request.diagnosis }}</td>
+            <td>{{ request.procedure }}</td>
+            <td>{{ request.requestDate | date: 'MMM dd, yyyy' }}</td>
+            <td>
+              <p-tag [value]="request.status" [severity]="getStatusSeverity(request.status)"></p-tag>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button pButton pRipple type="button" icon="pi pi-eye" (click)="viewDetails(request)"
+                  class="p-button-rounded p-button-sm p-button-info" pTooltip="View Details"></button>
+                <button pButton pRipple type="button" icon="pi pi-comments" (click)="initiateChat(request)"
+                  class="p-button-rounded p-button-sm p-button-success" pTooltip="Chat"></button>
+                <button pButton pRipple type="button" icon="pi pi-pencil" (click)="editRequest(request)"
+                  class="p-button-rounded p-button-sm p-button-warning" pTooltip="Edit"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="9" class="text-center py-4">
+              <i class="pi pi-inbox text-gray-400" style="font-size: 32px"></i>
+              <p class="text-gray-500">No authorization requests found</p>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="loadingbody">
+          <tr>
+            <td colspan="9">
+              <p-skeleton height="40px"></p-skeleton>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

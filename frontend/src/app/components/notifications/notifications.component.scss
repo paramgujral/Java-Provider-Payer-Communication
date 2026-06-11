@@ -1,0 +1,134 @@
+.notifications-container {
+  padding: 24px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  .notifications-header {
+    margin-bottom: 24px;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a202c;
+      margin: 0;
+    }
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+
+    i {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+
+  .notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .notification-card {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background-color: #f7fafc;
+      border-radius: 8px;
+      border-left: 4px solid #e2e8f0;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #edf2f7;
+        border-left-color: #667eea;
+      }
+
+      &.unread {
+        background-color: #edf2f7;
+        border-left-color: #667eea;
+
+        .notification-card-inner {
+          font-weight: 500;
+        }
+      }
+
+      .notification-icon {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        color: #667eea;
+        font-size: 18px;
+      }
+
+      .notification-content {
+        flex: 1;
+
+        h3 {
+          font-size: 14px;
+          font-weight: 600;
+          color: #1a202c;
+          margin: 0 0 6px 0;
+        }
+
+        p {
+          font-size: 13px;
+          color: #718096;
+          margin: 0 0 8px 0;
+          line-height: 1.5;
+        }
+
+        .notification-time {
+          font-size: 11px;
+          color: #a0aec0;
+        }
+      }
+
+      .mark-read-btn {
+        flex-shrink: 0;
+        background: none;
+        border: none;
+        color: #667eea;
+        cursor: pointer;
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: rgba(102, 126, 234, 0.1);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .notifications-container {
+    padding: 16px;
+
+    .notifications-list {
+      .notification-card {
+        flex-direction: column;
+
+        .notification-icon {
+          margin-bottom: 8px;
+        }
+      }
+    }
+  }
+}

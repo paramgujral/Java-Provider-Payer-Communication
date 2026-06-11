@@ -1,0 +1,161 @@
+/* Global Styles */
+:host ::ng-deep {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    color: #2d3748;
+    background-color: #f7fafc;
+  }
+
+  /* Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f7fafc;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 4px;
+
+    &:hover {
+      background: #a0aec0;
+    }
+  }
+
+  /* PrimeNG Customizations */
+  .p-datatable {
+    .p-datatable-thead > tr > th {
+      background-color: #f7fafc;
+      color: #2d3748;
+      font-weight: 600;
+      border: none;
+    }
+
+    .p-datatable-tbody > tr {
+      border-bottom: 1px solid #e2e8f0;
+
+      > td {
+        color: #2d3748;
+      }
+
+      &:hover {
+        background-color: #fafbfc;
+      }
+    }
+  }
+
+  .p-button {
+    border-radius: 6px;
+    font-weight: 600;
+
+    &.p-button-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+
+      &:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #6b3d92 100%);
+      }
+    }
+
+    &.p-button-success {
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      border: none;
+
+      &:hover {
+        background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+      }
+    }
+
+    &.p-button-danger {
+      background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+      border: none;
+
+      &:hover {
+        background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+      }
+    }
+
+    &.p-button-warning {
+      background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+      border: none;
+
+      &:hover {
+        background: linear-gradient(135deg, #dd6b20 0%, #c05621 100%);
+      }
+    }
+
+    &.p-button-info {
+      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+      border: none;
+
+      &:hover {
+        background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+      }
+    }
+  }
+
+  .p-tag {
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .p-input-text,
+  input[pInputText] {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+
+    &:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      outline: none;
+    }
+  }
+
+  .p-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .p-paginator {
+    background-color: #f7fafc;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Utility Classes */
+  .w-full {
+    width: 100%;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .text-gray-400 {
+    color: #cbd5e0;
+  }
+
+  .text-gray-500 {
+    color: #a0aec0;
+  }
+}

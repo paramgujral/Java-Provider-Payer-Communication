@@ -1,0 +1,192 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f7fafc;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 32px 24px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+
+  .welcome-section {
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #718096;
+    }
+  }
+
+  .table-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    overflow: hidden;
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+
+      h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a202c;
+        margin: 0;
+      }
+
+      button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+      }
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+
+      .p-input-icon-left {
+        width: 300px;
+
+        input {
+          width: 100%;
+          padding: 8px 12px 8px 36px;
+          border: 1px solid #e2e8f0;
+          border-radius: 6px;
+          font-size: 14px;
+
+          &:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+          }
+        }
+
+        i {
+          left: 12px;
+          color: #a0aec0;
+        }
+      }
+    }
+
+    :deep(.p-datatable) {
+      .p-datatable-thead > tr > th {
+        background-color: #f7fafc;
+        color: #2d3748;
+        font-weight: 600;
+        font-size: 13px;
+        padding: 12px;
+        border: none;
+      }
+
+      .p-datatable-tbody > tr {
+        border-bottom: 1px solid #e2e8f0;
+
+        &:hover {
+          background-color: #fafbfc;
+        }
+
+        > td {
+          padding: 12px;
+          color: #2d3748;
+          font-size: 14px;
+        }
+      }
+
+      .p-paginator {
+        background-color: #f7fafc;
+        border: none;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+
+      button {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 16px;
+
+    .welcome-section {
+      margin-bottom: 24px;
+
+      h1 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+
+    .table-section {
+      padding: 16px;
+
+      .section-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+
+        button {
+          width: 100%;
+        }
+      }
+
+      :deep(.p-datatable) {
+        font-size: 12px;
+
+        .p-datatable-thead > tr > th,
+        .p-datatable-tbody > tr > td {
+          padding: 8px;
+        }
+      }
+    }
+  }
+}

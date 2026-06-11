@@ -1,0 +1,33 @@
+<div class="notifications-container">
+  <div class="notifications-header">
+    <h2>Notifications</h2>
+  </div>
+
+  <div *ngIf="notifications.length === 0" class="empty-state">
+    <i class="pi pi-inbox"></i>
+    <p>No notifications</p>
+  </div>
+
+  <div *ngIf="notifications.length > 0" class="notifications-list">
+    <div *ngFor="let notification of notifications" class="notification-card" [class.unread]="!notification.read">
+      <div class="notification-icon">
+        <i [class]="'pi ' + getNotificationIcon(notification.type)"></i>
+      </div>
+      <div class="notification-content">
+        <h3>{{ notification.title }}</h3>
+        <p>{{ notification.message }}</p>
+        <span class="notification-time">{{ notification.timestamp | date: 'MMM dd, yyyy - HH:mm' }}</span>
+      </div>
+      <button
+        *ngIf="!notification.read"
+        class="mark-read-btn"
+        (click)="markAsRead(notification.id)"
+        pButton
+        pRipple
+        type="button"
+      >
+        <i class="pi pi-check"></i>
+      </button>
+    </div>
+  </div>
+</div>
