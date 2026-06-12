@@ -1,0 +1,14 @@
+/* Remove old styles, replace with: */
+:host {
+  display: block;
+}
+
+/* Smooth row hover */
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+/* Tighter table */
+table {
+  border-spacing: 0;
+}
