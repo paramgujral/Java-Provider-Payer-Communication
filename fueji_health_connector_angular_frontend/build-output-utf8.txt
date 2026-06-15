@@ -1,0 +1,1423 @@
+﻿
+> fe-health-connector@0.0.0 build
+> ng build
+
+Γ¥» Building...
+Γ£ö Building...
+Prerendered 0 static routes.
+Application bundle generation failed. [2.796 seconds] - 2026-06-11T06:14:37.487Z
+
+npm.cmd : [31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find 
+module '../../../../shared/components/layout/header/header.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+At line:1 char:109
++ ... h_connector-main\fe_health_connector'; npm.cmd run build 2>&1 | Out-F ...
++                                            ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([31mX [41;31m...r-compiler][0m 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/sidebar/sidebar.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2012: Component imports must 
+be standalone components, directives, pipes, or must be NgModules.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/admin-dashboard.component.ts:13:26:
+[37m      13 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2012: Component imports must 
+be standalone components, directives, pipes, or must be NgModules.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/admin-dashboard.component.ts:13:43:
+[37m      13 Γöé ...odule, HeaderComponent, [32mSidebarComponent[37m, 
+FooterComponent, Load...
+         Γò╡                            [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/header/header.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/payers/payers.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/sidebar/sidebar.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/payers/payers.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/payers/payers.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/payers/payers.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/payers/payers.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/payers/payers.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/payers/payers.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/payers/payers.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/payers/payers.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/header/header.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/providers/providers.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/sidebar/sidebar.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/providers/providers.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/providers/providers.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/providers/providers.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/providers/providers.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/providers/providers.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/providers/providers.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/admin/providers/providers.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/admin/providers/providers.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/header/header.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/common/profile/profile.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/sidebar/sidebar.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/common/profile/profile.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/common/profile/profile.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/common/profile/profile.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/common/profile/profile.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/common/profile/profile.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/common/profile/profile.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/common/profile/profile.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/common/profile/profile.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/common/unauthorized/unauthorized.component.ts:4:32:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/common/unauthorized/unauthorized.component.ts:9:40:
+[37m      9 Γöé   imports: [CommonModule, RouterModule, 
+[32mFooterComponent[37m],
+        Γò╡                                         [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/common/unauthorized/unauthorized.component.ts:9:40:
+[37m      9 Γöé   imports: [CommonModule, RouterModule, 
+[32mFooterComponent[37m],
+        Γò╡                                         [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/header/header.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payer/analytics/analytics.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/sidebar/sidebar.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payer/analytics/analytics.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payer/analytics/analytics.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/payer/analytics/analytics.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/payer/analytics/analytics.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/payer/analytics/analytics.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/payer/analytics/analytics.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/payer/analytics/analytics.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/payer/analytics/analytics.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2012: Component imports must 
+be standalone components, directives, pipes, or must be NgModules.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payer/dashboard/payer-dashboard.component.ts:13:26:
+[37m      13 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2012: Component imports must 
+be standalone components, directives, pipes, or must be NgModules.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payer/dashboard/payer-dashboard.component.ts:13:43:
+[37m      13 Γöé ...odule, HeaderComponent, [32mSidebarComponent[37m, 
+FooterComponent, Load...
+         Γò╡                            [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/header/header.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payer/review/review.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/sidebar/sidebar.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payer/review/review.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payer/review/review.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/payer/review/review.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/payer/review/review.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/payer/review/review.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/payer/review/review.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/payer/review/review.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/payer/review/review.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/header/header.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/sidebar/sidebar.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/provider/authorizations/authorizations.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/provider/authorizations/authorizations.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/provider/authorizations/authorizations.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/header/header.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/provider/chat/chat.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/sidebar/sidebar.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/provider/chat/chat.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../../shared/components/layout/footer/footer.component' or its 
+corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/provider/chat/chat.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/provider/chat/chat.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/provider/chat/chat.component.ts:10:26:
+[37m      10 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/provider/chat/chat.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/provider/chat/chat.component.ts:10:43:
+[37m      10 Γöé ...CommonModule, HeaderComponent, 
+[32mSidebarComponent[37m, FooterComponent],
+         Γò╡                                   [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG1010: 'imports' must be an 
+array of components, directives, pipes, or NgModules.
+  Value could not be determined statically.[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/features/provider/chat/chat.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+  Unknown reference.
+
+    src/app/features/provider/chat/chat.component.ts:10:61:
+[37m      10 Γöé ...CommonModule, HeaderComponent, SidebarComponent, 
+[32mFooterComponent[37m],
+         Γò╡                                                     
+[32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2012: Component imports must 
+be standalone components, directives, pipes, or must be NgModules.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/features/provider/dashboard/provider-dashboard.component.ts:13:26:
+[37m      13 Γöé   imports: [CommonModule, [32mHeaderComponent[37m, 
+SidebarComponent, Foote...
+         Γò╡                           [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2012: Component imports must 
+be standalone components, directives, pipes, or must be NgModules.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/features/provider/dashboard/provider-dashboard.component.ts:13:43:
+[37m      13 Γöé ...odule, HeaderComponent, [32mSidebarComponent[37m, 
+FooterComponent, Load...
+         Γò╡                            [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../core/services' or its corresponding type declarations.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/layout/header/header.component.ts:4:28:
+[37m      4 Γöé import { AuthService } from 
+[32m'../../../core/services'[37m;
+        Γò╡                             [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../core/models' or its corresponding type declarations.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/layout/header/header.component.ts:5:21:
+[37m      5 Γöé import { User } from [32m'../../../core/models'[37m;
+        Γò╡                      [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'@heroicons/angular' or its corresponding type declarations.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/layout/header/header.component.ts:6:32:
+[37m      6 Γöé import { HeroiconsModule } from 
+[32m'@heroicons/angular'[37m;
+        Γò╡                                 [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2003: No suitable injection 
+token for parameter 'authService' of class 'HeaderComponent'.
+  Consider using the @Inject decorator to specify an injection token.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/layout/header/header.component.ts:60:22:
+[37m      60 Γöé   constructor(private [32mauthService[37m: AuthService) {}
+         Γò╡                       [32m~~~~~~~~~~~[0m
+
+  This type does not have a value, so it cannot be used as injection token.
+
+    src/app/shared/components/layout/header/header.component.ts:60:35:
+[37m      60 Γöé   constructor(private authService: [32mAuthService[37m) {}
+         Γò╡                                    [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../core/services' or its corresponding type declarations.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/layout/sidebar/sidebar.component.ts:4:28:
+[37m      4 Γöé import { AuthService } from 
+[32m'../../../core/services'[37m;
+        Γò╡                             [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module 
+'../../../core/models' or its corresponding type declarations.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/layout/sidebar/sidebar.component.ts:5:21:
+[37m      5 Γöé import { User } from [32m'../../../core/models'[37m;
+        Γò╡                      [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2003: No suitable injection 
+token for parameter 'authService' of class 'SidebarComponent'.
+  Consider using the @Inject decorator to specify an injection token.[0m 
+[1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/layout/sidebar/sidebar.component.ts:88:22:
+[37m      88 Γöé   constructor(private [32mauthService[37m: AuthService) {
+         Γò╡                       [32m~~~~~~~~~~~[0m
+
+  This type does not have a value, so it cannot be used as injection token.
+
+    src/app/shared/components/layout/sidebar/sidebar.component.ts:88:35:
+[37m      88 Γöé   constructor(private authService: [32mAuthService[37m) {
+         Γò╡                                    [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/admin/payers/payers.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/admin/payers/payers.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/admin/payers/payers.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/admin/providers/providers.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/admin/providers/providers.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/admin/providers/providers.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/common/profile/profile.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/common/profile/profile.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/common/profile/profile.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/common/unauthorized/unauthorized.component.ts:4:32:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/payer/analytics/analytics.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/payer/analytics/analytics.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/payer/analytics/analytics.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/payer/review/review.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/payer/review/review.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/payer/review/review.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/provider/chat/chat.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/provider/chat/chat.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/provider/chat/chat.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"@heroicons/angular"[0m
+
+    src/app/shared/components/layout/header/header.component.ts:6:32:
+[37m      6 Γöé import { HeroiconsModule } from 
+[32m'@heroicons/angular'[37m;
+        Γò╡                                 [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  You can mark the path "@heroicons/angular" as external to exclude it from 
+the bundle, which will remove this error and leave the unresolved path in the 
+bundle.
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/admin/audit-logs/audit-logs.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/admin/payers/payers.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/admin/payers/payers.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/admin/payers/payers.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/admin/providers/providers.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/admin/providers/providers.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/admin/providers/providers.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/common/profile/profile.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/common/profile/profile.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/common/profile/profile.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/common/unauthorized/unauthorized.component.ts:4:32:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/payer/analytics/analytics.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/payer/analytics/analytics.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/payer/analytics/analytics.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/payer/review/review.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/payer/review/review.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/payer/review/review.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/provider/authorizations/authorizations.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/header/header.component"[0m
+
+    src/app/features/provider/chat/chat.component.ts:3:32:
+[37m      3 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/header/header.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/sidebar/sidebar.component"[0m
+
+    src/app/features/provider/chat/chat.component.ts:4:33:
+[37m      4 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/sidebar/sidebar[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"../../../../shared/components/layout/footer/footer.component"[0m
+
+    src/app/features/provider/chat/chat.component.ts:5:32:
+[37m      5 Γöé ...ent } from 
+[32m'../../../../shared/components/layout/footer/footer.c[37m...
+        Γò╡               
+[32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve 
+"@heroicons/angular"[0m
+
+    src/app/shared/components/layout/header/header.component.ts:6:32:
+[37m      6 Γöé import { HeroiconsModule } from 
+[32m'@heroicons/angular'[37m;
+        Γò╡                                 [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  You can mark the path "@heroicons/angular" as external to exclude it from 
+the bundle, which will remove this error and leave the unresolved path in the 
+bundle.
+
+

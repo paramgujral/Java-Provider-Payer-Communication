@@ -1,0 +1,57 @@
+﻿
+> fe-health-connector@0.0.0 build
+> ng build
+
+Γ¥» Building...
+Γ£ö Building...
+Browser bundles     
+Initial chunk files  | Names                    |  Raw size | Estimated transfer size
+chunk-AT4NP7CS.js    | -                        | 303.56 kB |                83.00 kB
+main-F7KVZYY7.js     | main                     |  68.70 kB |                15.05 kB
+styles-VH33I2NX.css  | styles                   |  22.92 kB |                 4.27 kB
+chunk-MOZLH7IZ.js    | -                        |  10.32 kB |                 2.76 kB
+chunk-OBLD37O4.js    | -                        | 247 bytes |               247 bytes
+
+                     | Initial total            | 405.76 kB |               105.32 kB
+
+Lazy chunk files     | Names                    |  Raw size | Estimated transfer size
+chunk-ZTNHVKNS.js    | unauthorized-component   |   1.22 kB |               653 bytes
+chunk-4WBAEHFH.js    | payers-component         |   1.21 kB |               592 bytes
+chunk-WYQ73GZF.js    | authorizations-component |   1.20 kB |               574 bytes
+chunk-7F62MX2C.js    | providers-component      |   1.19 kB |               579 bytes
+chunk-57GA3YUW.js    | audit-logs-component     | 890 bytes |               890 bytes
+chunk-V5C4EFOC.js    | review-component         | 862 bytes |               862 bytes
+chunk-KYM5F4AA.js    | analytics-component      | 855 bytes |               855 bytes
+chunk-ELZYNJPS.js    | profile-component        | 851 bytes |               851 bytes
+chunk-T5JTXWLX.js    | chat-component           | 829 bytes |               829 bytes
+
+
+Server bundles      
+Initial chunk files  | Names                    |  Raw size
+server.mjs           | server                   | 813.82 kB |                        
+main.server.mjs      | main.server              | 509.61 kB |                        
+chunk-I7I4XWU5.mjs   | -                        | 303.43 kB |                        
+polyfills.server.mjs | polyfills.server         | 233.65 kB |                        
+chunk-6D7O7HKP.mjs   | -                        |  10.37 kB |                        
+chunk-BBJ2OP3G.mjs   | -                        |   1.34 kB |                        
+chunk-T55IDOPT.mjs   | -                        | 976 bytes |                        
+chunk-GYHYOMT7.mjs   | -                        | 282 bytes |                        
+
+Lazy chunk files     | Names                    |  Raw size
+chunk-BP7AI3FB.mjs   | xhr2                     |  12.17 kB |                        
+chunk-N3SI5I4Q.mjs   | xhr2                     |  12.07 kB |                        
+chunk-K554K252.mjs   | unauthorized-component   |   1.29 kB |                        
+chunk-QMNY4KJF.mjs   | payers-component         |   1.28 kB |                        
+chunk-SEXERS3N.mjs   | authorizations-component |   1.26 kB |                        
+chunk-R2ED3BTG.mjs   | providers-component      |   1.25 kB |                        
+chunk-BX6QYAWL.mjs   | audit-logs-component     | 959 bytes |                        
+chunk-OY76WFIK.mjs   | review-component         | 930 bytes |                        
+chunk-MFBVGGCH.mjs   | analytics-component      | 923 bytes |                        
+chunk-4VKIP5FV.mjs   | profile-component        | 919 bytes |                        
+chunk-6GIEN63I.mjs   | chat-component           | 897 bytes |                        
+
+Prerendered 18 static routes.
+Application bundle generation complete. [8.250 seconds] - 2026-06-11T06:35:35.294Z
+
+Output location: C:\My Softwares\feuji_health_connector-main\feuji_health_connector-main\fe_health_connector\dist\fe_health_connector
+

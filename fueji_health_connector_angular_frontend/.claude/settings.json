@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/My Softwares/feuji_health_connector-main/feuji_health_connector-main/**)",
+      "PowerShell(npm list playwright @playwright/test 2>$null)",
+      "PowerShell(npx playwright --version 2>$null)",
+      "PowerShell(npx playwright install chromium 2>&1)",
+      "PowerShell(tail -3)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:8080/actuator/health\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:4200/admin/providers\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Process node -ErrorAction SilentlyContinue)",
+      "Bash(curl -s http://localhost:8080/actuator/health)",
+      "Bash(curl -s -X POST http://localhost:8080/api/auth/login -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"eswar.crypto.tech@gmail.com\\\\\",\\\\\"password\\\\\":\\\\\"Admin@123\\\\\"}\")",
+      "Bash(curl -s http://localhost:8080/api/providers -H 'Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2YTJhNGNjMDRkYzZiZjIyNzc2OTJmM2YiLCJ1c2VySWQiOiI2YTJhNGNjMDRkYzZiZjIyNzc2OTJmM2YiLCJlbWFpbCI6ImVzd2FyLmNyeXB0by50ZWNoQGdtYWlsLmNvbSIsInJvbGUiOiJTVVBFUl9BRE1JTiIsIm9yZ2FuaXphdGlvbklkIjoiODA4ZjdlNzUtMjJhMS00OWI0LTg4OGMtOWZlMTA4NzEzZWE5Iiwic2Vzc2lvbklkIjoiZTg3ZDMxZDMtNzFiYS00N2ViLWJlMzAtYjA3ZTYxYmQwNTQwIiwiaWF0IjoxNzgxMjM5OTE1LCJleHAiOjE3ODEzMjYzMTV9.NuPZ3WJJkl-WeQ338_ouLirmboGq-we7i_oUeHBkVSYGS7a-Mqopb7wz2oSjGYX1')",
+      "Bash(curl -s -X PATCH http://localhost:8080/api/providers/6a2adf818792b4109b081c13/activate -H 'Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2YTJhNGNjMDRkYzZiZjIyNzc2OTJmM2YiLCJ1c2VySWQiOiI2YTJhNGNjMDRkYzZiZjIyNzc2OTJmM2YiLCJlbWFpbCI6ImVzd2FyLmNyeXB0by50ZWNoQGdtYWlsLmNvbSIsInJvbGUiOiJTVVBFUl9BRE1JTiIsIm9yZ2FuaXphdGlvbklkIjoiODA4ZjdlNzUtMjJhMS00OWI0LTg4OGMtOWZlMTA4NzEzZWE5Iiwic2Vzc2lvbklkIjoiZTg3ZDMxZDMtNzFiYS00N2ViLWJlMzAtYjA3ZTYxYmQwNTQwIiwiaWF0IjoxNzgxMjM5OTE1LCJleHAiOjE3ODEzMjYzMTV9.NuPZ3WJJkl-WeQ338_ouLirmboGq-we7i_oUeHBkVSYGS7a-Mqopb7wz2oSjGYX1' -H 'Content-Type: application/json' -d '{}')"
+    ],
+    "additionalDirectories": [
+      "c:\\My Softwares\\feuji_health_connector-main\\feuji_health_connector-main\\healthconnector\\src\\main\\java\\com\\healthconnector\\app\\controller"
+    ]
+  }
+}
