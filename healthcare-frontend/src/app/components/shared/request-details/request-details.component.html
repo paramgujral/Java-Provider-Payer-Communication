@@ -1,0 +1,183 @@
+<div class="loading-state text-center p-8" *ngIf="loading">
+  <div class="spinner mb-2"></div>
+  <p class="text-gray-500">Loading details...</p>
+</div>
+
+<div *ngIf="!loading && request" class="details-container">
+
+  <!-- Header -->
+  <div class="d-flex justify-between align-center mb-6">
+    <div>
+      <div class="d-flex align-center gap-2 mb-2">
+        <a [routerLink]="role === 'provider' ? '/provider/dashboard' : '/payer/dashboard'" class="btn-icon">←</a>
+        <h2 class="m-0">Request Details</h2>
+        <span class="badge" [ngClass]="getBadgeClass(request.status || 'DRAFT')">{{ request.status }}</span>
+      </div>
+      <p class="text-sm text-gray-500 ml-10">ID: {{ request.id }} | Submitted: {{ request.createdAt | date:'medium' }}
+      </p>
+    </div>
+
+    <!-- Payer Actions -->
+    <div class="d-flex gap-2"
+      *ngIf="role === 'payer' && request.status !== 'APPROVED' && request.status !== 'REJECTED'">
+      <button class="btn-secondary ai-btn" (click)="runAdjudication()"
+        [disabled]="runningAdjudication || updatingStatus">
+        <span *ngIf="!runningAdjudication">✨ Run AI Adjudication</span>
+        <span *ngIf="runningAdjudication">Analyzing...</span>
+      </button>
+      <button class="btn-secondary" (click)="updateStatus('INFO_REQUESTED')" [disabled]="updatingStatus">Request
+        Info</button>
+      <button class="btn-primary danger" (click)="updateStatus('REJECTED')" [disabled]="updatingStatus">Reject</button>
+      <button class="btn-primary success" (click)="updateStatus('APPROVED')"
+        [disabled]="updatingStatus">Approve</button>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <!-- Left Column: Details -->
+    <div class="details-column">
+
+      <div class="card mb-4">
+        <h3 class="section-title">Patient Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Name</span>
+            <span class="value">{{ request.patientInfo.fullName || request.patientInfo.firstName + ' ' + request.patientInfo.lastName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Member ID</span>
+            <span class="value">{{ request.patientInfo.memberId }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">DOB</span>
+            <span class="value">{{ request.patientInfo.dateOfBirth || 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Gender</span>
+            <span class="value text-capitalize">{{ request.patientInfo.gender || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <h3 class="section-title">Clinical Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Service Type</span>
+            <span class="value text-capitalize">{{ request.serviceType }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Urgency</span>
+            <span class="value text-capitalize">{{ request.urgency }}</span>
+          </div>
+          <div class="info-item full-width">
+            <span class="label">Diagnosis Codes (ICD-10)</span>
+            <div class="code-tags">
+              <span class="code-tag" *ngFor="let code of request.diagnosisCodes">{{ code }}</span>
+            </div>
+          </div>
+          <div class="info-item full-width">
+            <span class="label">Procedure Codes (CPT)</span>
+            <div class="code-tags">
+              <span class="code-tag" *ngFor="let code of request.procedureCodes">{{ code }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4" *ngIf="request.coverageInfo?.insurancePlanId">
+        <h3 class="section-title">Coverage Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Plan ID</span>
+            <span class="value">{{ request.coverageInfo?.insurancePlanId }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Group Number</span>
+            <span class="value">{{ request.coverageInfo?.groupNumber }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Communication Notes -->
+    <div class="communication-column">
+      <div class="card notes-card">
+        <h3 class="section-title d-flex align-center gap-2">
+          <span>💬</span> Communication Notes
+        </h3>
+
+        <div class="notes-container">
+          <div class="empty-state text-center py-4"
+            *ngIf="!request.communicationNotes || request.communicationNotes.length === 0">
+            <p class="text-sm text-gray-500">No communication notes yet.</p>
+          </div>
+
+          <div class="note-bubble" *ngFor="let note of request.communicationNotes"
+            [ngClass]="{'note-self': note.authorId === userId, 'note-other': note.authorId !== userId}">
+            <div class="note-meta d-flex justify-between">
+              <span class="note-author">{{ note.authorRole }} ({{ note.authorId }})</span>
+              <span class="note-time">{{ note.timestamp | date:'short' }}</span>
+            </div>
+            <div class="note-content">{{ note.content }}</div>
+          </div>
+        </div>
+
+        <div class="note-input-container mt-4 pt-4 border-t">
+          <form (ngSubmit)="addNote()" class="d-flex gap-2">
+            <input type="text" class="form-control" [(ngModel)]="newNoteContent" name="newNote"
+              placeholder="Type a message..."
+              [disabled]="request.status === 'APPROVED' || request.status === 'REJECTED'">
+            <button type="submit" class="btn-primary"
+              [disabled]="!newNoteContent.trim() || request.status === 'APPROVED' || request.status === 'REJECTED'">Send</button>
+          </form>
+          <p class="text-xs text-gray-400 mt-2" *ngIf="request.status === 'APPROVED' || request.status === 'REJECTED'">
+            Communication is disabled for closed requests.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI Adjudication Modal -->
+<div class="modal-overlay" *ngIf="showAiModal">
+  <div class="modal-content copilot-modal">
+    <div class="modal-header d-flex justify-between align-center">
+      <div class="d-flex align-center gap-2">
+        <span class="text-2xl">✨</span>
+        <h3 class="m-0 text-primary-700">AI Adjudication Review</h3>
+      </div>
+      <button class="btn-icon" (click)="showAiModal = false">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="alert mb-4" [ngClass]="aiAdjudication?.requiresCorrection ? 'alert-warning' : 'alert-success'">
+        <strong *ngIf="aiAdjudication?.requiresCorrection">⚠️ Recommendation: Reject or Request Info</strong>
+        <strong *ngIf="!aiAdjudication?.requiresCorrection">✅ Recommendation: Approve</strong>
+        <p class="mb-0 mt-1">The AI has analyzed the clinical necessity and potential fraud risks.</p>
+      </div>
+
+      <div class="suggestions-list mb-6">
+        <div class="suggestion-item" *ngFor="let suggestion of aiAdjudication?.suggestions">
+          <span class="bullet">•</span>
+          <p>{{ suggestion }}</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-gray-500 mb-0">AI Confidence Score: {{ (aiAdjudication?.confidenceScore || 0) * 100 |
+        number:'1.0-0' }}%</p>
+    </div>
+
+    <div class="modal-footer d-flex justify-between align-center">
+      <button class="btn-secondary" (click)="showAiModal = false">Close</button>
+      <div class="d-flex gap-2">
+        <button class="btn-primary danger" *ngIf="aiAdjudication?.requiresCorrection"
+          (click)="updateStatus('REJECTED'); showAiModal = false;">Reject Request</button>
+        <button class="btn-primary success" *ngIf="!aiAdjudication?.requiresCorrection"
+          (click)="updateStatus('APPROVED'); showAiModal = false;">Approve Request</button>
+      </div>
+    </div>
+  </div>
+</div>

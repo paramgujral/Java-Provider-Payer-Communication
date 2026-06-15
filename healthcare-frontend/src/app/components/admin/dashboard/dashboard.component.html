@@ -1,0 +1,192 @@
+<div class="dashboard-header d-flex justify-between align-center mb-6">
+  <div>
+    <h2>Platform Administration</h2>
+    <p class="text-gray-500">Manage user access and roles across the platform.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn-primary btn-sm" (click)="openRegisterModal()">
+      <span>+</span> Register User
+    </button>
+    <button class="btn-secondary btn-sm" (click)="loadUsers()">
+      <span>↻</span> Refresh
+    </button>
+  </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="kpi-grid mb-6">
+  <div class="kpi-card">
+    <div class="kpi-title d-flex justify-between">Total Users <span>👥</span></div>
+    <div class="kpi-value mt-2">{{ totalUsers }}</div>
+  </div>
+  <div class="kpi-card border-primary">
+    <div class="kpi-title d-flex justify-between text-primary-600">Active Providers <span>🏥</span></div>
+    <div class="kpi-value text-primary-600 mt-2">{{ activeProviders }}</div>
+  </div>
+  <div class="kpi-card border-success">
+    <div class="kpi-title d-flex justify-between text-success-600">Active Payers <span>🛡️</span></div>
+    <div class="kpi-value text-success-600 mt-2">{{ activePayers }}</div>
+  </div>
+  <div class="kpi-card border-danger">
+    <div class="kpi-title d-flex justify-between text-danger-600">Inactive Accounts <span>⚠️</span></div>
+    <div class="kpi-value text-danger-600 mt-2">{{ inactiveUsers }}</div>
+  </div>
+</div>
+
+<div class="card mb-6 table-card">
+  <div class="card-header d-flex justify-between align-center mb-4">
+    <h3 class="m-0">User Directory</h3>
+    <div class="d-flex gap-4 align-center">
+      <div class="search-box">
+        <input type="text" placeholder="Search users..." [(ngModel)]="searchQuery" (input)="applyFilters()"
+          class="form-control form-control-sm"
+          style="border-radius: 99px; padding: 0.375rem 1rem; border: 1px solid var(--gray-200); outline: none;">
+      </div>
+      <div class="filters d-flex gap-2">
+        <button class="btn-pill" [class.active]="currentFilter === 'All'" (click)="setFilter('All')">All</button>
+        <button class="btn-pill" [class.active]="currentFilter === 'Providers'"
+          (click)="setFilter('Providers')">Providers</button>
+        <button class="btn-pill" [class.active]="currentFilter === 'Payers'"
+          (click)="setFilter('Payers')">Payers</button>
+        <button class="btn-pill" [class.active]="currentFilter === 'Inactive'"
+          (click)="setFilter('Inactive')">Inactive</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container" *ngIf="!loading && filteredUsers.length > 0">
+    <table class="data-table enterprise-table">
+      <thead>
+        <tr>
+          <th>USER INFO</th>
+          <th>ORGANIZATION ID</th>
+          <th>ROLE</th>
+          <th>STATUS</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers">
+          <td>
+            <div class="user-cell d-flex align-center gap-2">
+              <div class="avatar">{{ getInitials(user.firstName, user.lastName) }}</div>
+              <div class="user-info">
+                <div class="font-medium">{{ user.firstName }} {{ user.lastName }}</div>
+                <div class="text-xs text-gray-500">{{ user.email }}</div>
+              </div>
+            </div>
+          </td>
+          <td class="font-medium text-gray-700">{{ user.organizationId || 'N/A' }}</td>
+          <td>
+            <span class="role-pill" [ngClass]="'role-' + user.role.toLowerCase()">
+              {{ user.role }}
+            </span>
+          </td>
+          <td>
+            <span class="status-pill" [ngClass]="user.active ? 'status-active' : 'status-inactive'">
+              {{ user.active ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-sm action-btn" [ngClass]="user.active ? 'btn-danger-outline' : 'btn-success-outline'"
+              (click)="toggleUserStatus(user)">
+              {{ user.active ? 'Deactivate' : 'Activate' }}
+            </button>
+            <button class="btn-sm action-btn" style="border: 1px solid var(--gray-300); color: var(--gray-700); margin-left: 0.5rem;" (click)="viewUserProfile(user)">
+              View Profile
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state text-center p-8" *ngIf="loading">
+    <div class="spinner mb-2"></div>
+    <p class="text-gray-500">Loading users...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state text-center p-8" *ngIf="!loading && filteredUsers.length === 0">
+    <h3 class="mb-2">No users found</h3>
+    <p class="text-gray-500" *ngIf="users.length > 0">No users match your search or filter criteria.</p>
+  </div>
+</div>
+
+<!-- User Profile Modal -->
+<app-user-profile-modal 
+  [isVisible]="showProfileModal" 
+  [user]="selectedProfileData" 
+  (close)="showProfileModal = false">
+</app-user-profile-modal>
+
+<!-- Register User Modal -->
+<div class="modal-overlay" *ngIf="showRegisterModal" (click)="closeRegisterModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()" style="max-width: 600px;">
+    <div class="modal-header d-flex justify-between align-center">
+      <h3 class="m-0">Register New User</h3>
+      <button class="btn-icon" (click)="closeRegisterModal()">×</button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="alert alert-danger mb-4" *ngIf="registerError">{{ registerError }}</div>
+      <div class="alert alert-success mb-4" *ngIf="registerSuccess">{{ registerSuccess }}</div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" *ngIf="!registerSuccess">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+        <div class="form-group mb-0">
+          <label class="form-label">First Name *</label>
+          <input type="text" class="form-control" formControlName="firstName">
+          <div class="error-msg" *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid">Required</div>
+        </div>
+        <div class="form-group mb-0">
+          <label class="form-label">Last Name *</label>
+          <input type="text" class="form-control" formControlName="lastName">
+          <div class="error-msg" *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid">Required</div>
+        </div>
+      </div>
+
+      <div class="form-group mb-4">
+        <label class="form-label">Email Address *</label>
+        <input type="email" class="form-control" formControlName="email">
+        <div class="error-msg" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">Valid email required</div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+        <div class="form-group mb-0">
+          <label class="form-label">Role *</label>
+          <select class="form-control" formControlName="role">
+            <option value="PROVIDER">Provider</option>
+            <option value="PAYER">Payer</option>
+          </select>
+        </div>
+        <div class="form-group mb-0">
+          <label class="form-label">Organization ID *</label>
+          <input type="text" class="form-control" formControlName="organizationId">
+          <div class="error-msg" *ngIf="registerForm.get('organizationId')?.touched && registerForm.get('organizationId')?.invalid">Required</div>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 1rem; border-top: 1px solid var(--gray-200); padding-top: 1rem;">
+        <label class="form-label font-medium mb-2 d-block">Location Details (Optional)</label>
+        <input type="text" class="form-control mb-2" formControlName="addressLine1" placeholder="Address Line 1">
+        <input type="text" class="form-control mb-2" formControlName="addressLine2" placeholder="Address Line 2">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 0.5rem;">
+          <input type="text" class="form-control" formControlName="city" placeholder="City">
+          <input type="text" class="form-control" formControlName="state" placeholder="State">
+          <input type="text" class="form-control" formControlName="zipCode" placeholder="ZIP Code">
+        </div>
+      </div>
+
+      <div class="d-flex justify-end gap-2 mt-6">
+        <button type="button" class="btn-secondary" (click)="closeRegisterModal()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="registerLoading">
+          <span *ngIf="!registerLoading">Register User</span>
+          <span *ngIf="registerLoading">Registering...</span>
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

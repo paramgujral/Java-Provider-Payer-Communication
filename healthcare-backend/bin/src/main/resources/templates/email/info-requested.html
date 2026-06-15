@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f0f4f8; font-family: 'Segoe UI', Arial, sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f0f4f8; padding: 40px 0;">
+    <tr>
+        <td align="center">
+            <table width="600" cellpadding="0" cellspacing="0" style="background: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+                <!-- Header -->
+                <tr>
+                    <td style="background: linear-gradient(135deg, #d97706, #b45309); padding: 30px 40px;">
+                        <h1 style="color: #ffffff; margin: 0; font-size: 22px;">🏥 Healthcare Connector</h1>
+                        <p style="color: #fde68a; margin: 5px 0 0; font-size: 13px;">Smart Authorization Platform</p>
+                    </td>
+                </tr>
+
+                <!-- Status Badge -->
+                <tr>
+                    <td style="padding: 30px 40px 10px;">
+                        <span style="background-color: #fef3c7; color: #92400e; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;">
+                            ℹ️ MORE INFORMATION REQUIRED
+                        </span>
+                    </td>
+                </tr>
+
+                <!-- Body -->
+                <tr>
+                    <td style="padding: 20px 40px;">
+                        <h2 style="color: #1f2937; margin: 0 0 15px; font-size: 20px;" th:text="${title}">More Information Required</h2>
+                        <p style="color: #4b5563; font-size: 15px; line-height: 1.7;">
+                            The payer has reviewed your authorization request and is requesting <strong style="color: #d97706;">additional information</strong> before a decision can be made.
+                        </p>
+
+                        <!-- Details Card -->
+                        <table width="100%" cellpadding="0" cellspacing="0" style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; margin: 20px 0;">
+                            <tr>
+                                <td style="padding: 20px;">
+                                    <table width="100%" cellpadding="5" cellspacing="0">
+                                        <tr>
+                                            <td style="color: #6b7280; font-size: 13px; width: 140px;">Request ID</td>
+                                            <td style="color: #111827; font-size: 14px; font-weight: 600;" th:text="${requestId}">REQ-001</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: #6b7280; font-size: 13px;">Payer ID</td>
+                                            <td style="color: #111827; font-size: 14px; font-weight: 600;" th:text="${payerId}">PAY-202</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: #6b7280; font-size: 13px;">Patient Name</td>
+                                            <td style="color: #111827; font-size: 14px; font-weight: 600;" th:text="${patientName}">John Doe</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: #6b7280; font-size: 13px;">Status</td>
+                                            <td>
+                                                <span style="background-color: #fef3c7; color: #92400e; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 600;">INFO REQUESTED</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p style="color: #4b5563; font-size: 14px; line-height: 1.6;" th:text="${message}">Please provide the requested information.</p>
+
+                        <!-- Action Required Box -->
+                        <table width="100%" cellpadding="0" cellspacing="0" style="background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 4px; margin: 20px 0;">
+                            <tr>
+                                <td style="padding: 15px 20px;">
+                                    <p style="color: #1e40af; font-size: 13px; margin: 0;">
+                                        <strong>📋 Action Required:</strong> Please log in to the Healthcare Connector Portal, update the missing information, and resubmit for review.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- CTA Button -->
+                        <table cellpadding="0" cellspacing="0" style="margin: 25px 0;">
+                            <tr>
+                                <td style="background: linear-gradient(135deg, #d97706, #b45309); border-radius: 8px; padding: 14px 32px;">
+                                    <a href="#" style="color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600;">Update Request →</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td style="background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 40px;">
+                        <p style="color: #9ca3af; font-size: 12px; margin: 0; line-height: 1.6;">
+                            This is an automated notification from the Smart Healthcare Connector Platform.<br/>
+                            Please do not reply to this email.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

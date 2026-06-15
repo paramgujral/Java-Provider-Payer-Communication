@@ -1,0 +1,137 @@
+<div class="dashboard-header mb-6 d-flex justify-between align-center">
+  <div>
+    <h2>Payer Network</h2>
+    <p class="text-gray-500">Manage your affiliations and communicate with connected Payers.</p>
+  </div>
+  
+  <div class="header-actions d-flex align-center gap-4">
+    <div class="header-search-local" *ngIf="activeTab === 'directory'">
+      <input type="text" placeholder="Search Payers by Name or ID..." class="form-control search-input" [(ngModel)]="searchQuery" style="width: 280px; border-radius: 99px;">
+    </div>
+    <div class="filter-tabs d-flex gap-2">
+      <button class="filter-pill" [class.active]="activeTab === 'directory'" (click)="setTab('directory')">Directory</button>
+      <button class="filter-pill" [class.active]="activeTab === 'messages'" (click)="setTab('messages')">Messages</button>
+    </div>
+  </div>
+</div>
+
+<div class="card p-6" *ngIf="activeTab === 'directory'">
+  <div class="table-container">
+    <table class="data-table enterprise-table">
+      <thead>
+        <tr>
+          <th>PAYER NAME</th>
+          <th>ORGANIZATION ID</th>
+          <th>NETWORK STATUS</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payer of filteredPayers">
+          <td class="font-medium">{{ payer.companyName }}</td>
+          <td class="text-gray-500">{{ payer.payerId }}</td>
+          <td>
+            <span class="status-pill" [ngClass]="{
+                  'status-active': payer.affiliationStatus === 'APPROVED',
+                  'status-pending': payer.affiliationStatus === 'PENDING',
+                  'status-inactive': payer.affiliationStatus === 'REJECTED',
+                  'status-neutral': payer.affiliationStatus === 'NOT_REQUESTED'
+                }">
+              {{ payer.affiliationStatus || 'NOT_REQUESTED' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-primary btn-sm" *ngIf="payer.affiliationStatus === 'NOT_REQUESTED'"
+              (click)="requestAffiliation(payer)" [disabled]="requesting === payer.payerId">
+              {{ requesting === payer.payerId ? 'Requesting...' : 'Request Affiliation' }}
+            </button>
+            <button class="btn-secondary btn-sm" *ngIf="payer.affiliationStatus === 'APPROVED'" (click)="openChat(payer)">
+              Message Payer
+            </button>
+            <span class="text-gray-500 text-sm" *ngIf="payer.affiliationStatus === 'PENDING'">
+              Awaiting Approval
+            </span>
+            <span class="text-success-600 text-sm font-medium" *ngIf="payer.affiliationStatus === 'APPROVED'">
+              In-Network
+            </span>
+            <span class="text-danger-600 text-sm" *ngIf="payer.affiliationStatus === 'REJECTED'">
+              Request Rejected
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="filteredPayers.length === 0 && !loading">
+          <td colspan="4" class="text-center p-8 text-gray-500">
+            No payers match your search.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Messages Tab -->
+<div class="messages-container card" *ngIf="activeTab === 'messages'">
+  <div class="messages-layout">
+    <!-- Sidebar: Connected Payers -->
+    <div class="messages-sidebar border-r">
+      <div class="p-4 border-b">
+        <h3 class="m-0 text-sm text-gray-500 uppercase tracking-wider font-semibold">Connected Payers</h3>
+      </div>
+      <div class="contact-list">
+        <ng-container *ngFor="let payer of payers">
+          <div class="contact-item" *ngIf="payer.affiliationStatus === 'APPROVED'"
+               [class.active]="selectedChatPayer?.payerId === payer.payerId"
+               (click)="selectedChatPayer = payer">
+            <div class="avatar bg-primary-100 text-primary-700">{{ payer.companyName.charAt(0) }}</div>
+            <div class="contact-info">
+              <div class="font-medium">{{ payer.companyName }}</div>
+              <div class="text-xs text-gray-500">Connected</div>
+            </div>
+          </div>
+        </ng-container>
+        <!-- Empty State if no connected payers -->
+        <div class="p-6 text-center text-gray-500 text-sm" *ngIf="approvedPayers.length === 0">
+          No active connections yet. Request affiliation in the Directory tab to start messaging.
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Chat Area -->
+    <div class="messages-main">
+      <ng-container *ngIf="selectedChatPayer">
+        <div class="chat-header p-4 border-b d-flex align-center gap-3">
+          <div class="avatar bg-primary-100 text-primary-700">{{ selectedChatPayer.companyName.charAt(0) }}</div>
+          <div>
+            <h3 class="m-0 font-medium">{{ selectedChatPayer.companyName }}</h3>
+            <span class="text-xs text-success-600">Active Connection</span>
+          </div>
+        </div>
+        
+        <div class="chat-history p-6">
+          <div class="text-center text-gray-400 text-sm mb-6">
+            This is the start of your encrypted communication history with {{ selectedChatPayer.companyName }}.
+          </div>
+          <div class="message-group clearfix">
+            <div *ngFor="let msg of currentChatMessages" class="message-bubble" [ngClass]="msg.senderId === providerId ? 'msg-self' : 'msg-other'">
+              <div class="msg-content">{{ msg.content }}</div>
+              <div class="msg-time">{{ msg.createdAt | date:'shortTime' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-input-area p-4 border-t">
+          <div class="input-wrapper d-flex gap-2">
+            <input type="text" class="form-control flex-grow" placeholder="Type a message to the payer..." [(ngModel)]="chatMessage" (keyup.enter)="sendMessage()">
+            <button class="btn-primary" (click)="sendMessage()" [disabled]="!chatMessage.trim()">Send</button>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="empty-chat-state d-flex flex-column align-center justify-center p-8 text-center h-100" *ngIf="!selectedChatPayer">
+        <div class="empty-icon mb-4 text-4xl">💬</div>
+        <h3 class="font-medium mb-2">Select a Payer</h3>
+        <p class="text-gray-500 text-sm max-w-md mx-auto">Choose an approved payer from the list on the left to start a general communication thread regarding contracts, rates, or network updates.</p>
+      </div>
+    </div>
+  </div>
+</div>

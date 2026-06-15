@@ -1,0 +1,157 @@
+<div class="layout-wrapper">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon bg-primary-600">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <h2>HealthConnect</h2>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Provider Menu -->
+      <ng-container *ngIf="currentRole === 'provider'">
+        <a routerLink="/provider/dashboard" routerLinkActive="active" class="nav-item">
+          <span class="icon">📊</span>
+          Dashboard
+        </a>
+        <a routerLink="/provider/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <span class="icon">📁</span>
+          Requests
+        </a>
+        <a routerLink="/provider/requests/new" routerLinkActive="active" class="nav-item">
+          <span class="icon">✍️</span>
+          New Request
+        </a>
+        <a routerLink="/provider/network" routerLinkActive="active" class="nav-item">
+          <span class="icon">🤝</span>
+          Network
+        </a>
+        <a *ngIf="isOrgAdmin" routerLink="/provider/staff" routerLinkActive="active" class="nav-item">
+          <span class="icon">👥</span>
+          Staff Management
+        </a>
+      </ng-container>
+
+      <!-- Payer Menu -->
+      <ng-container *ngIf="currentRole === 'payer'">
+        <a routerLink="/payer/dashboard" routerLinkActive="active" class="nav-item">
+          <span class="icon">📊</span>
+          Dashboard
+        </a>
+        <a routerLink="/payer/requests" routerLinkActive="active" class="nav-item">
+          <span class="icon">📥</span>
+          Review Queue
+        </a>
+        <a routerLink="/payer/credentialing" routerLinkActive="active" class="nav-item">
+          <span class="icon">📋</span>
+          Provider Network
+        </a>
+        <a *ngIf="isOrgAdmin" routerLink="/payer/staff" routerLinkActive="active" class="nav-item">
+          <span class="icon">👥</span>
+          Staff Management
+        </a>
+      </ng-container>
+
+      <!-- Admin Menu -->
+      <ng-container *ngIf="currentRole === 'admin'">
+        <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
+          <span class="icon">🛡️</span>
+          User Management
+        </a>
+      </ng-container>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info profile-dropdown-wrapper">
+        <div class="sidebar-avatar">{{ getAvatarInitials() }}</div>
+        <div class="details">
+          <span class="name">{{ userName }}</span>
+          <span class="role">{{ currentRole | titlecase }}</span>
+        </div>
+        <span class="sidebar-chevron">▾</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <header class="top-header">
+      <!-- Page Title -->
+      <div class="header-title">
+        <h3 class="m-0 text-gray-800" style="font-weight: 600;">{{ pageTitle }}</h3>
+      </div>
+      <div class="header-actions">
+        <!-- Notification Dropdown -->
+        <div class="notification-wrapper">
+          <button class="btn-icon notification-btn" (click)="toggleNotifications()">
+            <span>🔔</span>
+            <span class="badge-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+          </button>
+
+          <div class="notification-dropdown" *ngIf="showNotifications">
+            <div class="dropdown-header d-flex justify-between align-center">
+              <h4 class="m-0">Notifications</h4>
+              <button class="btn-text" (click)="markAllAsRead()" *ngIf="unreadCount > 0">Mark all read</button>
+            </div>
+
+            <div class="dropdown-body">
+              <div class="empty-state text-center py-4" *ngIf="notifications.length === 0">
+                <p class="text-gray-500 text-sm m-0">No notifications yet.</p>
+              </div>
+
+              <div class="notification-item" *ngFor="let notif of notifications" [ngClass]="{'unread': !notif.read}"
+                [routerLink]="[currentRole + '/requests', notif.authorizationRequestId]"
+                (click)="showNotifications = false">
+                <div class="notif-content">
+                  <h5 class="notif-title">{{ notif.title }}</h5>
+                  <p class="notif-msg">{{ notif.message }}</p>
+                  <span class="notif-time">{{ notif.createdAt | date:'short' }}</span>
+                </div>
+                <button class="btn-icon-small" title="Mark as read" *ngIf="!notif.read"
+                  (click)="markAsRead(notif, $event)">✓</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Avatar Dropdown -->
+        <div class="profile-dropdown-wrapper">
+          <button class="profile-avatar-btn" (click)="toggleProfileDropdown()" id="profile-avatar-btn">
+            <div class="header-avatar">{{ getAvatarInitials() }}</div>
+            <span class="avatar-chevron" [class.open]="showProfileDropdown">▾</span>
+          </button>
+
+          <div class="profile-dropdown" *ngIf="showProfileDropdown" id="profile-dropdown-menu">
+            <button class="profile-dropdown-item" (click)="openProfile(); showProfileDropdown = false">
+              <span class="dropdown-item-icon">👤</span>
+              Profile
+            </button>
+            <button class="profile-dropdown-item" (click)="showProfileDropdown = false">
+              <span class="dropdown-item-icon">⚙️</span>
+              Account Settings
+            </button>
+            <div class="profile-dropdown-divider"></div>
+            <button class="profile-dropdown-item logout-item" (click)="logout()">
+              <span class="dropdown-item-icon">🚪</span>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <!-- User Profile Modal -->
+  <app-user-profile-modal 
+    [isVisible]="showProfileModal" 
+    [user]="profileData" 
+    (close)="showProfileModal = false">
+  </app-user-profile-modal>
+</div>

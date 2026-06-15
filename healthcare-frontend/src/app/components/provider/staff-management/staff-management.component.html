@@ -1,0 +1,112 @@
+<div class="content-header">
+  <div class="header-left">
+    <h1 class="page-title">Organization Staff</h1>
+    <p class="page-subtitle">Manage users who have access to your organization's dashboard.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-primary" (click)="openAddModal()">
+      <span class="icon">+</span> Add Staff Member
+    </button>
+  </div>
+</div>
+
+<div class="alert alert-success" *ngIf="successMessage">
+  {{ successMessage }}
+</div>
+
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="!isLoading && staffMembers.length > 0">
+          <tr *ngFor="let member of staffMembers">
+            <td>
+              <div class="d-flex align-center gap-3">
+                <div class="avatar-circle">
+                  {{ member.firstName.charAt(0) }}{{ member.lastName.charAt(0) }}
+                </div>
+                <div class="fw-medium">{{ member.firstName }} {{ member.lastName }}</div>
+              </div>
+            </td>
+            <td class="text-gray-600">{{ member.email }}</td>
+            <td>
+              <span class="badge" [ngClass]="{'badge-purple': member.role === 'PROVIDER', 'badge-blue': member.role === 'PAYER'}">
+                {{ member.role }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="member.active ? 'badge-success' : 'badge-gray'">
+                {{ member.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-outline-secondary btn-sm" (click)="toggleStatus(member)">
+                {{ member.active ? 'Deactivate' : 'Activate' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="isLoading">
+          <tr>
+            <td colspan="5" class="text-center py-5 text-gray-500">Loading staff members...</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="!isLoading && staffMembers.length === 0">
+          <tr>
+            <td colspan="5" class="text-center py-5 text-gray-500">
+              No staff members found. Add one to get started.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Add Staff Modal -->
+<div class="modal-overlay" *ngIf="showAddModal" (click)="closeAddModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3 class="m-0">Add New Staff Member</h3>
+      <button class="btn-icon" (click)="closeAddModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="text-gray-600 text-sm mb-4">
+        Enter the details of the new staff member. They will receive an email with instructions to set their password.
+      </p>
+
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="form-row mb-3">
+        <div class="form-group flex-1">
+          <label>First Name</label>
+          <input type="text" class="form-control" [(ngModel)]="newStaff.firstName" placeholder="Jane">
+        </div>
+        <div class="form-group flex-1">
+          <label>Last Name</label>
+          <input type="text" class="form-control" [(ngModel)]="newStaff.lastName" placeholder="Doe">
+        </div>
+      </div>
+
+      <div class="form-group mb-4">
+        <label>Email Address</label>
+        <input type="email" class="form-control" [(ngModel)]="newStaff.email" placeholder="jane.doe@organization.com">
+      </div>
+    </div>
+    <div class="modal-footer flex justify-end gap-3">
+      <button class="btn btn-outline-secondary" (click)="closeAddModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="addStaff()">Send Invite</button>
+    </div>
+  </div>
+</div>

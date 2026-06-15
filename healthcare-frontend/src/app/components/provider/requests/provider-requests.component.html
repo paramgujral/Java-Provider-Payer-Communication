@@ -1,0 +1,86 @@
+<div class="page-header d-flex justify-between align-center mb-6">
+  <div>
+    <h2>All Requests</h2>
+    <p class="text-gray-500">View and manage all your prior authorization requests.</p>
+  </div>
+  <div class="header-search-local">
+    <input type="text" placeholder="Search by ID, Name, Member ID, or Service..." class="form-control search-input" [(ngModel)]="searchQuery" (input)="applyFilter()" style="width: 320px; border-radius: 99px;">
+  </div>
+</div>
+
+<div class="card mb-6 requests-card">
+  <div class="card-toolbar d-flex justify-between align-center mb-4">
+    <a routerLink="/provider/requests/new" class="btn-primary btn-new-request" id="new-request-btn">
+      <span class="icon">+</span> New Request
+    </a>
+    <div class="filter-tabs d-flex gap-2">
+      <button class="filter-pill" [class.active]="currentFilter === 'All'" (click)="setFilter('All')" id="filter-all">All</button>
+      <button class="filter-pill" [class.active]="currentFilter === 'Pending'" (click)="setFilter('Pending')" id="filter-pending">Pending</button>
+      <button class="filter-pill" [class.active]="currentFilter === 'Approved'" (click)="setFilter('Approved')" id="filter-approved">Approved</button>
+      <button class="filter-pill" [class.active]="currentFilter === 'Rejected'" (click)="setFilter('Rejected')" id="filter-rejected">Rejected</button>
+    </div>
+  </div>
+
+  <div class="table-container" *ngIf="!loading && filteredRequests.length > 0">
+    <table class="data-table requests-table">
+      <thead>
+        <tr>
+          <th>REQUEST ID</th>
+          <th>PATIENT NAME</th>
+          <th>SERVICE TYPE</th>
+          <th>DATE SUBMITTED</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let req of filteredRequests" class="request-row" [routerLink]="['/provider/requests', req.id]">
+          <td class="font-medium text-primary-600 request-id">{{ req.id | slice:0:8 }}...</td>
+          <td class="patient-name">{{ req.patientInfo.fullName || req.patientInfo.firstName + ' ' + req.patientInfo.lastName }}</td>
+          <td class="text-capitalize service-type">{{ req.serviceType || 'N/A' }}</td>
+          <td class="date-cell">{{ req.createdAt | date:'M/dd/yy' }}</td>
+          <td>
+            <span class="badge" [ngClass]="getBadgeClass(req.status || 'DRAFT')">
+              {{ formatStatus(req.status) }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state text-center p-8" *ngIf="loading">
+    <div class="spinner mb-2"></div>
+    <p class="text-gray-500">Loading your requests...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state text-center p-8" *ngIf="!loading && filteredRequests.length === 0">
+    <div class="empty-icon text-4xl mb-4">📝</div>
+    <h3 class="mb-2">No requests found</h3>
+    <p class="text-gray-500 mb-4" *ngIf="requests.length > 0">No requests match your current filter.</p>
+    <p class="text-gray-500 mb-4" *ngIf="requests.length === 0">You haven't submitted any authorization requests yet.</p>
+    <a routerLink="/provider/requests/new" class="btn-primary" *ngIf="requests.length === 0">Create Your First Request</a>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination-bar d-flex justify-between align-center" *ngIf="!loading && totalPages > 0">
+    <div class="pagination-nav d-flex align-center gap-2">
+      <button class="pagination-btn" [disabled]="currentPage === 0" (click)="loadRequests(currentPage - 1)">
+        ‹ Previous
+      </button>
+      <div class="page-numbers d-flex gap-2">
+        <button *ngFor="let page of getPageNumbers()" class="page-num" 
+          [class.active]="page === currentPage" (click)="loadRequests(page)">
+          {{ page + 1 }}
+        </button>
+      </div>
+      <button class="pagination-btn" [disabled]="currentPage >= totalPages - 1" (click)="loadRequests(currentPage + 1)">
+        Next ›
+      </button>
+    </div>
+    <span class="pagination-info text-sm text-gray-500">
+      Showing {{ currentPage * pageSize + 1 }}-{{ Math.min((currentPage + 1) * pageSize, totalElements) }} of {{ totalElements }} [Total Requests]
+    </span>
+  </div>
+</div>

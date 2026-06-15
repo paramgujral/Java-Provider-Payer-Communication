@@ -1,0 +1,90 @@
+<div class="dashboard-header d-flex justify-between align-center mb-6">
+  <div>
+    <h2>Provider Dashboard</h2>
+    <p class="text-gray-500">Overview of your prior authorization activity.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a routerLink="/provider/requests/new" class="btn-primary" id="dashboard-new-request">
+      <span class="icon">+</span> New Request
+    </a>
+  </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="kpi-grid mb-6" *ngIf="analytics">
+  <div class="kpi-card">
+    <div class="kpi-header d-flex justify-between align-center">
+      <span class="kpi-title">Total Requests</span>
+      <span class="kpi-icon kpi-icon-primary">📋</span>
+    </div>
+    <div class="kpi-value text-primary-600">{{ analytics.totalRequests }}</div>
+    <div class="kpi-footer text-xs text-gray-500 mt-2">All time submissions</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-header d-flex justify-between align-center">
+      <span class="kpi-title">Pending</span>
+      <span class="kpi-icon kpi-icon-warning">⏳</span>
+    </div>
+    <div class="kpi-value text-warning-600">{{ analytics.pendingRequests }}</div>
+    <div class="kpi-footer text-xs text-gray-500 mt-2">Awaiting review</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-header d-flex justify-between align-center">
+      <span class="kpi-title">Approved</span>
+      <span class="kpi-icon kpi-icon-success">✅</span>
+    </div>
+    <div class="kpi-value text-success-600">{{ analytics.approvedRequests }}</div>
+    <div class="kpi-footer text-xs text-gray-500 mt-2">Successfully processed</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-header d-flex justify-between align-center">
+      <span class="kpi-title">Approval Rate</span>
+      <span class="kpi-icon" [ngClass]="analytics.approvalRate > 0.8 ? 'kpi-icon-success' : 'kpi-icon-danger'">📊</span>
+    </div>
+    <div class="kpi-value" [ngClass]="analytics.approvalRate > 0.8 ? 'text-success-600' : 'text-danger-600'">
+      {{ analytics.approvalRate * 100 | number:'1.0-0' }}%
+    </div>
+    <div class="kpi-footer text-xs text-gray-500 mt-2">Overall success rate</div>
+  </div>
+</div>
+
+<!-- Charts & Recent Requests Grid -->
+<div class="dashboard-grid mb-6">
+  <!-- Status Breakdown Chart -->
+  <div class="card chart-card" *ngIf="analytics">
+    <h3 class="card-title mb-4">Status Breakdown</h3>
+    <div class="chart-container">
+      <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions">
+      </canvas>
+    </div>
+  </div>
+
+  <!-- Recent Requests -->
+  <div class="card recent-card">
+    <div class="card-title-bar d-flex justify-between align-center mb-4">
+      <h3 class="card-title m-0">Recent Requests</h3>
+      <a routerLink="/provider/requests" class="view-all-link">View All →</a>
+    </div>
+    
+    <div class="recent-list" *ngIf="!loading && requests.length > 0">
+      <div class="recent-item" *ngFor="let req of requests | slice:0:5" [routerLink]="['/provider/requests', req.id]">
+        <div class="recent-item-info">
+          <div class="recent-patient font-medium">{{ req.patientInfo.fullName || req.patientInfo.firstName + ' ' + req.patientInfo.lastName }}</div>
+          <div class="recent-meta text-xs text-gray-500">{{ req.serviceType || 'N/A' }} · {{ req.createdAt | date:'M/dd/yy' }}</div>
+        </div>
+        <span class="badge" [ngClass]="getBadgeClass(req.status || 'DRAFT')">
+          {{ req.status }}
+        </span>
+      </div>
+    </div>
+
+    <div class="loading-state text-center p-8" *ngIf="loading">
+      <div class="spinner mb-2"></div>
+      <p class="text-gray-500 text-sm">Loading...</p>
+    </div>
+
+    <div class="empty-state text-center p-8" *ngIf="!loading && requests.length === 0">
+      <p class="text-gray-500 text-sm">No recent requests.</p>
+    </div>
+  </div>
+</div>

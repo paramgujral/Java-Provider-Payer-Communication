@@ -1,0 +1,295 @@
+.text-gray-500 {
+  color: var(--gray-500);
+}
+
+.text-primary-600 {
+  color: var(--primary-600);
+}
+
+.text-danger-600 {
+  color: var(--danger-600);
+}
+
+.text-warning-600 {
+  color: var(--warning-600);
+}
+
+.request-row {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.request-row:hover {
+  background-color: var(--gray-50) !important;
+}
+
+.request-row td {
+  transition: padding 0.2s ease;
+}
+
+.request-row:hover td:first-child {
+  padding-left: 1.75rem; /* Slight indent on hover to feel active */
+}
+
+.request-id {
+  font-family: 'SFMono-Regular', 'Menlo', monospace;
+  font-size: 0.8125rem;
+  letter-spacing: -0.01em;
+  color: var(--primary-600);
+  font-weight: 500;
+}
+
+.patient-name {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.service-type {
+  color: var(--gray-600);
+}
+
+.date-cell {
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+}
+
+.actions-cell {
+  text-align: right;
+}
+
+.row-chevron {
+  font-size: 1.5rem;
+  color: var(--gray-300);
+  font-weight: 300;
+  transition: all 0.2s ease;
+  display: inline-block;
+  opacity: 0; /* Hide by default to reduce clutter */
+  transform: translateX(-10px);
+}
+
+.request-row:hover .row-chevron {
+  color: var(--primary-500);
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+}
+
+.p-8 {
+  padding: 2rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.border-t {
+  border-top: 1px solid var(--gray-200);
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--gray-200);
+  border-radius: 50%;
+  border-top-color: var(--primary-600);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Table Redesign */
+.filter-pill {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px; /* Fully rounded pill */
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-pill:hover {
+  background-color: var(--gray-100);
+  color: var(--gray-800);
+}
+
+.filter-pill.active {
+  background-color: white;
+  color: var(--primary-700);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background-color: var(--gray-50);
+  padding: 0.25rem;
+  border-radius: 9999px;
+  border: 1px solid var(--gray-200);
+}
+
+.table-card {
+  padding: 1.5rem;
+}
+
+.btn-pill {
+  background: transparent;
+  border: none;
+  color: var(--gray-500);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.375rem 0.75rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-pill:hover {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.btn-pill.active {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+.enterprise-table th {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gray-100);
+  background: transparent;
+}
+
+.enterprise-table td {
+  padding: 1rem 1.5rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--gray-50);
+}
+
+.enterprise-table tbody tr:hover {
+  background-color: var(--gray-50);
+}
+
+/* Avatars */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e7ff;
+  color: #4338ca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+/* Urgency Pills */
+.urgency-pill {
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  text-transform: capitalize;
+}
+
+.urgency-emergency {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.urgency-urgent {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.urgency-routine {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* Mini Progress */
+.mini-progress-track {
+  height: 4px;
+  background: var(--gray-100);
+  border-radius: 2px;
+  width: 60px;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.bg-green {
+  background: #10b981;
+}
+
+.bg-orange {
+  background: #f59e0b;
+}
+
+/* Status Pills */
+.status-pill {
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-pending {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.badge-info-requested {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.badge-approved {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.action-btn {
+  border-radius: 99px;
+  font-size: 0.75rem;
+  padding: 0.375rem 1rem;
+}

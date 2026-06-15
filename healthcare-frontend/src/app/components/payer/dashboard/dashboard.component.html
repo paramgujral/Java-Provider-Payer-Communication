@@ -1,0 +1,62 @@
+<div class="dashboard-header d-flex justify-between align-center mb-6">
+  <div>
+    <h2>Payer Review Queue</h2>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn-secondary btn-sm" (click)="refresh()">
+      <span>↻</span> Refresh
+    </button>
+    <button class="btn-primary btn-sm">
+      <span>↓</span> Export Report
+    </button>
+  </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="kpi-grid mb-6" *ngIf="analytics">
+  <div class="kpi-card">
+    <div class="kpi-title d-flex justify-between">Total Inbox <span>🗂️</span></div>
+    <div class="d-flex align-end gap-2 mt-2">
+      <div class="kpi-value">{{ analytics.totalRequestsReceived }}</div>
+      <div class="kpi-trend text-success-600 font-medium text-sm mb-1">↗ 5%</div>
+    </div>
+  </div>
+  <div class="kpi-card border-warning">
+    <div class="kpi-title d-flex justify-between text-warning-600">Pending Reviews <span>⏱️</span></div>
+    <div class="kpi-value text-warning-600 mt-2">{{ analytics.requestsPendingReview }}</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-title d-flex justify-between">Avg AI Confidence <span>🤖</span></div>
+    <div class="d-flex align-end gap-2 mt-2">
+      <div class="kpi-value">{{ analytics.averageAiConfidence * 100 | number:'1.0-0' }}%</div>
+    </div>
+    <div class="progress-track mt-3">
+      <div class="progress-fill bg-primary-500" [style.width.%]="analytics.averageAiConfidence * 100"></div>
+    </div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-title d-flex justify-between">Avg Turnaround Time <span>⚡</span></div>
+    <div class="d-flex align-end gap-1 mt-2">
+      <div class="kpi-value">{{ analytics.averageTurnaroundTimeHours | number:'1.1-1' }}</div>
+      <div class="text-gray-500 font-medium mb-1">h</div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts Section -->
+<div class="charts-grid mb-6" *ngIf="analytics">
+  <div class="card chart-card">
+    <h3 class="mb-4">Workload Distribution</h3>
+    <div class="chart-container">
+      <canvas baseChart [data]="doughnutChartData" [type]="doughnutChartType" [options]="doughnutChartOptions">
+      </canvas>
+    </div>
+  </div>
+  <div class="card chart-card">
+    <h3 class="mb-4">Queue Urgency</h3>
+    <div class="chart-container">
+      <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions">
+      </canvas>
+    </div>
+  </div>
+</div>

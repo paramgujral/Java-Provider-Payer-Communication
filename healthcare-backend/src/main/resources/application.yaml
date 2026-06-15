@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: Healthcare-project
+  mvc:
+    async:
+      request-timeout: 60000
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/healthcare_db
+      auto-index-creation: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bajrang121bharathkumar@gmail.com
+    password:
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+server:
+  port: 8080
+
+gemini:
+  api:
+    key: "AQ.Ab8RN6KDJnAYDIwXVQ8m3R52LMN-1CvHjYubjKZWLYHNLKoNUg"
+    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"

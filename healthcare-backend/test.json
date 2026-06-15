@@ -1,0 +1,11 @@
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "Act as a medical billing expert. Review the following healthcare authorization request JSON. Check for missing CPT procedure codes, incompatible diagnosis, and missing required patient data. Provide your response STRICTLY as a raw JSON object with no markdown formatting. Format required: {\"confidenceScore\": 0.9, \"requiresCorrection\": false, \"suggestions\": [\"string\"]}. Request Data: {\"providerId\":\"PROV-1\",\"payerId\":\"PAY-101\",\"patientInfo\":{\"firstName\":\"Bharath\",\"lastName\":\"Kumar\",\"memberId\":\"MEM-123\",\"dob\":\"2000-01-01\"},\"serviceType\":\"Outpatient\",\"urgency\":\"Routine\",\"diagnosisCodes\":[{\"code\":\"R51.9\",\"description\":\"Headache\"}],\"procedureCodes\":[{\"code\":\"99213\",\"description\":\"Office visit\"}],\"clinicalNotes\":\"Patient has headache\"}"
+        }
+      ]
+    }
+  ]
+}

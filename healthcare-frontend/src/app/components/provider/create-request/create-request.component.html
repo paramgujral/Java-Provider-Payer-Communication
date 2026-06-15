@@ -1,0 +1,182 @@
+<div class="mb-6">
+  <div class="d-flex justify-between align-center mb-2">
+    <h2>Create Authorization Request</h2>
+    <a routerLink="/provider/dashboard" class="btn-secondary btn-sm">Cancel</a>
+  </div>
+  <p class="text-gray-500">Fill out the patient and clinical details. The AI Copilot will review this before submission.
+  </p>
+</div>
+
+<div class="card" (click)="hideDropdowns()">
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+    <!-- Patient Info Section -->
+    <h3 class="section-title">Patient Information</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">First Name *</label>
+        <input type="text" class="form-control" formControlName="firstName" placeholder="John">
+        <div class="error-msg" *ngIf="requestForm.get('firstName')?.touched && requestForm.get('firstName')?.invalid">
+          First name is required</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name *</label>
+        <input type="text" class="form-control" formControlName="lastName" placeholder="Doe">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Member ID *</label>
+        <input type="text" class="form-control" formControlName="memberId" placeholder="MEM-12345">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date of Birth *</label>
+        <input type="date" class="form-control" formControlName="dob">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gender *</label>
+        <select class="form-control" formControlName="gender">
+          <option value="">-- Select --</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number *</label>
+        <input type="tel" class="form-control" formControlName="phone" placeholder="(555) 123-4567">
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Clinical Info Section -->
+    <h3 class="section-title">Clinical Details</h3>
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <label class="form-label">Insurance Payer *</label>
+        <select class="form-control" formControlName="targetPayer">
+          <option value="">-- Select an Insurance Company --</option>
+          <option *ngFor="let payer of payers" [value]="payer.payerId">
+            {{ payer.companyName }} ({{ payer.payerId }})
+          </option>
+        </select>
+        <div class="error-msg"
+          *ngIf="requestForm.get('targetPayer')?.touched && requestForm.get('targetPayer')?.invalid">Please select an
+          insurance payer.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Service Type *</label>
+        <select class="form-control" formControlName="serviceType">
+          <option value="Outpatient">Outpatient</option>
+          <option value="Inpatient">Inpatient</option>
+          <option value="Surgery">Surgery</option>
+          <option value="Diagnostic Imaging">Diagnostic Imaging</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Urgency *</label>
+        <select class="form-control" formControlName="urgency">
+          <option value="Routine">Routine</option>
+          <option value="Urgent">Urgent</option>
+          <option value="Emergency">Emergency</option>
+        </select>
+      </div>
+
+      <!-- Diagnosis Search -->
+      <div class="form-group full-width autocomplete-container" (click)="$event.stopPropagation()">
+        <label class="form-label">Diagnosis Codes (ICD-10) *</label>
+
+        <div class="selected-chips mb-2" *ngIf="selectedDiagnosis.length > 0">
+          <div class="chip" *ngFor="let code of selectedDiagnosis">
+            <span class="chip-label"><strong>{{ code.code }}</strong> - {{ code.description }}</span>
+            <button type="button" class="chip-close" (click)="removeDiagnosis(code.code)">✕</button>
+          </div>
+        </div>
+
+        <input type="text" class="form-control" formControlName="diagnosisSearchInput"
+          (keyup)="onDiagnosisSearch($event)" placeholder="Search diagnosis by code or description...">
+
+        <div class="autocomplete-dropdown" *ngIf="showDiagnosisDropdown">
+          <div class="autocomplete-item" *ngFor="let result of diagnosisResults" (click)="selectDiagnosis(result)">
+            <strong>{{ result.code }}</strong> - {{ result.description }}
+          </div>
+          <div class="autocomplete-item text-gray-500" *ngIf="diagnosisResults.length === 0">No matches found.</div>
+        </div>
+      </div>
+
+      <!-- Procedure Search -->
+      <div class="form-group full-width autocomplete-container mt-2" (click)="$event.stopPropagation()">
+        <label class="form-label">Procedure Codes (CPT) *</label>
+
+        <div class="selected-chips mb-2" *ngIf="selectedProcedures.length > 0">
+          <div class="chip" *ngFor="let code of selectedProcedures">
+            <span class="chip-label"><strong>{{ code.code }}</strong> - {{ code.description }}</span>
+            <button type="button" class="chip-close" (click)="removeProcedure(code.code)">✕</button>
+          </div>
+        </div>
+
+        <input type="text" class="form-control" formControlName="procedureSearchInput"
+          (keyup)="onProcedureSearch($event)" placeholder="Search procedure by code or description...">
+
+        <div class="autocomplete-dropdown" *ngIf="showProcedureDropdown">
+          <div class="autocomplete-item" *ngFor="let result of procedureResults" (click)="selectProcedure(result)">
+            <strong>{{ result.code }}</strong> - {{ result.description }}
+          </div>
+          <div class="autocomplete-item text-gray-500" *ngIf="procedureResults.length === 0">No matches found.</div>
+        </div>
+      </div>
+
+      <!-- Clinical Notes -->
+      <div class="form-group full-width mt-2">
+        <label class="form-label">Clinical Notes *</label>
+        <textarea class="form-control" rows="4" formControlName="clinicalNotes"
+          placeholder="Enter supporting clinical context..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-actions mt-6">
+      <button type="submit" class="btn-primary w-full"
+        [disabled]="isSubmitting || selectedDiagnosis.length === 0 || selectedProcedures.length === 0">
+        <span *ngIf="!isSubmitting">Review & Submit with AI Copilot</span>
+        <span *ngIf="isSubmitting">✨ Analyzing / Submitting...</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- AI Copilot Modal -->
+<div class="modal-overlay" *ngIf="showAiModal">
+  <div class="modal-content copilot-modal">
+    <div class="modal-header d-flex justify-between align-center">
+      <div class="d-flex align-center gap-2">
+        <span class="text-2xl">✨</span>
+        <h3 class="m-0 text-primary-700">AI Pre-Submission Review</h3>
+      </div>
+      <button class="btn-icon" (click)="showAiModal = false">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="alert alert-warning mb-4" *ngIf="aiReview?.requiresCorrection">
+        <strong>⚠️ Issues Detected:</strong> The AI has flagged potential errors in your request that may lead to a
+        rejection.
+      </div>
+      <div class="alert alert-info mb-4" *ngIf="!aiReview?.requiresCorrection">
+        <strong>💡 Suggestions:</strong> The AI found some ways to improve this request.
+      </div>
+
+      <div class="suggestions-list mb-6">
+        <div class="suggestion-item" *ngFor="let suggestion of aiReview?.suggestions">
+          <span class="bullet">•</span>
+          <p>{{ suggestion }}</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-gray-500 mb-0">AI Confidence Score: {{ (aiReview?.confidenceScore || 0) * 100 |
+        number:'1.0-0' }}%</p>
+    </div>
+
+    <div class="modal-footer d-flex justify-between align-center">
+      <button class="btn-secondary" (click)="showAiModal = false">Back to Edit</button>
+      <button class="btn-primary" (click)="confirmSubmit()">Submit Anyway</button>
+    </div>
+  </div>
+</div>
