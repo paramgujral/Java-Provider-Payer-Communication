@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:12-alpine
+    container_name: health_insurance_db
+    environment:
+      POSTGRES_DB: health_insurance_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background: #f6f8fc; }
+
+.app-card { border-radius: 14px; }
+

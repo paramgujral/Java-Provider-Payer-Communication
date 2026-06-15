@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: health_care_project
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/health_insurance_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    show-sql: false
+server:
+  port: 8080
+logging:
+  level:
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
