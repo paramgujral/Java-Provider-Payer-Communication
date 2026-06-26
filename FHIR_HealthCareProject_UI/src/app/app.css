@@ -1,0 +1,240 @@
+.app-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin-bottom: 24px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background-color: var(--primary-glow);
+  color: var(--primary);
+}
+
+.brand-logo svg {
+  width: 20px;
+  height: 20px;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.025em;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.nav-item:hover, .nav-item.active {
+  color: white;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Bell Container */
+.notification-bell-container {
+  position: relative;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  color: white;
+  background-color: var(--bg-card);
+}
+
+.bell-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.bell-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--danger);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg-primary);
+}
+
+/* Notifications Dropdown */
+.notifications-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+  z-index: 200;
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dropdown-header h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.unread-lbl {
+  font-size: 0.7rem;
+  color: var(--primary);
+  font-weight: 600;
+  background-color: var(--primary-glow);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.no-notifs {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+.notif-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.notif-item:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.notif-item.unread {
+  background-color: rgba(99, 102, 241, 0.02);
+  border-left: 2px solid var(--primary);
+}
+
+.notif-msg {
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.notif-date {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 4px;
+}
+
+/* Profile Box */
+.profile-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: 20px;
+  border-left: 1px solid var(--border-color);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.userrole {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Content Container wrapper */
+.app-main-content {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px 40px 24px;
+}
+
+.main-logged {
+  padding-top: 0;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+}

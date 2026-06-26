@@ -1,0 +1,207 @@
+<div class="form-container animate-fade-in">
+  <div class="form-layout">
+    
+    <!-- Left: Form Body -->
+    <main class="form-body glass-panel">
+      <div class="form-header border-b">
+        <h2>{{ isEditMode() ? 'Update Prior Authorization Request #' + requestId : 'New Prior Authorization Request' }}</h2>
+        <p>Assemble HL7 FHIR-compliant claim resources backed by AI intelligence.</p>
+      </div>
+
+      <form #authForm="ngForm">
+        <!-- 1. Patient & Coverage Selection -->
+        <div class="section-title">1. Patient & Insurance Information</div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="patient">Select Patient</label>
+            <select 
+              id="patient" 
+              name="patientId" 
+              class="form-control" 
+              [(ngModel)]="form.patientId" 
+              (change)="onPatientChange()"
+              required>
+              <option [ngValue]="null" disabled>Choose a patient...</option>
+              <option *ngFor="let p of patients()" [ngValue]="p.id">
+                {{ p.firstName }} {{ p.lastName }} (FHIR ID: {{ p.fhirId }})
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="coverage">Insurance Coverage Profile</label>
+            <select 
+              id="coverage" 
+              name="coverageId" 
+              class="form-control" 
+              [(ngModel)]="form.coverageId"
+              required>
+              <option [ngValue]="null" disabled>Choose coverage profile...</option>
+              <option *ngFor="let cov of coverages()" [ngValue]="cov.id">
+                {{ cov.payerName }} (Sub ID: {{ cov.subscriberId }})
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 2. Clinical Codes -->
+        <div class="section-title">2. Diagnosis & Procedure Codes</div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="diagCode">Diagnosis ICD-10 Code</label>
+            <input 
+              type="text" 
+              id="diagCode" 
+              name="diagnosisCode" 
+              class="form-control" 
+              placeholder="e.g. M17.11 or I25.10"
+              [(ngModel)]="form.diagnosisCode" 
+              (ngModelChange)="onCodeInput()"
+              required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="diagDesc">Diagnosis Description</label>
+            <input 
+              type="text" 
+              id="diagDesc" 
+              name="diagnosisDescription" 
+              class="form-control" 
+              placeholder="e.g. Osteoarthritis, right knee"
+              [(ngModel)]="form.diagnosisDescription" 
+              required>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="treatCode">Treatment CPT Procedure Code</label>
+            <input 
+              type="text" 
+              id="treatCode" 
+              name="treatmentCode" 
+              class="form-control" 
+              placeholder="e.g. 27447 or 93458"
+              [(ngModel)]="form.treatmentCode" 
+              (ngModelChange)="onCodeInput()"
+              required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="treatDesc">Procedure Description</label>
+            <input 
+              type="text" 
+              id="treatDesc" 
+              name="treatmentDescription" 
+              class="form-control" 
+              placeholder="e.g. Total knee replacement"
+              [(ngModel)]="form.treatmentDescription" 
+              required>
+          </div>
+        </div>
+
+        <!-- 3. Notes -->
+        <div class="section-title">3. Clinical Rationale & Notes</div>
+        <div class="form-group">
+          <label class="form-label" for="notes">Physician Clinical Notes</label>
+          <textarea 
+            id="notes" 
+            name="notes" 
+            class="form-control text-area" 
+            rows="4" 
+            placeholder="Describe patient status, history of conservative treatments, and clinical logic..."
+            [(ngModel)]="form.notes"
+            (ngModelChange)="onNotesInput()">
+          </textarea>
+        </div>
+
+        <!-- 4. Mock Documents -->
+        <div class="section-title">4. Clinical Attachments</div>
+        <div class="upload-box">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="upload-icon">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <p>Drag and drop supporting clinical documentation here, or click to browse</p>
+          <span class="upload-subtext">Supported formats: PDF, XML (FHIR), JPG, DICOM (Max 15MB)</span>
+        </div>
+
+        <!-- Actions Footer -->
+        <div class="form-actions border-t">
+          <button type="button" class="btn btn-secondary" [disabled]="submitting()" routerLink="/dashboard">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-secondary" [disabled]="submitting() || authForm.invalid" (click)="saveDraft()">
+            Save Draft
+          </button>
+          <button type="button" class="btn btn-success" [disabled]="submitting() || authForm.invalid" (click)="submitRequest()">
+            Submit to Payer
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <!-- Right: AI Copilot Panel -->
+    <aside class="ai-panel glass-panel">
+      <div class="ai-header">
+        <div class="ai-title">
+          <div class="pulse-icon"></div>
+          <h3>AI Copilot Suggestions</h3>
+        </div>
+        <button class="btn btn-primary text-xs" (click)="runAiReview()" [disabled]="reviewing() || !form.patientId">
+          {{ reviewing() ? 'Analyzing...' : 'Run Review' }}
+        </button>
+      </div>
+
+      <div *ngIf="!aiResult()" class="ai-empty">
+        <p>Please enter authorization details and click <strong>"Run Review"</strong> to get AI Copilot feedback and validation metrics.</p>
+      </div>
+
+      <div *ngIf="aiResult()" class="ai-content">
+        <!-- Score Gauge -->
+        <div class="gauge-card">
+          <div class="score-display">
+            <span class="score-num" [class]="getScoreColor(aiResult()?.confidenceScore || 0)">
+              {{ aiResult()?.confidenceScore }}%
+            </span>
+            <span class="score-label">AI Review Score</span>
+          </div>
+          <div class="gauge-bar-bg">
+            <div class="gauge-bar-fill" [style.width.%]="aiResult()?.confidenceScore" [class]="getScoreBg(aiResult()?.confidenceScore || 0)"></div>
+          </div>
+        </div>
+
+        <!-- Critical validation warnings -->
+        <div class="issues-card" *ngIf="aiResult()?.issues?.length">
+          <h4>Validation Alerts ({{ aiResult()?.issues?.length }})</h4>
+          <ul class="issues-list">
+            <li *ngFor="let issue of aiResult()?.issues">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="issue-icon" [class.warn]="issue.startsWith('Warning')" [class.crit]="issue.startsWith('Critical')">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span>{{ issue }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Recommendations list -->
+        <div class="recs-card" *ngIf="aiResult()?.recommendations?.length">
+          <h4>Copilot Recommendations</h4>
+          <ul class="recs-list">
+            <li *ngFor="let rec of aiResult()?.recommendations">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="rec-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{{ rec }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fhir-badge-footer">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="fhir-svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>HL7 FHIR R4 Format Compliant</span>
+        </div>
+      </div>
+    </aside>
+    
+  </div>
+</div>

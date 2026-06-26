@@ -1,0 +1,29 @@
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Frontend specific
+FHIR_HealthCareProject_UI/node_modules/
+FHIR_HealthCareProject_UI/dist/
+FHIR_HealthCareProject_UI/tmp/
+FHIR_HealthCareProject_UI/out-tsc/
+FHIR_HealthCareProject_UI/.angular/
+
+# Backend specific
+FHIR_HealthCareProject_Backend_Services/target/
+FHIR_HealthCareProject_Backend_Services/.settings/
+FHIR_HealthCareProject_Backend_Services/.classpath
+FHIR_HealthCareProject_Backend_Services/.project
+FHIR_HealthCareProject_Backend_Services/*.iml
+FHIR_HealthCareProject_Backend_Services/*.ipr
+FHIR_HealthCareProject_Backend_Services/*.iws
+
+# Log files
+*.log

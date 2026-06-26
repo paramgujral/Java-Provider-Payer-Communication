@@ -1,0 +1,113 @@
+<div class="dashboard-container animate-fade-in">
+  <header class="dashboard-header glass-panel">
+    <div>
+      <h2>Welcome back, {{ auth.currentUser()?.name }}</h2>
+      <p class="role-desc">Role: <span class="role-highlight">{{ auth.currentUser()?.role === 'ROLE_PROVIDER' ? 'Healthcare Provider' : 'Insurance Payer / Reviewer' }}</span></p>
+    </div>
+    <div class="actions">
+      <a *ngIf="auth.userRole() === 'ROLE_PROVIDER'" routerLink="/request/new" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px;">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Create Auth Request
+      </a>
+    </div>
+  </header>
+
+  <!-- Stats Grid -->
+  <section class="stats-grid">
+    <div class="stat-card glass-panel">
+      <span class="stat-title">Submitted / Pending</span>
+      <span class="stat-value text-info">{{ getCount('SUBMITTED') + getCount('UNDER_REVIEW') }}</span>
+    </div>
+    <div class="stat-card glass-panel">
+      <span class="stat-title">Approved Requests</span>
+      <span class="stat-value text-success">{{ getCount('APPROVED') }}</span>
+    </div>
+    <div class="stat-card glass-panel">
+      <span class="stat-title">Information Required</span>
+      <span class="stat-value text-warning">{{ getCount('INFO_REQUIRED') }}</span>
+    </div>
+    <div class="stat-card glass-panel">
+      <span class="stat-title">Average AI Confidence</span>
+      <span class="stat-value text-primary">{{ avgConfidence() }}%</span>
+    </div>
+  </section>
+
+  <!-- Table Section -->
+  <section class="table-section glass-panel">
+    <div class="table-header">
+      <h3>Recent Authorization Request Queue</h3>
+      <button class="btn btn-secondary text-xs" (click)="loadRequests()">
+        Refresh Table
+      </button>
+    </div>
+
+    <div *ngIf="loading()" class="loading-state">
+      Loading requests...
+    </div>
+
+    <div *ngIf="!loading() && requests().length === 0" class="empty-state">
+      No authorization requests found.
+    </div>
+
+    <div *ngIf="!loading() && requests().length > 0" class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Request ID</th>
+            <th>Patient Name</th>
+            <th>Insurance / Payer</th>
+            <th>Diagnosis (ICD-10)</th>
+            <th>Treatment (CPT)</th>
+            <th>AI Score</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let req of requests()">
+            <td>#{{ req.id }}</td>
+            <td>
+              <div class="patient-name">{{ req.patient.firstName }} {{ req.patient.lastName }}</div>
+              <div class="patient-details">FHIR ID: {{ req.patient.fhirId }}</div>
+            </td>
+            <td>
+              <div>{{ req.coverage.payerName }}</div>
+              <div class="patient-details">Sub ID: {{ req.coverage.subscriberId }}</div>
+            </td>
+            <td>
+              <span class="code-badge">{{ req.diagnosisCode }}</span>
+            </td>
+            <td>
+              <span class="code-badge">{{ req.treatmentCode }}</span>
+            </td>
+            <td>
+              <div class="ai-score-cell">
+                <span [class]="getScoreClass(req.confidenceScore || 0)">{{ req.confidenceScore }}%</span>
+              </div>
+            </td>
+            <td>
+              <span [class]="'badge badge-' + getBadgeClass(req.status)">
+                {{ getStatusLabel(req.status) }}
+              </span>
+            </td>
+            <td>
+              <div class="row-actions">
+                <button class="btn btn-secondary text-xs" (click)="viewDetails(req.id)">
+                  View Details
+                </button>
+                <button 
+                  *ngIf="auth.userRole() === 'ROLE_PROVIDER' && (req.status === 'DRAFT' || req.status === 'INFO_REQUIRED')"
+                  class="btn btn-primary text-xs" 
+                  (click)="editRequest(req.id)">
+                  Edit
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
