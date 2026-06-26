@@ -1,0 +1,97 @@
+/* ─── Smart Healthcare Connector Design Tokens ──── */
+
+:root {
+  /* Colors – Surface */
+  --bg: #f0f4f8;
+  --surface: #ffffff;
+  --surface2: #f7fafc;
+
+  /* Colors – Border */
+  --border: #e2e8f0;
+  --border-strong: #cbd5e0;
+
+  /* Colors – Text */
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+
+  /* Colors – Accent (Blue) */
+  --accent: #2b6cb0;
+  --accent-light: #ebf4ff;
+  --accent-mid: #bee3f8;
+
+  /* Colors – Green */
+  --green: #276749;
+  --green-bg: #f0fff4;
+  --green-border: #9ae6b4;
+
+  /* Colors – Red */
+  --red: #9b2335;
+  --red-bg: #fff5f5;
+  --red-border: #feb2b2;
+
+  /* Colors – Yellow */
+  --yellow: #744210;
+  --yellow-bg: #fffff0;
+  --yellow-border: #faf089;
+
+  /* Colors – Purple */
+  --purple: #553c9a;
+  --purple-bg: #faf5ff;
+  --purple-border: #d6bcfa;
+
+  /* Colors – Orange (info request) */
+  --orange: #7b341e;
+  --orange-bg: #fff8f0;
+  --orange-border: #feebc8;
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13.5px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 22px;
+  --text-2xl: 26px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+
+  /* Border Radius */
+  --radius-sm: 5px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Layout */
+  --sidebar-width: 240px;
+  --topbar-height: 56px;
+
+  /* Animation */
+  --transition-fast: 0.12s ease;
+  --transition-base: 0.15s ease;
+  --transition-slow: 0.25s ease;
+  --transition-bar: 0.8s ease;
+
+  /* Z-index layers */
+  --z-sidebar: 100;
+  --z-topbar: 50;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
