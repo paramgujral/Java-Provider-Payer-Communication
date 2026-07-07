@@ -1,0 +1,8 @@
+{
+  "users": [
+    { "username": "provider1", "password": "provider123", "role": "provider", "name": "Dr. Sarah Chen", "org": "Riverside Clinic" },
+    { "username": "payer1", "password": "payer123", "role": "payer", "name": "Alex Morgan", "org": "UnitedHealth Payer Ops" }
+  ],
+  "requests": [],
+  "notifications": []
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smart Healthcare Connector</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= LOGIN VIEW ================= -->
+  <div id="login-view" class="view centered">
+    <div class="card login-card">
+      <h1>🏥 Smart Healthcare Connector</h1>
+      <p class="subtitle">AI + FHIR-powered Provider ⇄ Payer authorization workflow</p>
+
+      <form id="login-form">
+        <label>Username</label>
+        <input type="text" id="login-username" placeholder="e.g. provider1" required />
+
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" required />
+
+        <button type="submit">Log In</button>
+      </form>
+      <p id="login-error" class="error"></p>
+
+      <div class="demo-hint">
+        <strong>Demo accounts</strong>
+        <div>Provider: <code>provider1</code> / <code>provider123</code></div>
+        <div>Payer: <code>payer1</code> / <code>payer123</code></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= APP SHELL ================= -->
+  <div id="app-view" class="view hidden">
+    <header class="topbar">
+      <div class="brand">🏥 Healthcare Connector</div>
+      <div class="topbar-right">
+        <span id="user-badge"></span>
+        <button id="notif-btn" class="icon-btn">🔔 <span id="notif-count" class="badge hidden">0</span></button>
+        <button id="logout-btn" class="secondary-btn">Log Out</button>
+      </div>
+    </header>
+
+    <!-- Notifications dropdown -->
+    <div id="notif-panel" class="notif-panel hidden">
+      <div class="notif-panel-header">Notifications</div>
+      <div id="notif-list"></div>
+    </div>
+
+    <!-- ---------- PROVIDER DASHBOARD ---------- -->
+    <main id="provider-dashboard" class="dashboard hidden">
+      <section class="card">
+        <h2>New Authorization Request</h2>
+        <form id="request-form">
+          <div class="grid-2">
+            <div>
+              <label>Patient Name</label>
+              <input type="text" id="f-patientName" required />
+            </div>
+            <div>
+              <label>Date of Birth</label>
+              <input type="date" id="f-dob" required />
+            </div>
+            <div>
+              <label>Procedure Code (CPT)</label>
+              <input type="text" id="f-procedureCode" placeholder="e.g. 99213" required />
+            </div>
+            <div>
+              <label>Diagnosis Code (ICD-10)</label>
+              <input type="text" id="f-diagnosisCode" placeholder="e.g. E11.9" required />
+            </div>
+            <div>
+              <label>Requesting Provider/Org</label>
+              <input type="text" id="f-provider" value="Riverside Clinic" required />
+            </div>
+            <div>
+              <label>Target Payer</label>
+              <select id="f-payer" required>
+                <option value="UnitedHealth Payer Ops" data-username="payer1">UnitedHealth Payer Ops</option>
+              </select>
+            </div>
+            <div>
+              <label>Urgency</label>
+              <select id="f-urgency">
+                <option>Routine</option>
+                <option>Urgent</option>
+              </select>
+            </div>
+          </div>
+          <label>Clinical Notes</label>
+          <textarea id="f-notes" rows="3" placeholder="Clinical justification / context..."></textarea>
+
+          <div class="btn-row">
+            <button type="button" id="validate-btn" class="secondary-btn">🤖 Run AI Copilot Review</button>
+            <button type="submit" id="submit-btn" disabled>Submit to Payer</button>
+          </div>
+        </form>
+
+        <div id="ai-review-box" class="ai-review hidden"></div>
+      </section>
+
+      <section class="card">
+        <h2>My Requests</h2>
+        <div id="provider-requests" class="request-list"></div>
+      </section>
+    </main>
+
+    <!-- ---------- PAYER DASHBOARD ---------- -->
+    <main id="payer-dashboard" class="dashboard hidden">
+      <section class="card">
+        <h2>Incoming Authorization Requests</h2>
+        <div class="tabs">
+          <button class="tab-btn active" data-status="Pending">Pending</button>
+          <button class="tab-btn" data-status="Accepted">Accepted</button>
+          <button class="tab-btn" data-status="Rejected">Rejected</button>
+          <button class="tab-btn" data-status="All">All</button>
+        </div>
+        <div id="payer-requests" class="request-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Decision modal (Accept/Reject) -->
+  <div id="decision-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <h3 id="decision-title">Decision</h3>
+      <label>Reason / Note (optional)</label>
+      <textarea id="decision-reason" rows="3"></textarea>
+      <div class="btn-row">
+        <button id="decision-cancel" class="secondary-btn">Cancel</button>
+        <button id="decision-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
