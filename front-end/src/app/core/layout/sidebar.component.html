@@ -1,0 +1,237 @@
+<!-- Mobile sidebar -->
+<div class="md:hidden">
+  <div class="mobile-sidebar fixed top-0 bottom-0 left-0 w-56 z-50 sidebar-shell
+              transform -translate-x-full transition-transform duration-200">
+
+    <div class="sidebar-brand">
+      <div class="brand-icon-wrap">
+        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+          <path d="M9 1.5L15 5.25V9.75C15 12.825 12.315 15.645 9 16.5C5.685 15.645 3 12.825 3 9.75V5.25L9 1.5Z"
+                fill="white" fill-opacity="0.95"/>
+          <path d="M6.75 9h4.5M9 6.75v4.5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="brand-name">Connector</span>
+    </div>
+
+    <div class="sidebar-section-label">
+      <svg class="h-3 w-3 opacity-50" fill="currentColor" viewBox="0 0 8 8">
+        <rect width="3" height="3" rx="0.5"/><rect x="5" width="3" height="3" rx="0.5"/>
+        <rect y="5" width="3" height="3" rx="0.5"/><rect x="5" y="5" width="3" height="3" rx="0.5"/>
+      </svg>
+      <span *ngIf="role === 'PAYER'">Payer Portal</span>
+      <span *ngIf="role === 'PROVIDER'">Provider Portal</span>
+      <span *ngIf="role === 'ADMIN'">Admin Portal</span>
+      <span *ngIf="role === 'MANAGER'">Manager Portal</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a *ngIf="role === 'ADMIN' || role === 'PAYER' || role === 'MANAGER'"
+         routerLink="/dashboard" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a *ngIf="role === 'PAYER'"
+         routerLink="/payer/queue" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/>
+        </svg>
+        <span>Review Queue</span>
+      </a>
+
+      <a *ngIf="role === 'PAYER'"
+         routerLink="/payer/status" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+        </svg>
+        <span>Status Board</span>
+      </a>
+
+      <a *ngIf="role === 'ADMIN' || role === 'PROVIDER'"
+         routerLink="/provider" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/>
+        </svg>
+        <span>Provider Requests</span>
+      </a>
+
+      <a *ngIf="role === 'ADMIN' || role === 'PAYER'"
+         routerLink="/payer" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+        </svg>
+        <span>Payer Review</span>
+      </a>
+
+      <div class="nav-divider"></div>
+
+      <a *ngIf="role === 'PAYER'"
+         routerLink="/payer/reports" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/>
+        </svg>
+        <span>Reports</span>
+      </a>
+
+      <a routerLink="/notifications" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
+        </svg>
+        <span>Notifications</span>
+      </a>
+
+      <a *ngIf="role === 'ADMIN'"
+         routerLink="/admin" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span>Admin</span>
+      </a>
+
+      <a routerLink="/profile" routerLinkActive="nav-active"
+         (click)="closeSidebar()" class="nav-item">
+        <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+        </svg>
+        <span>My Profile</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>
+      <span class="footer-version">v0.1.0</span>
+    </div>
+  </div>
+
+  <div class="overlay fixed inset-0 bg-black/50 z-40 hidden" (click)="closeSidebar()"></div>
+</div>
+
+<!-- Desktop sidebar -->
+<aside class="sidebar-shell sidebar-desktop hidden md:flex flex-col h-screen sticky top-0">
+
+  <div class="sidebar-brand">
+    <div class="brand-icon-wrap">
+      <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+        <path d="M9 1.5L15 5.25V9.75C15 12.825 12.315 15.645 9 16.5C5.685 15.645 3 12.825 3 9.75V5.25L9 1.5Z"
+              fill="white" fill-opacity="0.95"/>
+        <path d="M6.75 9h4.5M9 6.75v4.5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="brand-name">Connector</span>
+  </div>
+
+  <div class="sidebar-section-label">
+    <svg class="h-3 w-3 opacity-50" fill="currentColor" viewBox="0 0 8 8">
+      <rect width="3" height="3" rx="0.5"/><rect x="5" width="3" height="3" rx="0.5"/>
+      <rect y="5" width="3" height="3" rx="0.5"/><rect x="5" y="5" width="3" height="3" rx="0.5"/>
+    </svg>
+    <span *ngIf="role === 'PAYER'">Payer Portal</span>
+    <span *ngIf="role === 'PROVIDER'">Provider Portal</span>
+    <span *ngIf="role === 'ADMIN'">Admin Portal</span>
+    <span *ngIf="role === 'MANAGER'">Manager Portal</span>
+  </div>
+
+  <nav class="sidebar-nav flex-1 overflow-y-auto">
+
+    <a *ngIf="role === 'ADMIN' || role === 'PAYER' || role === 'MANAGER'"
+       routerLink="/dashboard" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/>
+      </svg>
+      <span>Dashboard</span>
+    </a>
+
+    <!-- <a *ngIf="role === 'PAYER'"
+       routerLink="/payer/queue" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/>
+      </svg>
+      <span>Review Queue</span>
+    </a> -->
+
+    <!-- <a *ngIf="role === 'PAYER'"
+       routerLink="/payer/status" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+      </svg>
+      <span>Status Board</span>
+    </a> -->
+
+    <a *ngIf="role === 'ADMIN' || role === 'PROVIDER'"
+       routerLink="/provider" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/>
+      </svg>
+      <span>Provider Requests</span>
+    </a>
+
+    <a *ngIf="role === 'ADMIN' || role === 'PAYER'"
+       routerLink="/payer" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+      </svg>
+      <span>Payer Review</span>
+    </a>
+
+    <div class="nav-divider"></div>
+
+    <!-- <a *ngIf="role === 'PAYER'"
+       routerLink="/payer/reports" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/>
+      </svg>
+      <span>Reports</span>
+    </a> -->
+<!--
+    <a routerLink="/notifications" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
+      </svg>
+      <span>Notifications</span>
+    </a>-->
+
+    <a *ngIf="role === 'ADMIN'"
+       routerLink="/admin" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      <span>Admin</span>
+    </a>
+
+    <!-- <a routerLink="/profile" routerLinkActive="nav-active" class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+      </svg>
+      <span>My Profile</span>
+    </a> -->
+
+  </nav>
+
+  <div class="sidebar-footer">
+    <span class="status-dot"></span>
+    <span class="footer-version">v0.1.0</span>
+  </div>
+
+</aside>

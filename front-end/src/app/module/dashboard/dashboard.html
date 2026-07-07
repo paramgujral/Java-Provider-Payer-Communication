@@ -1,0 +1,221 @@
+<div class="min-h-screen bg-gray-50 p-6">
+
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
+    <p class="text-gray-500 text-sm mt-1">Authorization request analytics overview</p>
+  </div>
+
+  @if (loading) {
+    <div class="flex items-center justify-center py-20">
+      <div class="text-gray-400 text-sm">Loading dashboard...</div>
+    </div>
+  }
+
+  @if (!loading && stats) {
+
+    <!-- Summary cards -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Total</p>
+        <p class="text-2xl font-bold text-gray-800 mt-1">{{ stats.totalRequests }}</p>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+        <p class="text-xs text-yellow-500 font-medium uppercase tracking-wide">Submitted</p>
+        <p class="text-2xl font-bold text-yellow-600 mt-1">{{ stats.submitted }}</p>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+        <p class="text-xs text-blue-500 font-medium uppercase tracking-wide">Under Review</p>
+        <p class="text-2xl font-bold text-blue-600 mt-1">{{ stats.underReview }}</p>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+        <p class="text-xs text-emerald-500 font-medium uppercase tracking-wide">Approved</p>
+        <p class="text-2xl font-bold text-emerald-600 mt-1">{{ stats.approved }}</p>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+        <p class="text-xs text-red-500 font-medium uppercase tracking-wide">Rejected</p>
+        <p class="text-2xl font-bold text-red-600 mt-1">{{ stats.rejected }}</p>
+      </div>
+    </div>
+
+    <!-- Main charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        @if (isPieEmpty()) {
+          <div class="flex items-center justify-center h-96 text-gray-400 text-sm">No data</div>
+        } @else {
+          <highcharts-chart [options]="pieChartOptions"
+            style="width:100%;height:380px;display:block;"></highcharts-chart>
+        }
+      </div>
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        @if (isBarEmpty()) {
+          <div class="flex items-center justify-center h-96 text-gray-400 text-sm">No data</div>
+        } @else {
+          <highcharts-chart [options]="barChartOptions"
+            style="width:100%;height:380px;display:block;"></highcharts-chart>
+        }
+      </div>
+    </div>
+
+    <!-- ── ADMIN ONLY ─────────────────────────────── -->
+    @if (role === 'ADMIN') {
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+
+        <!-- Provider animated donut -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <highcharts-chart [options]="providerChartOptions"
+            style="width:100%;height:380px;display:block;"></highcharts-chart>
+
+          <!-- Provider selector dots -->
+          @if (stats.providerSummary.length > 1) {
+            <div class="flex items-center justify-center gap-2 mt-3">
+              @for (p of stats.providerSummary; track p.email; let i = $index) {
+                <button (click)="goToProvider(i)"
+                  class="w-2 h-2 rounded-full transition-all"
+                  [class.bg-indigo-500]="currentProviderIndex === i"
+                  [class.bg-gray-300]="currentProviderIndex !== i">
+                </button>
+              }
+            </div>
+            <p class="text-center text-xs text-gray-400 mt-1">
+              Auto-cycles · click to jump
+            </p>
+          }
+        </div>
+
+        <!-- Payer column chart -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <highcharts-chart [options]="payerChartOptions"
+            style="width:100%;height:380px;display:block;"></highcharts-chart>
+        </div>
+
+      </div>
+
+      <!-- Provider table -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-semibold text-gray-800">Provider Request Summary</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Total requests submitted by each provider</p>
+          </div>
+          <span class="text-xs text-gray-400">{{ stats.providerSummary.length }} providers</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+              <tr>
+                <th class="px-5 py-3">Provider</th>
+                <th class="px-5 py-3">Email</th>
+                <th class="px-5 py-3 text-center">Total</th>
+                <th class="px-5 py-3 text-center">Approved</th>
+                <th class="px-5 py-3 text-center">Rejected</th>
+                <th class="px-5 py-3 text-center">Pending</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              @for (p of stats.providerSummary; track p.email) {
+                <tr class="hover:bg-gray-50">
+                  <td class="px-5 py-3">
+                    <div class="flex items-center gap-2.5">
+                      <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700
+                                  flex items-center justify-center text-xs font-semibold shrink-0">
+                        {{ p.providerName.charAt(0).toUpperCase() }}
+                      </div>
+                      <span class="font-medium text-gray-800">{{ p.providerName }}</span>
+                    </div>
+                  </td>
+                  <td class="px-5 py-3 text-gray-500 text-xs">{{ p.email }}</td>
+                  <td class="px-5 py-3 text-center font-semibold text-gray-800">{{ p.totalSubmitted }}</td>
+                  <td class="px-5 py-3 text-center">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
+                      {{ p.approved }}
+                    </span>
+                  </td>
+                  <td class="px-5 py-3 text-center">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                      {{ p.rejected }}
+                    </span>
+                  </td>
+                  <td class="px-5 py-3 text-center">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+                      {{ p.pending }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Payer table -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-semibold text-gray-800">Payer Review Summary</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Total requests reviewed by each payer</p>
+          </div>
+          <span class="text-xs text-gray-400">{{ stats.payerSummary.length }} payers</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
+              <tr>
+                <th class="px-5 py-3">Payer</th>
+                <th class="px-5 py-3">Email</th>
+                <th class="px-5 py-3 text-center">Total Reviewed</th>
+                <th class="px-5 py-3 text-center">Approved</th>
+                <th class="px-5 py-3 text-center">Rejected</th>
+                <th class="px-5 py-3 text-center">Approval Rate</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              @for (p of stats.payerSummary; track p.email) {
+                <tr class="hover:bg-gray-50">
+                  <td class="px-5 py-3">
+                    <div class="flex items-center gap-2.5">
+                      <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700
+                                  flex items-center justify-center text-xs font-semibold shrink-0">
+                        {{ p.payerName.charAt(0).toUpperCase() }}
+                      </div>
+                      <span class="font-medium text-gray-800">{{ p.payerName }}</span>
+                    </div>
+                  </td>
+                  <td class="px-5 py-3 text-gray-500 text-xs">{{ p.email }}</td>
+                  <td class="px-5 py-3 text-center font-semibold text-gray-800">{{ p.totalReviewed }}</td>
+                  <td class="px-5 py-3 text-center">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
+                      {{ p.approved }}
+                    </span>
+                  </td>
+                  <td class="px-5 py-3 text-center">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                      {{ p.rejected }}
+                    </span>
+                  </td>
+                  <td class="px-5 py-3 text-center">
+                    @if (p.totalReviewed > 0) {
+                      <div class="flex items-center justify-center gap-2">
+                        <div class="w-16 bg-gray-100 rounded-full h-1.5">
+                          <div class="bg-emerald-500 h-1.5 rounded-full"
+                               [style.width.%]="(p.approved / p.totalReviewed) * 100"></div>
+                        </div>
+                        <span class="text-xs text-gray-600">
+                          {{ ((p.approved / p.totalReviewed) * 100).toFixed(0) }}%
+                        </span>
+                      </div>
+                    } @else {
+                      <span class="text-xs text-gray-400">—</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    } <!-- end admin -->
+  }
+</div>
