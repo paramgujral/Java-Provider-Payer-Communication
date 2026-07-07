@@ -1,0 +1,17 @@
+# Build output
+target/
+frontend/dist/
+frontend/node_modules/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS / misc
+.DS_Store
+*.log
+
