@@ -1,0 +1,48 @@
+<div style="max-width: 900px; margin: 40px auto;">
+  <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 16px;">
+    <h2>Payer Dashboard</h2>
+    <button class="btn secondary" (click)="logout()">Logout</button>
+  </div>
+
+  <div class="card" style="margin-bottom: 20px;" *ngIf="notifications.length">
+    <h3>Notifications</h3>
+    <ul>
+      <li *ngFor="let n of notifications">{{ n.message }} <span style="color:#9ca3af; font-size:12px;">({{ n.createdAt }})</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Incoming Authorization Requests</h3>
+    <p *ngIf="loading">Loading...</p>
+    <p *ngIf="!loading && !requests.length">No requests yet.</p>
+
+    <table *ngIf="requests.length" style="width:100%; border-collapse: collapse;">
+      <thead>
+        <tr style="text-align:left; border-bottom: 1px solid #e5e7eb;">
+          <th style="padding:8px;">Patient</th>
+          <th style="padding:8px;">Diagnosis</th>
+          <th style="padding:8px;">Procedure</th>
+          <th style="padding:8px;">Status</th>
+          <th style="padding:8px;">Decision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of requests" style="border-bottom: 1px solid #f3f4f6;">
+          <td style="padding:8px;">{{ r.patientName }}</td>
+          <td style="padding:8px;">{{ r.diagnosisCode }} - {{ r.diagnosisDescription }}</td>
+          <td style="padding:8px;">{{ r.requestedProcedure }}</td>
+          <td style="padding:8px;" [ngClass]="statusClass(r.status)">{{ r.status }}</td>
+          <td style="padding:8px;">
+            <ng-container *ngIf="r.status === 'SUBMITTED' || r.status === 'PENDING_REVIEW'">
+              <input placeholder="Notes" [(ngModel)]="notesDraft[r.id!]" style="width:120px; margin-bottom:6px;">
+              <br>
+              <button class="btn" style="padding:4px 10px; font-size:12px;" (click)="decide(r, 'APPROVED')">Accept</button>
+              <button class="btn secondary" style="padding:4px 10px; font-size:12px;" (click)="decide(r, 'REJECTED')">Reject</button>
+            </ng-container>
+            <span *ngIf="r.status === 'APPROVED' || r.status === 'REJECTED'">{{ r.payerNotes }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

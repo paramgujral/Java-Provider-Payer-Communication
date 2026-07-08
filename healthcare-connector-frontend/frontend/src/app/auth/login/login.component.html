@@ -1,0 +1,23 @@
+<div style="max-width: 380px; margin: 80px auto;">
+  <div class="card">
+    <h2>Healthcare Connector</h2>
+    <p style="color:#6b7280; font-size: 14px;">Sign in as a Provider or Payer.</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label>Username</label>
+        <input type="text" [(ngModel)]="username" name="username" placeholder="e.g. provider1 or payer1">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="password" name="password">
+      </div>
+
+      <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button class="btn" type="submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Login' }}
+      </button>
+    </form>
+  </div>
+</div>
