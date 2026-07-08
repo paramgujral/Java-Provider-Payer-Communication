@@ -1,0 +1,64 @@
+<div class="container mt-4">
+
+  <h2>Providers</h2>
+
+  <p>Total Providers: {{ providers.length }}</p>
+
+  <hr>
+
+<button
+ class="btn btn-primary mb-3"
+ routerLink="/create-provider">
+Add Provider </button>
+
+  <table class="table table-bordered table-striped">
+
+```
+<thead>
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Address</th>
+  </tr>
+</thead>
+
+<tbody>
+
+  <tr *ngIf="providers.length === 0">
+    <td colspan="5" class="text-center">
+      No Providers Found
+    </td>
+  </tr>
+
+  <tr *ngFor="let provider of providers">
+
+    <td>
+      {{ provider.providerCode }}
+    </td>
+
+    <td>
+      {{ provider.providerName || 'N/A' }}
+    </td>
+
+    <td>
+      {{ provider.email || 'N/A' }}
+    </td>
+
+    <td>
+      {{ provider.phoneNumber || 'N/A' }}
+    </td>
+
+    <td>
+      {{ provider.address || 'N/A' }}
+    </td>
+
+  </tr>
+
+</tbody>
+```
+
+  </table>
+
+</div>

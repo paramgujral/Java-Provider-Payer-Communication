@@ -1,0 +1,82 @@
+<div class="container mt-5">
+
+  <div class="row justify-content-center">
+
+    <div class="col-md-4">
+
+      <div class="card">
+
+        <div class="card-header">
+          <h3>Healthcare Connector Login</h3>
+        </div>
+
+        <div class="card-body">
+
+          <div class="mb-3">
+            <label>Username</label>
+
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="username">
+          </div>
+
+          <div class="mb-3">
+            <label>Password</label>
+
+            <input
+              type="password"
+              class="form-control"
+              [(ngModel)]="password">
+          </div>
+
+          <button
+            class="btn btn-primary w-100"
+            (click)="login()">
+            Login
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<div class="card mt-4 border-info">
+
+  <div class="card-header bg-info text-white">
+
+
+Demo Credentials
+
+
+  </div>
+
+  <div class="card-body">
+
+
+<p>
+  <strong>Admin</strong><br>
+  Username: admin<br>
+  Password: Admin@123
+</p>
+
+<p>
+  <strong>Provider</strong><br>
+  Username: provider<br>
+  Password: provider@123
+</p>
+
+<p>
+  <strong>Payer</strong><br>
+  Username: payer<br>
+  Password: payer@123
+</p>
+
+
+  </div>
+
+</div>

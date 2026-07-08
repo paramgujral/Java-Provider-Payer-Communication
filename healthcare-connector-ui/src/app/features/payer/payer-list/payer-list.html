@@ -1,0 +1,43 @@
+<div class="container mt-4">
+
+    <h2>Payers</h2>
+
+    <button
+        class="btn btn-primary mb-3"
+        routerLink="/create-payer">
+
+        Add Payer
+
+    </button>
+
+    <table class="table table-bordered">
+
+        <thead>
+
+        <tr>
+
+            <th>Code</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr *ngFor="let payer of payers">
+
+            <td>{{ payer.payerCode }}</td>
+            <td>{{ payer.payerName }}</td>
+            <td>{{ payer.email }}</td>
+            <td>{{ payer.phoneNumber }}</td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>

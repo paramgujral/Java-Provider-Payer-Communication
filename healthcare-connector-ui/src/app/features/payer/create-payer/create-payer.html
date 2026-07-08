@@ -1,0 +1,53 @@
+<div class="container mt-4">
+
+    <h2>Create Payer</h2>
+
+    <div class="mb-3">
+
+        <label>Payer Name</label>
+
+        <input
+            class="form-control"
+            [(ngModel)]="payer.payerName">
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Email</label>
+
+        <input
+            class="form-control"
+            [(ngModel)]="payer.email">
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Phone</label>
+
+        <input
+            class="form-control"
+            [(ngModel)]="payer.phoneNumber">
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Address</label>
+
+        <input
+            class="form-control"
+            [(ngModel)]="payer.address">
+
+    </div>
+
+    <button
+        class="btn btn-primary"
+        (click)="savePayer()">
+
+        Save
+
+    </button>
+
+</div>

@@ -1,0 +1,55 @@
+<div class="container mt-4">
+
+    <h2>Healthcare Connector Dashboard</h2>
+
+    <p>Welcome {{ username }}</p>
+
+    <hr>
+
+    <div class="d-grid gap-2">
+
+        <button
+            class="btn btn-primary"
+            routerLink="/provider-list">
+            Providers
+        </button>
+
+        <button
+            class="btn btn-success"
+            routerLink="/payer-list">
+            Payers
+        </button>
+
+        <button
+            class="btn btn-warning"
+            routerLink="/patient-list">
+            Patients
+        </button>
+
+        <button
+            class="btn btn-info"
+            routerLink="/authorization-list">
+            Authorizations
+        </button>
+
+        <button
+            class="btn btn-secondary"
+            routerLink="/notification-list">
+            Notifications
+        </button>
+
+        <button
+            class="btn btn-dark"
+            routerLink="/ai-review">
+            AI Copilot
+        </button>
+
+    </div>
+
+    <button
+        class="btn btn-danger mt-4"
+        (click)="logout()">
+        Logout
+    </button>
+
+</div>
