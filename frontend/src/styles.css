@@ -1,0 +1,16 @@
+/* Bootstrap is imported via angular.json, but we can add custom overrides */
+body {
+  background-color: #f8f9fa;
+}
+
+/* Make tables responsive on very small screens */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Spinner alignment */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+}

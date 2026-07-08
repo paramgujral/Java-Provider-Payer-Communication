@@ -1,0 +1,50 @@
+<div class="modal fade" id="aiReviewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <ng-container *ngIf="review; else noReview">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-robot text-primary"></i> AI Copilot Review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="fw-bold">Score: {{ review.score }}%</label>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar"
+                   [style.width]="review.score + '%'"
+                   [ngClass]="{
+                     'bg-success': review.score >= 80,
+                     'bg-warning': review.score >= 50 && review.score < 80,
+                     'bg-danger': review.score < 50
+                   }">
+                {{ review.score }}%
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <h6>Issues Found</h6>
+            <p *ngIf="review.issues; else noIssues" class="p-2 bg-light rounded">{{ review.issues }}</p>
+            <ng-template #noIssues><p class="text-success">✅ No issues found.</p></ng-template>
+          </div>
+          <div class="mb-3">
+            <h6>Suggestions</h6>
+            <p *ngIf="review.suggestions; else noSuggestions" class="p-2 bg-light rounded">{{ review.suggestions }}</p>
+            <ng-template #noSuggestions><p class="text-success">💡 No suggestions.</p></ng-template>
+          </div>
+          <small class="text-muted">Reviewed on: {{ review.reviewDate | date:'medium' }}</small>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </ng-container>
+
+      <ng-template #noReview>
+        <div class="modal-body">
+          <p class="text-center text-muted">Loading review...</p>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="container-fluid p-0">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container-fluid">
+      <span class="navbar-brand"><i class="bi bi-file-check"></i> Payer Dashboard</span>
+      <div class="d-flex">
+        <span class="navbar-text text-white me-3">{{ auth.user$ | async }} (Payer)</span>
+        <button class="btn btn-outline-light" (click)="auth.logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <h4 class="mb-3">Pending Authorization Requests</h4>
+
+    <div *ngIf="loading" class="text-center my-5">
+      <div class="spinner-border text-success" role="status"></div>
+    </div>
+
+    <div class="table-responsive" *ngIf="!loading">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Patient</th>
+            <th>Service</th>
+            <th>Provider</th>
+            <th>Requested</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let req of requests">
+            <td>{{ req.id }}</td>
+            <td>{{ req.patientId }}</td>
+            <td>{{ req.serviceType }}</td>
+            <td>{{ req.provider.name }}</td>
+            <td>{{ req.requestDate | date:'short' }}</td>
+            <td>
+              <button class="btn btn-sm btn-success me-1" (click)="respond(req.id, ResponseStatus.APPROVED)">
+                Approve
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="respond(req.id, ResponseStatus.REJECTED)">
+                Reject
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="requests.length === 0">
+            <td colspan="6" class="text-center text-muted py-4">No pending requests.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
