@@ -1,0 +1,92 @@
+<div class="container pt-1">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-5 col-md-7">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-1">Submit Claim</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form [formGroup]="claimForm"
+                          (ngSubmit)="onSubmit()">
+
+                        <div class="mb-1">
+                            <label class="form-label">Patient ID</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                formControlName="patientId">
+                        </div>
+
+                        <div class="mb-1">
+                            <label class="form-label">Provider ID</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                formControlName="providerId">
+                        </div>
+
+                        <div class="mb-1">
+                            <label class="form-label">Payer ID</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                formControlName="payerId">
+                        </div>
+
+                        <div class="mb-1">
+                            <label class="form-label">Amount</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                formControlName="amount">
+                        </div>
+
+                        <div class="mb-1">
+                            <label class="form-label">Diagnosis</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                formControlName="diagnosis">
+                        </div>
+
+                        <div class="mb-1">
+                            <label class="form-label">Treatment</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                formControlName="treatment">
+                        </div>
+
+                        <div class="text-center">
+                            <button
+                                type="submit"
+                                class="btn btn-success px-4">
+                                Submit Claim
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <div
+                        class="alert alert-success mt-3"
+                        *ngIf="successMessage">
+
+                        {{ successMessage }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

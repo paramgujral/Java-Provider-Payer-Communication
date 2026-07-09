@@ -1,0 +1,96 @@
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-md-9">
+
+            <div class="card shadow">
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+  <h2>Claims</h2>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Claim ID</th>
+        <th>Patient ID</th>
+        <th>Provider ID</th>
+        <th>Payer ID</th>
+        <th>Amount</th>
+        <th>Diagnosis</th>
+        <th>Treatment</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let claim of claims">
+        <td>{{ claim.claimId }}</td>
+        <td>{{ claim.patientId }}</td>
+        <td>{{ claim.providerId }}</td>
+        <td>{{ claim.payerId }}</td>
+        <td>{{ claim.amount }}</td>
+        <td>{{ claim.diagnosis }}</td>
+        <td>{{ claim.treatment }}</td>
+        <td>
+
+    <span
+        *ngIf="claim.status==='APPROVED'"
+        class="badge bg-success">
+
+        APPROVED
+
+    </span>
+
+    <span
+        *ngIf="claim.status==='REJECTED'"
+        class="badge bg-danger">
+
+        REJECTED
+
+    </span>
+
+    <span
+        *ngIf="claim.status==='PENDING'"
+        class="badge bg-warning text-dark">
+
+        PENDING
+
+    </span>
+
+</td>
+        
+
+    <td>
+
+    <button
+        class="btn btn-success btn-sm me-2"
+        (click)="approveClaim(claim.claimId)">
+
+        Approve
+
+    </button>
+
+    <button
+        class="btn btn-danger btn-sm me-2"
+        (click)="rejectClaim(claim.claimId)">
+
+        Reject
+
+    </button>
+
+  
+
+</td>
+
+      </tr>
+    </tbody>
+  </table>

@@ -1,0 +1,99 @@
+<div class="card">
+
+    <div class="card-header bg-primary text-white">
+        <h3>FHIR Export</h3>
+    </div>
+
+    <div class="card-body">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Claim ID
+            </label>
+
+            <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="claimId">
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            (click)="exportFHIR()">
+
+            Export FHIR
+
+        </button>
+
+        <div class="mt-4" *ngIf="fhirData">
+
+            <h4>FHIR JSON</h4>
+
+            <div class="card mt-4" *ngIf="fhirData">
+
+    <div class="card-header bg-success text-white">
+        <h4>FHIR Claim Details</h4>
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered">
+
+            <tr>
+                <th>Resource Type</th>
+                <td>{{ fhirData.resourceType }}</td>
+            </tr>
+
+            <tr>
+                <th>Claim ID</th>
+                <td>{{ fhirData.id }}</td>
+            </tr>
+
+            <tr>
+                <th>Patient ID</th>
+                <td>{{ fhirData.patientId }}</td>
+            </tr>
+
+            <tr>
+                <th>Provider ID</th>
+                <td>{{ fhirData.providerId }}</td>
+            </tr>
+
+            <tr>
+                <th>Payer ID</th>
+                <td>{{ fhirData.payerId }}</td>
+            </tr>
+
+            <tr>
+                <th>Amount</th>
+                <td>₹ {{ fhirData.amount }}</td>
+            </tr>
+
+            <tr>
+                <th>Diagnosis</th>
+                <td>{{ fhirData.diagnosis }}</td>
+            </tr>
+
+            <tr>
+                <th>Treatment</th>
+                <td>{{ fhirData.treatment }}</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+                <td>{{ fhirData.status }}</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+        </div>
+
+    </div>
+
+</div>

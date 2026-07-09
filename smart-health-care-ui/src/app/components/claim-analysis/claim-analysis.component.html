@@ -1,0 +1,46 @@
+<div class="card">
+
+    <div class="card-header bg-info text-white">
+        <h3>AI Claim Analysis</h3>
+    </div>
+
+    <div class="card-body">
+
+        <div class="mb-3">
+
+            <label>Claim ID</label>
+
+            <input
+                class="form-control"
+                type="number"
+                [(ngModel)]="claimId">
+
+        </div>
+
+         <button
+        class="btn btn-info btn-sm"
+        (click)="analyze()">
+
+        Analyze
+
+    </button>
+
+        <div
+            class="alert alert-success mt-4"
+            *ngIf="analysis">
+
+            <h5>Analysis Result</h5>
+
+            <p><strong>Claim ID:</strong> {{analysis.claimId}}</p>
+
+            <p><strong>Risk Level:</strong> {{analysis.riskLevel}}</p>
+
+            <p><strong>Fraud Probability:</strong> {{analysis.fraudProbability}}%</p>
+
+            <p><strong>Recommendation:</strong> {{analysis.recommendation}}</p>
+
+        </div>
+
+    </div>
+
+</div>

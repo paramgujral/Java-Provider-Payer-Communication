@@ -1,0 +1,108 @@
+<div class="container mt-2">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8 col-md-10">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Notifications</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <!-- Send Email -->
+
+                    <h5 class="mb-3">Send Email</h5>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                [(ngModel)]="email">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Subject</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                [(ngModel)]="subject">
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Message</label>
+
+                        <textarea
+                            rows="3"
+                            class="form-control"
+                            [(ngModel)]="message">
+                        </textarea>
+
+                    </div>
+
+                    <button
+                        class="btn btn-success"
+                        (click)="sendEmail()">
+
+                        Send Email
+
+                    </button>
+
+                    <hr class="my-4">
+
+                    <!-- Notify Status -->
+
+                    <h5 class="mb-3">Notify Claim Status</h5>
+
+                    <div class="row align-items-end">
+
+                        <div class="col-md-8">
+
+                            <label class="form-label">Claim ID</label>
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                [(ngModel)]="claimId">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <button
+                                class="btn btn-primary w-100"
+                                (click)="notifyStatus()">
+
+                                Notify Status
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        *ngIf="response"
+                        class="alert alert-success mt-4">
+
+                        {{ response }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
