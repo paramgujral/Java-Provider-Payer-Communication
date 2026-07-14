@@ -1,0 +1,353 @@
+<div class="min-h-screen bg-gray-50 ">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-800">Provider Portal</h1>
+      <p class="text-gray-500 text-sm mt-1">Submit and track authorization requests</p>
+    </div>
+    <button (click)="toggleView()"
+      class="px-4 py-2 rounded-lg text-sm font-medium border transition
+             bg-white border-gray-300 text-gray-700 hover:bg-gray-50">
+      {{ showForm ? 'View My Requests' : 'New Request' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 class="text-lg font-medium text-gray-800 mb-5">New Authorization Request</h2>
+
+      @if (successMessage) {
+        <div class="mb-4 p-3 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm">{{ successMessage }}</div>
+      }
+      @if (errorMessage) {
+        <div class="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">{{ errorMessage }}</div>
+      }
+
+      <form [formGroup]="providerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+
+        <!-- Row 1 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Patient Name</label>
+            <input formControlName="patientName" type="text" (blur)="fetchFieldSuggestion('patientName')"
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300"
+              [class.border-red-500]="hasError('patientName')" />
+            @if (getErrorMessage('patientName')) { <p class="text-red-500 text-xs mt-1">{{ getErrorMessage('patientName') }}</p> }
+            @if (fieldLoading['patientName']) {
+              <p class="text-blue-400 text-xs mt-1 flex items-center gap-1">
+                <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                Analyzing...
+              </p>
+            }
+            @if (fieldSuggestions['patientName'] && !fieldLoading['patientName']) {
+              <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+                <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+                <p class="text-xs text-gray-600 mt-0.5 mb-1">{{ fieldSuggestions['patientName'] }}</p>
+                @if (fieldChips['patientName']?.length) {
+                  <div class="flex flex-wrap gap-1">
+                    @for (chip of fieldChips['patientName']; track chip) {
+                     <button type="button" (click)="applyChip('patientName', chip)"
+  class="inline-flex items-center gap-1 px-2.5 py-0.5 h-[26px] rounded-full text-[12px]
+       font-medium bg-white text-blue-600 border border-blue-200
+       hover:bg-blue-50 transition-all duration-150">
+  {{ chip }}
+  <svg class="w-2.5 h-2.5 opacity-60" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"/>
+  </svg>
+</button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Patient ID</label>
+            <input formControlName="patientId" type="text" (blur)="fetchFieldSuggestion('patientId')"
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300"
+              [class.border-red-500]="hasError('patientId')" />
+            @if (getErrorMessage('patientId')) { <p class="text-red-500 text-xs mt-1">{{ getErrorMessage('patientId') }}</p> }
+            @if (fieldLoading['patientId']) {
+              <p class="text-blue-400 text-xs mt-1 flex items-center gap-1">
+                <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                Analyzing...
+              </p>
+            }
+            @if (fieldSuggestions['patientId'] && !fieldLoading['patientId']) {
+              <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+                <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+                <p class="text-xs text-gray-600 mt-0.5 mb-1">{{ fieldSuggestions['patientId'] }}</p>
+                @if (fieldChips['patientId']?.length) {
+                  <div class="flex flex-wrap gap-1">
+                    @for (chip of fieldChips['patientId']; track chip) {
+                      <button type="button" (click)="applyChip('patientId', chip)"
+                        class="inline-flex items-center gap-1 px-2.5 py-0.5 h-[26px] rounded-full text-[12px]
+       font-medium bg-white text-blue-600 border border-blue-200
+       hover:bg-blue-50 transition-all duration-150">
+                        {{ chip }}&nbsp;<span class="text-white opacity-80">↑</span>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Insurance ID</label>
+            <input formControlName="insuranceId" type="text" (blur)="fetchFieldSuggestion('insuranceId')"
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300"
+              [class.border-red-500]="hasError('insuranceId')" />
+            @if (getErrorMessage('insuranceId')) { <p class="text-red-500 text-xs mt-1">{{ getErrorMessage('insuranceId') }}</p> }
+            @if (fieldLoading['insuranceId']) {
+              <p class="text-blue-400 text-xs mt-1 flex items-center gap-1">
+                <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                Analyzing...
+              </p>
+            }
+            @if (fieldSuggestions['insuranceId'] && !fieldLoading['insuranceId']) {
+              <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+                <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+                <p class="text-xs text-gray-600 mt-0.5 mb-1">{{ fieldSuggestions['insuranceId'] }}</p>
+                @if (fieldChips['insuranceId']?.length) {
+                  <div class="flex flex-wrap gap-1">
+                    @for (chip of fieldChips['insuranceId']; track chip) {
+                      <button type="button" (click)="applyChip('insuranceId', chip)"
+                        class="inline-flex items-center gap-1 px-2.5 py-0.5 h-[26px] rounded-full text-[12px]
+       font-medium bg-white text-blue-600 border border-blue-200
+       hover:bg-blue-50 transition-all duration-150">
+                        {{ chip }}&nbsp;<span class="text-white opacity-80">↑</span>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+            <select formControlName="priority" (blur)="fetchFieldSuggestion('priority')"
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300">
+              <option value="NORMAL">Normal</option>
+              <option value="URGENT">Urgent</option>
+              <option value="EMERGENCY">Emergency</option>
+            </select>
+            @if (fieldSuggestions['priority'] && !fieldLoading['priority']) {
+              <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+                <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+                <p class="text-xs text-gray-600 mt-0.5">{{ fieldSuggestions['priority'] }}</p>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Diagnosis Code (ICD-10)</label>
+            <input formControlName="diagnosisCode" type="text" placeholder="e.g. E11.9"
+              (blur)="fetchFieldSuggestion('diagnosisCode')"
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300"
+              [class.border-red-500]="hasError('diagnosisCode')" />
+            @if (getErrorMessage('diagnosisCode')) { <p class="text-red-500 text-xs mt-1">{{ getErrorMessage('diagnosisCode') }}</p> }
+            @if (fieldLoading['diagnosisCode']) {
+              <p class="text-blue-400 text-xs mt-1 flex items-center gap-1">
+                <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                Analyzing...
+              </p>
+            }
+            @if (fieldSuggestions['diagnosisCode'] && !fieldLoading['diagnosisCode']) {
+              <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+                <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+                <p class="text-xs text-gray-600 mt-0.5 mb-1">{{ fieldSuggestions['diagnosisCode'] }}</p>
+                @if (fieldChips['diagnosisCode']?.length) {
+                  <div class="flex flex-wrap gap-1">
+                    @for (chip of fieldChips['diagnosisCode']; track chip) {
+                      <button type="button" (click)="applyChip('diagnosisCode', chip)"
+                        class="inline-flex items-center gap-1 px-2.5 py-0.5 h-[26px] rounded-full text-[12px]
+       font-medium bg-white text-blue-600 border border-blue-200
+       hover:bg-blue-50 transition-all duration-150">
+                        {{ chip }}&nbsp;<span class="text-white opacity-80">↑</span>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Procedure Code (CPT)</label>
+            <input formControlName="procedureCode" type="text" placeholder="e.g. 99213"
+              (blur)="fetchFieldSuggestion('procedureCode')"
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300"
+              [class.border-red-500]="hasError('procedureCode')" />
+            @if (getErrorMessage('procedureCode')) { <p class="text-red-500 text-xs mt-1">{{ getErrorMessage('procedureCode') }}</p> }
+            @if (fieldLoading['procedureCode']) {
+              <p class="text-blue-400 text-xs mt-1 flex items-center gap-1">
+                <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                Analyzing...
+              </p>
+            }
+            @if (fieldSuggestions['procedureCode'] && !fieldLoading['procedureCode']) {
+              <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+                <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+                <p class="text-xs text-gray-600 mt-0.5 mb-1">{{ fieldSuggestions['procedureCode'] }}</p>
+                @if (fieldChips['procedureCode']?.length) {
+                  <div class="flex flex-wrap gap-1">
+                    @for (chip of fieldChips['procedureCode']; track chip) {
+                      <button type="button" (click)="applyChip('procedureCode', chip)"
+                        class="inline-flex items-center gap-1 px-2.5 py-0.5 h-[26px] rounded-full text-[12px]
+       font-medium bg-white text-blue-600 border border-blue-200
+       hover:bg-blue-50 transition-all duration-150">
+                        {{ chip }}&nbsp;<span class="text-white opacity-80">↑</span>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Treatment Description -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Treatment Description</label>
+          <textarea formControlName="treatmentDescription" rows="3"
+            (blur)="fetchFieldSuggestion('treatmentDescription')"
+            class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300 resize-none"
+            [class.border-red-500]="hasError('treatmentDescription')"></textarea>
+          @if (getErrorMessage('treatmentDescription')) { <p class="text-red-500 text-xs mt-1">{{ getErrorMessage('treatmentDescription') }}</p> }
+          @if (fieldLoading['treatmentDescription']) {
+            <p class="text-blue-400 text-xs mt-1 flex items-center gap-1">
+              <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+              Analyzing...
+            </p>
+          }
+          @if (fieldSuggestions['treatmentDescription'] && !fieldLoading['treatmentDescription']) {
+            <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+              <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+              <p class="text-xs text-gray-600 mt-0.5 mb-1">{{ fieldSuggestions['treatmentDescription'] }}</p>
+              @if (fieldChips['treatmentDescription']?.length) {
+                <div class="flex flex-wrap gap-1">
+                  @for (chip of fieldChips['treatmentDescription']; track chip) {
+                    <button type="button" (click)="applyChip('treatmentDescription', chip)"
+                      class="inline-flex items-center gap-1 px-2.5 py-0.5 h-[26px] rounded-full text-[12px]
+       font-medium bg-white text-blue-600 border border-blue-200
+       hover:bg-blue-50 transition-all duration-150">
+                      {{ chip }}&nbsp;<span class="text-white opacity-80">↑</span>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Dates -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Admission Date</label>
+            <input formControlName="admissionDate" type="date" (blur)="fetchFieldSuggestion('admissionDate')"
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300"
+              [class.border-red-500]="hasError('admissionDate')" />
+            @if (getErrorMessage('admissionDate')) { <p class="text-red-500 text-xs mt-1">{{ getErrorMessage('admissionDate') }}</p> }
+            @if (fieldSuggestions['admissionDate'] && !fieldLoading['admissionDate']) {
+              <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+                <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+                <p class="text-xs text-gray-600 mt-0.5">{{ fieldSuggestions['admissionDate'] }}</p>
+              </div>
+            }
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Expected Discharge Date <span class="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <input formControlName="expectedDischargeDate" type="date" (blur)="fetchFieldSuggestion('expectedDischargeDate')"
+              class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300" />
+            @if (fieldSuggestions['expectedDischargeDate'] && !fieldLoading['expectedDischargeDate']) {
+              <div class="mt-1 px-2 py-1.5 rounded bg-sky-50 border border-sky-200">
+                <span class="text-[10px] font-semibold text-sky-600 uppercase tracking-wide">✦ Suggestion</span>
+                <p class="text-xs text-gray-600 mt-0.5">{{ fieldSuggestions['expectedDischargeDate'] }}</p>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="pt-2">
+          <button type="submit" [disabled]="submitting"
+            class="w-full py-2.5 rounded-lg text-sm font-medium text-white transition
+                   bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed">
+            @if (submitting) { Submitting... } @else { Validate & Submit }
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+
+  <!-- MY REQUESTS LIST -->
+  @if (!showForm) {
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <h2 class="text-sm font-semibold text-gray-700">My Requests</h2>
+        <span class="text-xs text-gray-400">{{ requests.length }} total</span>
+      </div>
+      @if (loading) {
+        <div class="text-center py-12 text-gray-400 text-sm">Loading...</div>
+      } @else if (requests.length === 0) {
+        <div class="text-center py-12 text-gray-400 text-sm">No requests yet.</div>
+      } @else {
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
+              <tr>
+                <th class="px-5 py-3">Patient</th>
+                <th class="px-5 py-3">Diagnosis</th>
+                <th class="px-5 py-3">Procedure</th>
+                <th class="px-5 py-3">Priority</th>
+                <th class="px-5 py-3">Status</th>
+                <th class="px-5 py-3">Submitted</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              @for (req of requests; track req.id) {
+                <tr class="hover:bg-gray-50">
+                  <td class="px-5 py-4">
+                    <div class="font-medium text-gray-800">{{ req.patientName }}</div>
+                    <div class="text-xs text-gray-400">{{ req.patientId }}</div>
+                  </td>
+                  <td class="px-5 py-4 font-mono text-xs text-gray-600">{{ req.diagnosisCode }}</td>
+                  <td class="px-5 py-4 font-mono text-xs text-gray-600">{{ req.procedureCode }}</td>
+                  <td class="px-5 py-4">
+                    <span
+  class="px-2.5 py-1 rounded-full text-xs font-medium"
+  [ngClass]="{
+    'bg-red-100 text-red-700': req.priority === 'EMERGENCY',
+    'bg-orange-100 text-orange-700': req.priority === 'URGENT',
+    'bg-blue-100 text-blue-700': req.priority === 'NORMAL',
+    'bg-gray-100 text-gray-600': req.priority === 'LOW'
+  }">
+  {{ req.priority }}
+</span>
+                  </td>
+                  <td class="px-5 py-4">
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium" [ngClass]="getStatusClass(req.status)">{{ req.status }}</span>
+                  </td>
+                  <td class="px-5 py-4 text-xs text-gray-400">{{ req.createdAt | date:'dd MMM yyyy' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  }
+</div>
