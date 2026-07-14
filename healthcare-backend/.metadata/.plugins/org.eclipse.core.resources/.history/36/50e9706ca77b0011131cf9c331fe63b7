@@ -1,0 +1,36 @@
+package com.healthcare.gateway.config;
+
+import com.healthcare.gateway.filter.JwtGatewayFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.gateway.route.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@RequiredArgsConstructor
+public class GatewayConfig {
+
+    private final JwtGatewayFilter jwtGatewayFilter;
+
+    @Bean
+    public RouteLocator routes(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route("auth-service", r -> r.path("/auth/**").uri("lb://AUTH-SERVICE"))
+                .route("provider-service", r -> r.path("/provider/**")
+                        .filters(f -> f.filter(jwtGatewayFilter.apply(new JwtGatewayFilter.Config())))
+                        .uri("lb://PROVIDER-SERVICE"))
+                .route("payer-service", r -> r.path("/payer/**")
+                        .filters(f -> f.filter(jwtGatewayFilter.apply(new JwtGatewayFilter.Config())))
+                        .uri("lb://PAYER-SERVICE"))
+                .route("authorization-service", r -> r.path("/authorization/**")
+                        .filters(f -> f.filter(jwtGatewayFilter.apply(new JwtGatewayFilter.Config())))
+                        .uri("lb://AUTHORIZATION-SERVICE"))
+                .route("ai-copilot-service", r -> r.path("/ai/**")
+                        .filters(f -> f.filter(jwtGatewayFilter.apply(new JwtGatewayFilter.Config())))
+                        .uri("lb://AI-COPILOT-SERVICE"))
+                .route("notification-service", r -> r.path("/notification/**")
+                        .filters(f -> f.filter(jwtGatewayFilter.apply(new JwtGatewayFilter.Config())))
+                        .uri("lb://NOTIFICATION-SERVICE"))
+                .build();
+    }
+}

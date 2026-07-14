@@ -1,0 +1,47 @@
+package com.healthcare.provider.controller;
+
+import com.healthcare.provider.entity.Provider;
+import com.healthcare.provider.service.ProviderService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/provider")
+@RequiredArgsConstructor
+public class ProviderController {
+    private final ProviderService service;
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public Provider create(@Valid @RequestBody Provider provider) {
+        return service.create(provider);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('PROVIDER','PAYER','ADMIN')")
+    public Provider getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAnyRole('PROVIDER','PAYER','ADMIN')")
+    public List<Provider> getAll() {
+        return service.getAll();
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Provider update(@PathVariable Long id, @Valid @RequestBody Provider provider) {
+        return service.update(id, provider);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String delete(@PathVariable Long id) {
+        service.delete(id);
+        return "Provider deleted successfully";
+    }
+}
