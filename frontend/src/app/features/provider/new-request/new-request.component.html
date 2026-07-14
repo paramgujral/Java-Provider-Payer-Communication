@@ -1,0 +1,482 @@
+<div class="new-request-page">
+  <!-- Left Side: Stepper Form -->
+  <div class="form-column">
+    <div class="form-card">
+      <h1 class="form-title">
+        <mat-icon style="color: var(--primary-color);">assignment</mat-icon>
+        <span>Prior Authorization Request Form</span>
+      </h1>
+
+      <mat-stepper [linear]="false" #stepper>
+        <!-- Step 1: Patient Information -->
+        <mat-step [stepControl]="patientForm">
+          <form [formGroup]="patientForm">
+            <ng-template matStepLabel>Patient Info</ng-template>
+            <h3 style="margin-top: 0; color: var(--secondary-color);">Patient Information</h3>
+            
+            <div class="form-grid">
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="patientFirstName" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="patientLastName" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput type="date" formControlName="patientDob" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="patientGender" required>
+                  <mat-option value="MALE">Male</mat-option>
+                  <mat-option value="FEMALE">Female</mat-option>
+                  <mat-option value="OTHER">Other</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="e.g. 9876543210" formControlName="patientPhone" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Email Address</mat-label>
+                <input matInput type="email" placeholder="patient@example.com" formControlName="patientEmail">
+              </mat-form-field>
+
+              <mat-form-field class="form-field form-grid-full" appearance="fill">
+                <mat-label>Full Address</mat-label>
+                <textarea matInput rows="2" formControlName="patientAddress" required></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="stepper-actions">
+              <span></span>
+              <button mat-raised-button color="primary" matStepperNext>Next: Insurance</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 2: Insurance Coverage -->
+        <mat-step [stepControl]="insuranceForm">
+          <form [formGroup]="insuranceForm">
+            <ng-template matStepLabel>Insurance</ng-template>
+            <h3 style="margin-top: 0; color: var(--secondary-color);">Insurance Information</h3>
+
+            <div class="form-grid">
+              <mat-form-field class="form-field form-grid-full" appearance="fill">
+                <mat-label>Target Insurance Company (Payer)</mat-label>
+                <mat-select formControlName="payerId" required>
+                  @for (p of payers; track p.id) {
+                    <mat-option [value]="p.id">{{ p.organizationName }} ({{ p.name }})</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Policy Number</mat-label>
+                <input matInput formControlName="insurancePolicyNumber" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Group Number</mat-label>
+                <input matInput formControlName="insuranceGroupNumber">
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Subscriber Name</mat-label>
+                <input matInput formControlName="subscriberName" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Relationship to Subscriber</mat-label>
+                <mat-select formControlName="subscriberRelationship" required>
+                  <mat-option value="SELF">Self</mat-option>
+                  <mat-option value="SPOUSE">Spouse</mat-option>
+                  <mat-option value="CHILD">Child</mat-option>
+                  <mat-option value="OTHER">Other</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Coverage Start Date</mat-label>
+                <input matInput type="date" formControlName="coverageStartDate" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Coverage End Date</mat-label>
+                <input matInput type="date" formControlName="coverageEndDate">
+              </mat-form-field>
+            </div>
+
+            <div class="stepper-actions">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-raised-button color="primary" matStepperNext>Next: Diagnosis</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 3: Diagnosis Info -->
+        <mat-step [stepControl]="diagnosisForm">
+          <form [formGroup]="diagnosisForm">
+            <ng-template matStepLabel>Diagnosis</ng-template>
+            <h3 style="margin-top: 0; color: var(--secondary-color);">Diagnosis Information</h3>
+
+            <div class="form-grid">
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Primary Diagnosis Code (ICD-10)</mat-label>
+                <input matInput placeholder="e.g. M17.11" formControlName="primaryDiagnosisCode" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Primary Diagnosis Description</mat-label>
+                <input matInput placeholder="e.g. Knee pain" formControlName="primaryDiagnosisDesc" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Secondary Diagnosis Code (Optional)</mat-label>
+                <input matInput placeholder="e.g. M19.0" formControlName="secondaryDiagnosisCode">
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Secondary Diagnosis Description</mat-label>
+                <input matInput formControlName="secondaryDiagnosisDesc">
+              </mat-form-field>
+            </div>
+
+            <div class="stepper-actions">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-raised-button color="primary" matStepperNext>Next: Procedure</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 4: Procedure & Costs -->
+        <mat-step [stepControl]="procedureForm">
+          <form [formGroup]="procedureForm">
+            <ng-template matStepLabel>Procedure</ng-template>
+            <h3 style="margin-top: 0; color: var(--secondary-color);">Procedure & Cost details</h3>
+
+            <div class="form-grid">
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Procedure Code (CPT)</mat-label>
+                <input matInput placeholder="e.g. 27447" formControlName="procedureCode" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Procedure Description</mat-label>
+                <input matInput placeholder="e.g. Total knee arthroplasty" formControlName="procedureDescription" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Estimated Cost (INR)</mat-label>
+                <input matInput type="number" formControlName="estimatedCost" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Service Date</mat-label>
+                <input matInput type="date" formControlName="serviceDate" required>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Urgency Level</mat-label>
+                <mat-select formControlName="urgency" required>
+                  <mat-option value="ROUTINE">Routine</mat-option>
+                  <mat-option value="URGENT">Urgent</mat-option>
+                  <mat-option value="EMERGENCY">Emergency</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Place of Service</mat-label>
+                <mat-select formControlName="placeOfService" required>
+                  <mat-option value="INPATIENT">Inpatient</mat-option>
+                  <mat-option value="OUTPATIENT">Outpatient</mat-option>
+                  <mat-option value="EMERGENCY">Emergency Department</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="stepper-actions">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-raised-button color="primary" matStepperNext>Next: Documents</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 5: Clinical Notes & Documents -->
+        <mat-step [stepControl]="clinicalForm">
+          <form [formGroup]="clinicalForm">
+            <ng-template matStepLabel>Clinical Justification</ng-template>
+            <h3 style="margin-top: 0; color: var(--secondary-color);">Clinical Justification</h3>
+
+            <div class="form-grid">
+              <mat-form-field class="form-field form-grid-full" appearance="fill">
+                <mat-label>Clinical Notes / Medical Necessity Description</mat-label>
+                <textarea matInput rows="4" placeholder="Enter clinical summaries, failed conservative therapies, medical reasonings..." 
+                          formControlName="clinicalNotes" required></textarea>
+                @if (clinicalForm.get('clinicalNotes')?.hasError('minlength') && clinicalForm.get('clinicalNotes')?.touched) {
+                  <mat-error>Notes must be at least 20 characters.</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <h3 style="margin-top: 20px; color: var(--secondary-color);">Supporting Documents (Max 5MB each)</h3>
+            <div class="file-upload-zone" (click)="fileInput.click()">
+              <mat-icon style="font-size: 36px; width: 36px; height: 36px; color: var(--text-light); margin-bottom: 8px;">cloud_upload</mat-icon>
+              <p style="margin: 0; font-size: 14px; font-weight: 600; color: var(--text-main);">Click to Select Files</p>
+              <p style="margin: 4px 0 0 0; font-size: 11px; color: var(--text-light);">Supported formats: PDF, JPG, JPEG, PNG</p>
+              <input type="file" #fileInput multiple (change)="onFileSelected($event)" style="display: none;">
+            </div>
+
+            @if (selectedFiles.length > 0) {
+              <div class="file-list">
+                @for (file of selectedFiles; track file.name; let idx = $index) {
+                  <div class="file-item animate-fade-in">
+                    <div class="file-info">
+                      <mat-icon style="color: var(--primary-color);">insert_drive_file</mat-icon>
+                      <span>{{ file.name }} ({{ formatBytes(file.size) }})</span>
+                    </div>
+                    <button mat-icon-button color="warn" type="button" (click)="removeFile(idx)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                }
+              </div>
+            }
+
+            <div class="stepper-actions">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-raised-button color="primary" matStepperNext>Next: Review</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 6: Review and Submit -->
+        <mat-step>
+          <ng-template matStepLabel>Submit</ng-template>
+          <h3 style="margin-top: 0; color: var(--secondary-color);">Review and Submit</h3>
+          <p style="color: var(--text-light); font-size: 14px; margin-bottom: 24px;">
+            Please review the validation summary on the right. If the AI Quality Score is sufficient, click <strong>Submit Request</strong> below to forward it to the Payer.
+          </p>
+
+          <div style="background-color: var(--bg-light); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; font-size: 14px;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; line-height: 1.6;">
+              <div><strong>Patient:</strong> {{ patientForm.get('patientFirstName')?.value }} {{ patientForm.get('patientLastName')?.value }}</div>
+              <div><strong>Procedure:</strong> CPT {{ procedureForm.get('procedureCode')?.value }}</div>
+              <div><strong>Primary Diagnosis:</strong> ICD-10 {{ diagnosisForm.get('primaryDiagnosisCode')?.value }}</div>
+              <div><strong>Estimated Cost:</strong> INR {{ procedureForm.get('estimatedCost')?.value | number }}</div>
+            </div>
+          </div>
+
+          <div class="stepper-actions">
+            <button mat-button matStepperPrevious>Back</button>
+            <div style="display: flex; gap: 12px;">
+              <button mat-button (click)="onSubmitDraft()" [disabled]="isSubmitting">Save Draft</button>
+              <button mat-raised-button color="primary" (click)="onSubmitFinal()" [disabled]="isSubmitting || !aiReport">
+                Submit Request
+              </button>
+            </div>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </div>
+  </div>
+
+  <!-- Right Side: AI Copilot Sidebar Panel -->
+  <div class="copilot-column">
+    <div class="copilot-panel">
+      <div class="copilot-header">
+        <h2 class="copilot-title">
+          <mat-icon style="color: #f59e0b;">psychology</mat-icon>
+          <span>AI Copilot Smart Validator</span>
+        </h2>
+        <button mat-flat-button style="background-color: var(--primary-color); color: #ffffff; font-weight: bold; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;" 
+                [disabled]="isValidating" (click)="runAiValidation()">
+          @if (isValidating) {
+            <span>Analyzing...</span>
+          } @else {
+            <span style="display: flex; align-items: center; gap: 4px;">
+              Validate AI ✨
+            </span>
+          }
+        </button>
+      </div>
+
+      <div class="copilot-body">
+        @if (!aiReport && !isValidating) {
+          <!-- Placeholder state -->
+          <div class="copilot-placeholder">
+            <mat-icon style="font-size: 64px; width: 64px; height: 64px; color: var(--border-color); margin-bottom: 16px;">
+              offline_bolt
+            </mat-icon>
+            <h3 style="margin: 0 0 10px 0; color: var(--text-main);">Validation Pending</h3>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5;">
+              Fill in the form details and click <strong>Validate AI ✨</strong> to analyze the request quality and view clinical suggestion warnings in real-time.
+            </p>
+          </div>
+        }
+
+        @if (isValidating) {
+          <!-- Loading state -->
+          <div class="copilot-placeholder">
+            <mat-spinner diameter="50" style="margin-bottom: 20px;"></mat-spinner>
+            <p style="margin: 0; font-size: 14px; font-weight: 600; color: var(--primary-color);">Running AI Medical Paperwork Audits...</p>
+          </div>
+        }
+
+        @if (aiReport && !isValidating) {
+          <!-- AI report state -->
+          
+          <!-- Quality Score Card -->
+          <div class="score-section animate-fade-in">
+            <div class="score-container">
+              <div class="score-circle" [ngClass]="getScoreColor(aiReport.qualityScore)">
+                {{ aiReport.qualityScore }}
+              </div>
+              <span style="font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase;">Quality Score</span>
+            </div>
+            
+            <div class="score-meta">
+              <div class="meta-item">
+                <span class="meta-label">Approval Chance</span>
+                <span class="meta-value" [ngClass]="'value-' + aiReport.approvalProbability.toLowerCase()">
+                  {{ aiReport.approvalProbability }}
+                </span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Rejection Risk</span>
+                <span class="meta-value" [ngClass]="'value-' + aiReport.riskLevel.toLowerCase()">
+                  {{ aiReport.riskLevel }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clinical Summary -->
+          @if (aiReport.clinicalSummary) {
+            <div class="animate-fade-in">
+              <h4 class="section-title">
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px;">short_text</mat-icon>
+                <span>Clinical Narrative Summary</span>
+              </h4>
+              <div class="clinical-summary-box">
+                "{{ aiReport.clinicalSummary }}"
+              </div>
+            </div>
+          }
+
+          <!-- Missing Fields / Errors -->
+          @if (aiReport.missingFields && aiReport.missingFields.length > 0) {
+            <div class="animate-fade-in">
+              <h4 class="section-title">
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px; color: var(--status-rejected);">error_outline</mat-icon>
+                <span>Incomplete & Missing Fields ({{ aiReport.missingFields.length }})</span>
+              </h4>
+              <div class="list-container">
+                @for (item of aiReport.missingFields; track item.field) {
+                  <div class="issue-item" [ngClass]="item.severity.toLowerCase()">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px;">
+                      {{ item.severity === 'ERROR' ? 'cancel' : 'warning' }}
+                    </mat-icon>
+                    <div>
+                      <strong>{{ formatFieldName(item.field) }}:</strong> {{ item.message }}
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Auto-Corrections -->
+          @if (aiReport.autoCorrections && aiReport.autoCorrections.length > 0) {
+            <div class="animate-fade-in">
+              <h4 class="section-title">
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px; color: var(--primary-color);">auto_fix_high</mat-icon>
+                <span>Smart Auto-Corrections ({{ aiReport.autoCorrections.length }})</span>
+              </h4>
+              <div class="list-container">
+                @for (corr of aiReport.autoCorrections; track corr.field; let i = $index) {
+                  <div class="correction-card">
+                    <div class="correction-header">Proposed Fix for: {{ formatFieldName(corr.field) }}</div>
+                    <div class="correction-diff">
+                      <div class="diff-row">
+                        <span class="diff-label">Current:</span>
+                        <span class="diff-val-curr">{{ corr.currentValue || '(empty)' }}</span>
+                      </div>
+                      <div class="diff-row">
+                        <span class="diff-label">Suggested:</span>
+                        <span class="diff-val-sug">{{ corr.suggestedValue }}</span>
+                      </div>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-light); margin-bottom: 12px; line-height: 1.4;">
+                      <strong>Reason:</strong> {{ corr.reason }}
+                    </div>
+                    <div style="display: flex; justify-content: flex-end;">
+                      <button mat-flat-button style="background-color: var(--primary-color); color: #ffffff; font-size: 11px; padding: 4px 10px; border-radius: 4px; height: 26px; border: none; cursor: pointer;"
+                              (click)="applyCorrection(corr)">
+                        Apply Suggestion
+                      </button>
+                    </div>
+                  </div>
+                }
+                
+                @if (aiReport.autoCorrections.length > 1) {
+                  <button mat-stroked-button style="width: 100%; font-size: 12px; border-color: var(--primary-color); color: var(--primary-color);" 
+                          (click)="applyAllCorrections()">
+                    Apply All Auto-Corrections
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Recommendations -->
+          @if (aiReport.recommendations && aiReport.recommendations.length > 0) {
+            <div class="animate-fade-in">
+              <h4 class="section-title">
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px; color: #f59e0b;">lightbulb</mat-icon>
+                <span>Recommendations ({{ aiReport.recommendations.length }})</span>
+              </h4>
+              <div class="list-container">
+                @for (rec of aiReport.recommendations; track rec.message) {
+                  <div style="background-color: var(--bg-light); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; font-size: 13px;">
+                    <div style="font-weight: 600; color: var(--secondary-color); margin-bottom: 4px;">{{ rec.category }}</div>
+                    <div style="color: var(--text-main); margin-bottom: 6px;">{{ rec.message }}</div>
+                    <div style="font-size: 11px; color: var(--text-light); line-height: 1.4;">
+                      <strong>Action:</strong> {{ rec.suggestion }}<br>
+                      <strong>Why:</strong> {{ rec.reason }}
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Required Documents -->
+          @if (aiReport.requiredDocuments && aiReport.requiredDocuments.length > 0) {
+            <div class="animate-fade-in">
+              <h4 class="section-title">
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px;">description</mat-icon>
+                <span>Recommended Attachments ({{ aiReport.requiredDocuments.length }})</span>
+              </h4>
+              <div class="list-container">
+                @for (doc of aiReport.requiredDocuments; track doc) {
+                  <div class="document-item">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px; color: var(--primary-color);">check_circle_outline</mat-icon>
+                    <span>{{ doc }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

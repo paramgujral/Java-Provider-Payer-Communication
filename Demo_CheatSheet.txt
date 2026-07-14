@@ -1,0 +1,94 @@
+==============================================================
+                 YOUR DEMO CHEATSHEET
+==============================================================
+
+STEP 1: LOGIN AS PROVIDER
+-------------------------
+Go to: http://localhost:4200
+Email: this.is.avinash28@gmail.com
+Password: password123
+
+
+==============================================================
+          SCENARIO 1: JOHN DOE (BACK PAIN SURGERY)
+==============================================================
+Click "New Request" and fill out the fields exactly like this:
+
+Patient Name: John Doe
+Patient Email: iot14042@gmail.com   <-- (Use this so you get the real email notification!)
+Date of Birth: 05/15/1980
+Gender: Male
+Phone: 9988776655
+Address: 123 Demo St, City, ST
+
+Insurance Policy: POL-998877
+Group ID: GRP-123
+Subscriber Name: John Doe
+Subscriber Rel: Self
+Coverage Start: 01/01/2026
+Service Date: 07/01/2026
+
+Primary Diagnosis Code: M54.5
+Primary Diagnosis Desc: Low back pain
+Secondary Diagnosis Code: M51.16
+Secondary Diagnosis Desc: Intervertebral disc disorders with radiculopathy
+
+Procedure Code: 63030
+Procedure Desc: Lumbar microdiscectomy (Spine Surgery)
+Estimated Cost: 35000
+Urgency: Urgent
+Place of Service: Inpatient
+
+ATTACHMENTS & AI VALIDATION:
+1. Copy all the text from "Sample_Patient_Clinical_Notes.txt" and paste it into the "Clinical Notes" text box.
+2. Under "Upload Documents", attach the file: "Sample_Patient_Clinical_Notes.txt".
+3. Click "Validate with AI", wait for the 100% score, and click Submit!
+
+
+==============================================================
+          SCENARIO 2: MARK JOHNSON (KNEE REPLACEMENT)
+==============================================================
+Click "New Request" and fill out the fields exactly like this:
+
+Patient Name: Mark Johnson
+Patient Email: iot14042@gmail.com   <-- (Use this so you get the real email notification!)
+Date of Birth: 02/20/1975
+Gender: Male
+Phone: 9988776655
+Address: 456 Health Ave, City, ST
+
+Insurance Policy: POL-112233
+Group ID: GRP-456
+Subscriber Name: Mark Johnson
+Subscriber Rel: Self
+Coverage Start: 01/01/2026
+Service Date: 07/05/2026
+
+Primary Diagnosis Code: M17.11
+Primary Diagnosis Desc: Unilateral primary osteoarthritis, right knee
+
+Procedure Code: 27447
+Procedure Desc: Total knee arthroplasty (knee replacement)
+Estimated Cost: 25000
+Urgency: Routine
+Place of Service: Inpatient
+
+ATTACHMENTS & AI VALIDATION:
+1. Copy all the text from "Patient_MRI_Report.txt" and paste it into the "Clinical Notes" text box.
+2. Under "Upload Documents", attach TWO files: 
+   - "Patient_MRI_Report.txt"
+   - "Patient_Knee_Xray.png" (The generated X-Ray image)
+3. Click "Validate with AI", wait for the 100% score, and click Submit!
+
+
+==============================================================
+          STEP 5: SHOW THE PAYER SIDE & EMAIL
+==============================================================
+1. Log out, then log back in as the Insurance Payer:
+   Email: payer@feuji.com
+   Password: password123
+2. Click on the requests you just submitted.
+3. Show the judges the "AI Copilot Validation Score Cards" box at the top of the screen.
+4. For Mark Johnson, scroll down and click "View" on the Patient_Knee_Xray.png to show how it seamlessly opens in a new tab!
+5. Enter a remark (e.g., "Approved based on clinical evidence") and click Approve.
+6. Check your `iot14042@gmail.com` inbox to show the judges the real-time approval emails the patients received!

@@ -1,0 +1,100 @@
+<div class="requests-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">My Authorization Requests</h1>
+    </div>
+    <button mat-raised-button color="primary" [routerLink]="['/provider/requests/new']" style="font-weight: bold;">
+      <mat-icon>add</mat-icon> New Request
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-section animate-fade-in">
+    <mat-form-field class="search-field" appearance="fill">
+      <mat-label>Search Patient Name</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="Search first or last name...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field class="filter-field" appearance="fill">
+      <mat-label>Filter by Status</mat-label>
+      <mat-select [(ngModel)]="statusFilter" (selectionChange)="applyFilters()">
+        <mat-option value="ALL">All Statuses</mat-option>
+        <mat-option value="DRAFT">Draft</mat-option>
+        <mat-option value="SUBMITTED">Submitted</mat-option>
+        <mat-option value="UNDER_REVIEW">Under Review</mat-option>
+        <mat-option value="APPROVED">Approved</mat-option>
+        <mat-option value="REJECTED">Rejected</mat-option>
+        <mat-option value="INFO_REQUESTED">Info Requested</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (isLoading) {
+    <div style="display: flex; justify-content: center; align-items: center; padding: 80px;">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  } @else if (errorMessage) {
+    <div class="error-state glass-panel animate-fade-in" style="text-align: center; margin: 40px auto; max-width: 600px; padding: 40px; color: var(--status-rejected);">
+      <mat-icon style="font-size: 64px; width: 64px; height: 64px; margin-bottom: 20px;">error_outline</mat-icon>
+      <h2>Unable to load requests</h2>
+      <p>{{ errorMessage }}</p>
+      <button mat-raised-button color="primary" (click)="loadRequests()" style="margin-top: 20px;">Retry connection</button>
+    </div>
+  } @else {
+    <!-- Requests List Card -->
+    <div class="requests-card glass-panel animate-fade-in">
+      <div class="table-container">
+        @if (filteredRequests.length === 0) {
+          <div class="empty-state">
+            <mat-icon>folder_open</mat-icon>
+            <p>No prior authorization requests match your filters.</p>
+          </div>
+        } @else {
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Request ID</th>
+                <th>Patient Name</th>
+                <th>Insurance Payer</th>
+                <th>CPT Code</th>
+                <th>Procedure Description</th>
+                <th>Est. Cost</th>
+                <th>Service Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (req of filteredRequests; track req.id) {
+                <tr>
+                  <td><strong>REQ-{{ req.id }}</strong></td>
+                  <td>{{ req.patientFirstName }} {{ req.patientLastName }}</td>
+                  <td>{{ req.payerOrganization }}</td>
+                  <td><span style="font-weight: 600;">{{ req.procedureCode }}</span></td>
+                  <td>
+                    <div style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                      {{ req.procedureDescription }}
+                    </div>
+                  </td>
+                  <td>INR {{ req.estimatedCost | number }}</td>
+                  <td>{{ req.serviceDate | date:'mediumDate' }}</td>
+                  <td>
+                    <span class="status-badge" [ngClass]="req.status?.toLowerCase()">
+                      {{ formatStatus(req.status || 'DRAFT') }}
+                    </span>
+                  </td>
+                  <td>
+                    <button mat-icon-button color="primary" [routerLink]="['/provider/requests', req.id]" aria-label="View request details">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  }
+</div>

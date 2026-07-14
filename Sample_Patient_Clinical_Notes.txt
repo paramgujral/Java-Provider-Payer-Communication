@@ -1,0 +1,33 @@
+==============================================================
+            CITY GENERAL HOSPITAL - CLINICAL RECORD
+==============================================================
+Patient Name: John Doe
+Date of Birth: 1980-05-15
+Gender: Male
+Service Date: 2026-07-01
+Attending Physician: Dr. Avinash
+==============================================================
+
+CHIEF COMPLAINT:
+Patient presents with chronic lower back pain radiating down the right leg, progressively worsening over the past 6 months. Numbness observed in the right calf and foot.
+
+CLINICAL FINDINGS:
+- Positive Straight Leg Raise (SLR) test on the right side at 45 degrees.
+- Decreased reflex in the right Achilles tendon.
+- Previous conservative treatments (physical therapy and NSAIDs for 8 weeks) have failed to provide significant relief.
+
+DIAGNOSIS:
+Primary Diagnosis: M54.5 (Low back pain)
+Secondary Diagnosis: M51.16 (Intervertebral disc disorders with radiculopathy, lumbar region)
+
+RECOMMENDED PROCEDURE:
+Procedure Code: 63030
+Description: Laminotomy (hemilaminectomy), with decompression of nerve root(s), including partial facetectomy, foraminotomy and/or excision of herniated intervertebral disc; 1 interspace, lumbar.
+
+JUSTIFICATION FOR SURGERY:
+Due to the failure of conservative treatment modalities and the presence of worsening neurological deficits (radiculopathy), surgical intervention via lumbar microdiscectomy (CPT 63030) is medically necessary to decompress the affected nerve root, prevent permanent nerve damage, and restore patient mobility.
+
+==============================================================
+Physician Signature: Dr. Avinash (Electronically Signed)
+Date: 2026-06-27
+==============================================================

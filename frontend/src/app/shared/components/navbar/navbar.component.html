@@ -1,0 +1,81 @@
+<nav class="navbar" *ngIf="authService.currentUser$ | async as user">
+  <!-- Brand logo -->
+  <a class="brand-section" [routerLink]="getDashboardRoute(user.role)">
+    <div class="brand-logo-text">
+      <span class="brand-orange">feuji</span><span class="brand-white"> Smart</span>
+    </div>
+  </a>
+
+  <!-- Navigation items -->
+  <div class="nav-links">
+    <!-- Provider navigation links -->
+    <ng-container *ngIf="user.role === 'PROVIDER'">
+      <a class="nav-item" [routerLink]="['/provider/dashboard']" routerLinkActive="active">Dashboard</a>
+      <a class="nav-item" [routerLink]="['/provider/requests/new']" routerLinkActive="active">New Request</a>
+      <a class="nav-item" [routerLink]="['/provider/requests']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">My Requests</a>
+    </ng-container>
+
+    <!-- Payer navigation links -->
+    <ng-container *ngIf="user.role === 'PAYER'">
+      <a class="nav-item" [routerLink]="['/payer/dashboard']" routerLinkActive="active">Dashboard</a>
+      <a class="nav-item" [routerLink]="['/payer/requests']" routerLinkActive="active">Request Queue</a>
+    </ng-container>
+  </div>
+
+  <!-- User profile and notifications -->
+  <div class="user-profile">
+    <!-- Notification bell -->
+    <button mat-icon-button class="bell-btn" aria-label="Notifications" [matMenuTriggerFor]="notificationMenu" (click)="loadNotifications()">
+      <mat-icon [matBadge]="unreadCount > 0 ? unreadCount : null" matBadgeColor="warn" matBadgeSize="small">
+        notifications
+      </mat-icon>
+    </button>
+
+    <mat-menu #notificationMenu="matMenu" xPosition="before" class="notification-panel">
+      <div style="padding: 12px 16px; font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--border-color); color: var(--secondary-color); display: flex; justify-content: space-between; align-items: center; min-width: 280px;">
+        <span>Notifications</span>
+        @if (unreadCount > 0) {
+          <button mat-button style="font-size: 11px; padding: 0 8px; line-height: 28px; color: var(--primary-color); border: none; background: transparent; cursor: pointer;" (click)="markAllAsRead(); $event.stopPropagation();">
+            Mark all read
+          </button>
+        }
+      </div>
+      <div style="width: 320px; max-height: 350px; overflow-y: auto;">
+        @if (notifications.length === 0) {
+          <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px;">
+            No notifications
+          </div>
+        } @else {
+          @for (notif of notifications; track notif.id) {
+            <div [class.unread]="!notif.isRead" class="notification-item" (click)="markAsRead(notif)">
+              <div style="font-weight: 600; margin-bottom: 4px; color: var(--text-main);">{{ notif.title }}</div>
+              <div style="color: var(--text-light); line-height: 1.4; margin-bottom: 4px;">{{ notif.message }}</div>
+              <div style="font-size: 10px; color: var(--text-muted);">{{ notif.createdAt | date:'short' }}</div>
+            </div>
+          }
+        }
+      </div>
+    </mat-menu>
+
+    <!-- Profile menu -->
+    <button class="profile-menu-trigger" [matMenuTriggerFor]="profileMenu">
+      <div class="user-avatar">{{ getInitials(user.name) }}</div>
+      <div class="user-info-text">
+        <span class="user-name">{{ user.name }}</span>
+        <span class="user-role-badge">{{ user.role }}</span>
+      </div>
+      <mat-icon style="font-size: 18px; width: 18px; height: 18px; margin-left: 2px;">keyboard_arrow_down</mat-icon>
+    </button>
+
+    <mat-menu #profileMenu="matMenu" xPosition="before">
+      <div style="padding: 12px 16px; border-bottom: 1px solid var(--border-color);">
+        <p style="font-size: 13px; font-weight: 600; margin: 0; color: var(--text-main);">{{ user.organizationName }}</p>
+        <p style="font-size: 11px; color: var(--text-muted); margin: 4px 0 0 0;">{{ user.email }}</p>
+      </div>
+      <button mat-menu-item (click)="onLogout()">
+        <mat-icon style="color: var(--status-rejected);">logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+</nav>

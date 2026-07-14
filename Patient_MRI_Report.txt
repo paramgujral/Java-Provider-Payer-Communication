@@ -1,0 +1,34 @@
+==============================================================
+            APEX ORTHOPEDICS - MRI & RADIOLOGY REPORT
+==============================================================
+Patient Name: Mark Johnson
+Date of Birth: 1975-02-20
+Gender: Male
+Service Date: 2026-07-05
+Patient Email: iot14042@gmail.com
+Attending Physician: Dr. Avinash
+==============================================================
+
+CHIEF COMPLAINT:
+Patient reports severe, unremitting right knee pain that exacerbates during weight-bearing activities. The pain has progressively worsened over the last 12 months.
+
+RADIOLOGY FINDINGS (X-RAY & MRI):
+- Extensive bone-on-bone contact in the medial compartment of the right knee.
+- Significant osteophyte formation (bone spurs) along the joint margins.
+- Complete loss of articular cartilage space on the lateral view.
+- Subchondral sclerosis and cyst formation present.
+
+DIAGNOSIS:
+Primary Diagnosis: M17.11 (Unilateral primary osteoarthritis, right knee)
+
+RECOMMENDED PROCEDURE:
+Procedure Code: 27447
+Description: Arthroplasty, knee, condyle and plateau; medial AND lateral compartments with or without patella resurfacing (total knee arthroplasty).
+
+CLINICAL JUSTIFICATION:
+Conservative therapies including NSAIDs, physical therapy for 6 months, and corticosteroid injections have failed to provide relief. Given the severe radiographic findings and the significant impact on the patient's daily quality of life, surgical intervention via total knee replacement (CPT 27447) is deemed medically necessary.
+
+==============================================================
+Radiologist Signature: Dr. Sarah Palmer (Electronically Signed)
+Date: 2026-06-27
+==============================================================

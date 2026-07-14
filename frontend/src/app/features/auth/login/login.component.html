@@ -1,0 +1,63 @@
+<div class="login-container">
+  <div class="login-card glass-panel">
+    <!-- Brand Header -->
+    <div class="brand-section">
+      <h1 class="brand-title">
+        <span class="brand-name-orange">feuji</span><span class="brand-name-white"> Smart</span>
+      </h1>
+      <p class="brand-subtitle">Healthcare Payer-Provider Connector</p>
+    </div>
+
+    <h2 class="login-title">Sign In to Your Account</h2>
+
+    <!-- Error message alert -->
+    @if (errorMessage) {
+      <div class="error-alert animate-fade-in">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px;">error</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+    }
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email Field -->
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Email Address</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="name@organization.com" required>
+        @if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
+          <mat-error>Email is required</mat-error>
+        }
+        @if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
+          <mat-error>Enter a valid email address</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Password Field -->
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" style="color: var(--text-light)">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        @if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
+          <mat-error>Password is required</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Submit Button -->
+      <button mat-raised-button color="primary" class="submit-btn" type="submit" [disabled]="loginForm.invalid || isLoading">
+        @if (isLoading) {
+          <span>Logging in...</span>
+        } @else {
+          <span>Login</span>
+        }
+      </button>
+    </form>
+
+    <!-- Footer Links -->
+    <div class="footer-links">
+      <a routerLink="/forgot-password" class="footer-link">Forgot Password?</a>
+      <a routerLink="/register" class="footer-link">Create Account</a>
+    </div>
+  </div>
+</div>

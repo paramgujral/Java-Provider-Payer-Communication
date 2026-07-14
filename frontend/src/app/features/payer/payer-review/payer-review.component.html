@@ -1,0 +1,300 @@
+<div class="review-container">
+  <!-- Header -->
+  <div class="review-header">
+    <div>
+      <h1 class="page-title">Prior Authorization Review</h1>
+      <p class="page-subtitle">Assigned Request Reference: <strong>REQ-{{ requestId }}</strong></p>
+    </div>
+    
+    <div style="display: flex; gap: 12px; align-items: center;">
+      @if (request) {
+        <span class="status-badge" [ngClass]="request.status?.toLowerCase() || ''">
+          {{ formatStatus(request.status || 'DRAFT') }}
+        </span>
+      }
+      <button mat-stroked-button [routerLink]="['/payer/dashboard']">Back to Dashboard</button>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div style="display: flex; justify-content: center; align-items: center; padding: 100px;">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  } @else if (request) {
+    
+    <!-- AI Validation Summary Card -->
+    @if (request.aiQualityScore !== undefined && request.aiQualityScore !== null) {
+      <div class="ai-summary-card animate-fade-in">
+        <h3 style="margin-top: 0; color: var(--secondary-color); font-size: 15px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 6px;">
+          <mat-icon style="color: #f59e0b;">psychology</mat-icon>
+          AI Copilot Validation Score Cards
+        </h3>
+        
+        <div class="ai-score-row">
+          <div class="ai-badge" [ngClass]="getScoreColorClass(request.aiQualityScore)">
+            Quality Score: {{ request.aiQualityScore }}/100
+          </div>
+        </div>
+
+        @if (request.aiValidationNotes) {
+          <p style="margin: 0; font-size: 13px; color: var(--text-main); line-height: 1.5; font-style: italic; background-color: var(--surface-color); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px;">
+            "{{ request.aiValidationNotes }}"
+          </p>
+        }
+      </div>
+    }
+
+    <div class="review-layout">
+      <!-- Info Grid -->
+      <div class="info-grid animate-fade-in">
+        
+        <!-- Panel 1: Patient Details -->
+        <div class="card-panel">
+          <h3 class="panel-title">
+            <mat-icon>person</mat-icon>
+            <span>Patient Information</span>
+          </h3>
+          <div class="details-list">
+            <div class="detail-item">
+              <span class="detail-label">First Name</span>
+              <span class="detail-val">{{ request.patientFirstName }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Last Name</span>
+              <span class="detail-val">{{ request.patientLastName }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Date of Birth</span>
+              <span class="detail-val">{{ request.patientDob | date:'longDate' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Gender</span>
+              <span class="detail-val" style="text-transform: capitalize;">{{ request.patientGender.toLowerCase() }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Phone Number</span>
+              <span class="detail-val">{{ request.patientPhone }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Email Address</span>
+              <span class="detail-val">{{ request.patientEmail || 'N/A' }}</span>
+            </div>
+            <div class="detail-item details-list-full">
+              <span class="detail-label">Full Address</span>
+              <span class="detail-val">{{ request.patientAddress }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Insurance Coverage -->
+        <div class="card-panel">
+          <h3 class="panel-title">
+            <mat-icon>security</mat-icon>
+            <span>Insurance Coverage Details</span>
+          </h3>
+          <div class="details-list">
+            <div class="detail-item details-list-full">
+              <span class="detail-label">Healthcare Provider (Hospital)</span>
+              <span class="detail-val">{{ request.providerOrganization }} ({{ request.providerName }})</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Policy Number</span>
+              <span class="detail-val">{{ request.insurancePolicyNumber }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Group Number</span>
+              <span class="detail-val">{{ request.insuranceGroupNumber || 'N/A' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Subscriber Name</span>
+              <span class="detail-val">{{ request.subscriberName }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Relationship</span>
+              <span class="detail-val" style="text-transform: capitalize;">{{ request.subscriberRelationship.toLowerCase() }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Coverage Start</span>
+              <span class="detail-val">{{ request.coverageStartDate | date:'mediumDate' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Coverage End</span>
+              <span class="detail-val">{{ request.coverageEndDate ? (request.coverageEndDate | date:'mediumDate') : 'Continuous' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Diagnosis Info -->
+        <div class="card-panel">
+          <h3 class="panel-title">
+            <mat-icon>healing</mat-icon>
+            <span>Diagnosis Information (ICD-10)</span>
+          </h3>
+          <div class="details-list">
+            <div class="detail-item">
+              <span class="detail-label">Primary ICD-10 Code</span>
+              <span class="detail-val"><span style="color: var(--primary-color);">{{ request.primaryDiagnosisCode }}</span></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Primary Description</span>
+              <span class="detail-val">{{ request.primaryDiagnosisDesc }}</span>
+            </div>
+            @if (request.secondaryDiagnosisCode) {
+              <div class="detail-item">
+                <span class="detail-label">Secondary ICD-10 Code</span>
+                <span class="detail-val">{{ request.secondaryDiagnosisCode }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Secondary Description</span>
+                <span class="detail-val">{{ request.secondaryDiagnosisDesc }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Panel 4: Procedure & Costs -->
+        <div class="card-panel">
+          <h3 class="panel-title">
+            <mat-icon>medical_services</mat-icon>
+            <span>Procedure & Cost details</span>
+          </h3>
+          <div class="details-list">
+            <div class="detail-item">
+              <span class="detail-label">CPT Procedure Code</span>
+              <span class="detail-val"><span style="color: var(--primary-color);">{{ request.procedureCode }}</span></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Procedure Description</span>
+              <span class="detail-val">{{ request.procedureDescription }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-val">INR {{ request.estimatedCost | number }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Proposed Service Date</span>
+              <span class="detail-val">{{ request.serviceDate | date:'longDate' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Urgency Level</span>
+              <span class="detail-val" style="text-transform: capitalize;">{{ request.urgency.toLowerCase() }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Place of Service</span>
+              <span class="detail-val" style="text-transform: capitalize;">{{ request.placeOfService.toLowerCase() }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 5: Clinical Notes -->
+        <div class="card-panel details-list-full" style="grid-column: span 2;">
+          <h3 class="panel-title">
+            <mat-icon>notes</mat-icon>
+            <span>Clinical Justification Narrative</span>
+          </h3>
+          <div class="detail-item">
+            <span class="detail-label">Clinical Notes</span>
+            <p style="margin: 5px 0 0 0; line-height: 1.6; font-size: 14px; color: var(--text-main); white-space: pre-wrap;">
+              {{ request.clinicalNotes }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Panel 6: Attachments -->
+        @if (request.documents && request.documents.length > 0) {
+          <div class="card-panel details-list-full" style="grid-column: span 2;">
+            <h3 class="panel-title">
+              <mat-icon>attachment</mat-icon>
+              <span>Attached Supporting Documents ({{ request.documents.length }})</span>
+            </h3>
+            <div class="doc-list">
+              @for (doc of request.documents; track doc.id) {
+                <div class="doc-card">
+                  <div class="doc-info">
+                    <mat-icon style="color: var(--primary-color);">insert_drive_file</mat-icon>
+                    <div>
+                      <div style="font-weight: 600; color: var(--text-main);">{{ doc.fileName }}</div>
+                      <div style="font-size: 11px; color: var(--text-light);">{{ doc.fileType }} ({{ formatBytes(doc.fileSize) }})</div>
+                    </div>
+                  </div>
+                  <button mat-stroked-button color="primary" style="font-size: 12px; height: 32px;" (click)="viewDoc(doc)">
+                    <mat-icon>visibility</mat-icon> View
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Decision Action Panel -->
+      <div class="decision-card animate-fade-in">
+        <h3 style="margin-top: 0; color: var(--secondary-color); font-size: 16px; font-weight: 700; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+          <mat-icon style="color: var(--primary-color);">gavel</mat-icon>
+          Payer Adjudication Action Panel
+        </h3>
+
+        @if (request.status === 'SUBMITTED' || request.status === 'UNDER_REVIEW') {
+          <p style="font-size: 13px; color: var(--text-light); margin-bottom: 20px;">
+            Select the appropriate decision. For rejections and info-requests, remarks are mandatory.
+          </p>
+
+          <mat-form-field class="remarks-textarea" appearance="fill">
+            <mat-label>Payer Review Remarks / Comments</mat-label>
+            <textarea matInput rows="3" placeholder="Enter reason for rejection or details about what information is requested..." 
+                      [(ngModel)]="payerRemarks"></textarea>
+          </mat-form-field>
+
+          <div class="decision-actions">
+            <!-- Approve -->
+            <button class="btn-decision btn-approve" [disabled]="isSubmitting" (click)="onUpdateStatus('APPROVED')">
+              <mat-icon>check_circle</mat-icon> Approve Request
+            </button>
+
+            <!-- Request Info -->
+            <button class="btn-decision btn-info" [disabled]="isSubmitting || !payerRemarks" (click)="onUpdateStatus('INFO_REQUESTED')">
+              <mat-icon>help</mat-icon> Request More Info
+            </button>
+
+            <!-- Reject -->
+            <button class="btn-decision btn-reject" [disabled]="isSubmitting || !payerRemarks" (click)="onUpdateStatus('REJECTED')">
+              <mat-icon>cancel</mat-icon> Reject Request
+            </button>
+          </div>
+        } @else {
+          <!-- Read only state -->
+          <div style="padding: 10px 0;">
+            <div style="font-size: 13px; color: var(--text-light); margin-bottom: 6px;">Adjudication Decision Remarks:</div>
+            <div style="font-weight: 600; font-size: 14px; color: var(--text-main); font-style: italic;">
+              "{{ request.payerRemarks || 'No remarks provided' }}"
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Collapsible FHIR Accordion -->
+      <div class="card-panel details-list-full" style="padding: 0; overflow: hidden; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); margin-top: 30px;">
+        <div style="padding: 16px 24px; background-color: var(--bg-light); display: flex; justify-content: space-between; align-items: center; cursor: pointer;"
+             (click)="isFhirExpanded = !isFhirExpanded">
+          <h3 style="font-family: 'Outfit', sans-serif; margin: 0; font-size: 16px; font-weight: 700; color: var(--secondary-color); display: flex; align-items: center; gap: 8px;">
+            <mat-icon style="color: var(--primary-color);">code</mat-icon>
+            <span>Interoperable FHIR Resource Bundle (HAPI FHIR R4)</span>
+          </h3>
+          <mat-icon>{{ isFhirExpanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+        </div>
+        
+        @if (isFhirExpanded) {
+          <div style="padding: 20px; background-color: #0b1329;">
+            @if (request.fhirBundleJson) {
+              <pre style="font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; color: #a6e22e; margin: 0; white-space: pre-wrap; word-break: break-all; max-height: 400px; overflow-y: auto; padding: 10px; background-color: rgba(0,0,0,0.2); border-radius: 6px;"><code>{{ request.fhirBundleJson }}</code></pre>
+            } @else {
+              <p style="color: var(--text-light); font-size: 13px; margin: 0; text-align: center; font-style: italic;">
+                FHIR Bundle generation is pending. It will be created automatically upon request review.
+              </p>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

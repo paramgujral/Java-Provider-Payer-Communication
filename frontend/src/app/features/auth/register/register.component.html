@@ -1,0 +1,190 @@
+<div class="register-container">
+  <div class="register-card glass-panel">
+    <!-- Brand Header -->
+    <div class="brand-section">
+      <h1 class="brand-title">
+        <span class="brand-name-orange">feuji</span><span class="brand-name-white"> Smart</span>
+      </h1>
+      <p class="brand-subtitle">Healthcare Payer-Provider Connector</p>
+    </div>
+
+    @if (!isOtpMode) {
+      <!-- Registration Mode -->
+      <h2 class="register-title">Create a New Account</h2>
+
+      @if (errorMessage) {
+        <div class="error-alert animate-fade-in">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px;">error</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Full Name -->
+          <mat-form-field class="form-field form-field-full" appearance="fill">
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="name" placeholder="John Doe" required>
+            @if (registerForm.get('name')?.hasError('required') && registerForm.get('name')?.touched) {
+              <mat-error>Name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Email Address -->
+          <mat-form-field class="form-field form-field-full" appearance="fill">
+            <mat-label>Email Address</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="name@organization.com" required>
+            @if (registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched) {
+              <mat-error>Email is required</mat-error>
+            }
+            @if (registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched) {
+              <mat-error>Enter a valid email address</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Password -->
+          <mat-form-field class="form-field form-field-full" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+            <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" style="color: var(--text-light)">
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            @if (registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched) {
+              <mat-error>Password is required</mat-error>
+            }
+            @if (registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched) {
+              <mat-error>Password must be at least 8 characters</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- User Role Select -->
+          <mat-form-field class="form-field" appearance="fill">
+            <mat-label>Account Role</mat-label>
+            <mat-select formControlName="role" required (selectionChange)="onRoleChange()">
+              <mat-option value="PROVIDER">Provider (Hospital/Clinic)</mat-option>
+              <mat-option value="PAYER">Payer (Insurance Co.)</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Contact Phone -->
+          <mat-form-field class="form-field" appearance="fill">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone" placeholder="9876543210" required>
+            @if (registerForm.get('phone')?.hasError('required') && registerForm.get('phone')?.touched) {
+              <mat-error>Phone is required</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Organization Name -->
+          <mat-form-field class="form-field form-field-full" appearance="fill">
+            <mat-label>Organization Name</mat-label>
+            <input matInput formControlName="organizationName" placeholder="e.g. City General Hospital or Star Health" required>
+            @if (registerForm.get('organizationName')?.hasError('required') && registerForm.get('organizationName')?.touched) {
+              <mat-error>Organization name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Provider Type (Conditional) -->
+          @if (registerForm.get('role')?.value === 'PROVIDER') {
+            <mat-form-field class="form-field form-field-full animate-fade-in" appearance="fill">
+              <mat-label>Healthcare Provider Type</mat-label>
+              <mat-select formControlName="providerType" required>
+                <mat-option value="General Hospital">General Hospital</mat-option>
+                <mat-option value="Multi Specialty Hospital">Multi Specialty Hospital</mat-option>
+                <mat-option value="Super Specialty Hospital">Super Specialty Hospital</mat-option>
+                <mat-option value="Dental Clinic">Dental Clinic</mat-option>
+                <mat-option value="Orthopedic Hospital">Orthopedic Hospital</mat-option>
+                <mat-option value="Cardiology Hospital">Cardiology Hospital</mat-option>
+                <mat-option value="Diagnostic Center">Diagnostic Center</mat-option>
+                <mat-option value="Pathology Lab">Pathology Lab</mat-option>
+              </mat-select>
+              @if (registerForm.get('providerType')?.hasError('required') && registerForm.get('providerType')?.touched) {
+                <mat-error>Provider type is required</mat-error>
+              }
+            </mat-form-field>
+          }
+        </div>
+
+        <button mat-raised-button color="primary" class="submit-btn" type="submit" [disabled]="registerForm.invalid || isLoading">
+          @if (isLoading) {
+            <span>Creating Account...</span>
+          } @else {
+            <span>Register</span>
+          }
+        </button>
+      </form>
+
+      <div class="footer-links">
+        <a routerLink="/login" class="footer-link">Already have an account? Sign In</a>
+      </div>
+
+    } @else {
+      <!-- OTP Verification Mode -->
+      <div class="otp-section animate-fade-in">
+        <h2 class="register-title">Email Verification Required</h2>
+        
+        <p style="color: #ffffff; font-size: 14px; margin-bottom: 20px;">
+          We sent a 6-digit verification code to <br>
+          <strong style="color: var(--primary-color);">{{ registerForm.get('email')?.value }}</strong>
+        </p>
+
+        @if (errorMessage) {
+          <div class="error-alert animate-fade-in">
+            <mat-icon style="font-size: 18px; width: 18px; height: 18px;">error</mat-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+        }
+        @if (successMessage) {
+          <div class="success-alert animate-fade-in">
+            <mat-icon style="font-size: 18px; width: 18px; height: 18px;">check_circle</mat-icon>
+            <span>{{ successMessage }}</span>
+          </div>
+        }
+
+        <!-- OTP Input Form -->
+        <form [formGroup]="otpForm" (ngSubmit)="onVerifyOtp()">
+          <mat-form-field class="form-field form-field-full" appearance="fill" style="text-align: center;">
+            <mat-label style="text-align: center; width: 100%;">Enter 6-Digit OTP</mat-label>
+            <input matInput formControlName="otp" placeholder="123456" maxLength="6" required 
+                   style="text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 12px; padding-left: 12px;">
+            @if (otpForm.get('otp')?.hasError('required') && otpForm.get('otp')?.touched) {
+              <mat-error>OTP is required</mat-error>
+            }
+            @if (otpForm.get('otp')?.hasError('pattern') && otpForm.get('otp')?.touched) {
+              <mat-error>OTP must be a 6-digit number</mat-error>
+            }
+          </mat-form-field>
+
+          <p class="timer-text">
+            @if (otpTimer > 0) {
+              Code expires in: <span class="timer-highlight">{{ formatTime(otpTimer) }}</span>
+            } @else {
+              Code has expired.
+            }
+          </p>
+
+          <div style="margin-bottom: 24px; font-size: 13px; color: var(--text-light)">
+            Didn't receive code? 
+            <button type="button" class="resend-link" (click)="onResendOtp()" [disabled]="otpTimer > 540 || isLoading">
+              Resend OTP
+            </button>
+          </div>
+
+          <button mat-raised-button color="primary" class="submit-btn" type="submit" [disabled]="otpForm.invalid || isLoading">
+            @if (isLoading) {
+              <span>Verifying...</span>
+            } @else {
+              <span>Verify & Activate</span>
+            }
+          </button>
+        </form>
+
+        <div class="footer-links">
+          <button type="button" style="background: none; border: none; font-size: 13px;" class="footer-link" (click)="isOtpMode = false">
+            ← Back to Registration
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

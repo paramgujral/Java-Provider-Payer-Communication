@@ -1,0 +1,20 @@
+# Antigravity agents rule/skill folder
+.agents/
+
+# IDE and Project Settings
+.idea/
+.vscode/
+
+# Build and package manager folders
+node_modules/
+target/
+dist/
+/out-tsc
+/tmp
+/bazel-out
+npm-debug.log
+yarn-error.log
+*.log
+
+# Local environment configuration
+.env

@@ -1,0 +1,51 @@
+# Task List: Feuji Smart Healthcare Connector Implementation
+
+- [x] **Sprint 1 — Foundation & Auth**
+  - [x] **Backend Setup**
+    - [x] 1.1 Create Spring Boot project structure with Maven
+    - [x] 1.2 Configure `pom.xml` with dependencies (JPA, Security, Mail, HAPI FHIR, Gemini)
+    - [x] 1.3 Configure `application.properties` (NeonDB, JWT, Gmail SMTP, Gemini API URL)
+    - [x] 1.4 Create Enums (`UserRole`, `RequestStatus`, `Urgency`, `PlaceOfService`, `NotificationType`, `SubscriberRelationship`)
+    - [x] 1.5 Create Entity classes (`User`, `AuthorizationRequest`, `Document`, `Notification`, `StatusHistory`, `EmailVerification`, `PasswordResetToken`)
+    - [x] 1.6 Create JPA Repositories
+    - [x] 1.7 Implement Security Utilities & Configuration (`JwtUtil`, `JwtAuthenticationFilter`, `SecurityConfig`, `CorsConfig`, `AsyncConfig`)
+    - [x] 1.8 Implement `EmailService` using Spring Boot Mail + Gmail SMTP
+    - [x] 1.9 Implement `AuthService` (Register, Login, OTP verification, Password Reset token logic)
+    - [x] 1.10 Implement `AuthController` + REST endpoints
+    - [x] 1.11 Implement `GlobalExceptionHandler`
+  - [x] **Frontend Setup**
+    - [x] 1.12 Initialize Angular project (using Feuji Brand Theme guidelines)
+    - [x] 1.13 Set up Angular folder structure (`core/`, `shared/`, `features/`) and models
+    - [x] 1.14 Configure Angular Material and styles (Feuji Orange theme `#f3752e`)
+    - [x] 1.15 Implement `AuthService` and `JwtInterceptor`
+    - [x] 1.16 Build Login Page UI and components
+    - [x] 1.17 Build Register Page UI with email OTP verification step
+    - [x] 1.18 Build Forgot / Reset Password UI
+    - [x] 1.19 Configure Router with Auth & Role guards
+    - [x] 1.20 Build Shared Navbar & Footer (with Feuji logo)
+- [x] **Sprint 2 — Provider Module**
+  - [x] Implement backend Request DTOs, controllers, and services (CRUD)
+  - [x] Implement local file upload logic (`DocumentService`)
+  - [x] Build Angular Multi-Step Authorization Request Form (`new-request`)
+  - [x] Build Provider Dashboard UI
+  - [x] Build My Requests List UI with filters and details modal
+- [x] **Sprint 3 — AI Copilot & FHIR**
+  - [x] Implement `GeminiAIService` with structured prompt engineering for validation
+  - [x] Integrate AI Copilot Panel in frontend (quality score, suggestions, auto-corrections)
+  - [x] Implement `FhirService` on backend (HAPI FHIR bundle generation)
+  - [x] Build Collapsible FHIR JSON Viewer modal in frontend
+  - [x] Implement `CloudinaryService` for patient document uploads
+  - [x] Implement `RedisService` via Upstash REST API for caching & rate-limiting
+- [x] **Sprint 4 — Payer Module + Notifications**
+  - [x] Implement Payer status update logic (remarks + history tracking)
+  - [x] Build Payer Dashboard & Pending Request Queue UI
+  - [x] Build Payer Request Review UI with action panel (Approve, Reject, Request Info)
+  - [x] Implement Notification Engine (In-app + email) on status change
+  - [x] Build Notification Bell dropdown in Navbar
+- [x] **Sprint 5 — Polish & Verification**
+  - [x] Integrate Swagger/OpenAPI documentation
+  - [x] Implement `DataSeederService` to pre-load sample data on first start
+  - [x] Implement `ApiCredentialsChecker` startup health checker diagnostics
+  - [x] Refactor `EmailService` with black & orange HTML layouts, Cloudinary logo, and footers
+  - [x] General UI theme polish (Feuji-branded styles, responsiveness, micro-animations)
+  - [x] Perform end-to-end verification (happy path & edge cases)

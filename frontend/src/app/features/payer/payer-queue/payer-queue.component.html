@@ -1,0 +1,95 @@
+<div class="queue-container">
+  <div class="page-header">
+    <h1 class="page-title">Authorization Request Queue</h1>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-section animate-fade-in">
+    <mat-form-field class="search-field" appearance="fill">
+      <mat-label>Search Patient or Hospital</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="Search patient name, hospital name...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field class="filter-field" appearance="fill">
+      <mat-label>Filter by Status</mat-label>
+      <mat-select [(ngModel)]="statusFilter" (selectionChange)="applyFilters()">
+        <mat-option value="ALL">All Statuses</mat-option>
+        <mat-option value="SUBMITTED">Pending Review (Submitted)</mat-option>
+        <mat-option value="UNDER_REVIEW">Under Review</mat-option>
+        <mat-option value="APPROVED">Approved</mat-option>
+        <mat-option value="REJECTED">Rejected</mat-option>
+        <mat-option value="INFO_REQUESTED">Info Requested</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (isLoading) {
+    <div style="display: flex; justify-content: center; align-items: center; padding: 80px;">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  } @else if (errorMessage) {
+    <div class="error-state glass-panel animate-fade-in" style="text-align: center; margin: 40px auto; max-width: 600px; padding: 40px; color: var(--status-rejected);">
+      <mat-icon style="font-size: 64px; width: 64px; height: 64px; margin-bottom: 20px;">error_outline</mat-icon>
+      <h2>Unable to load request queue</h2>
+      <p>{{ errorMessage }}</p>
+      <button mat-raised-button color="primary" (click)="loadRequests()" style="margin-top: 20px;">Retry connection</button>
+    </div>
+  } @else {
+    <!-- Queue Card -->
+    <div class="queue-card glass-panel animate-fade-in">
+      <div class="table-container">
+        @if (filteredRequests.length === 0) {
+          <div class="empty-state">
+            <mat-icon>done_all</mat-icon>
+            <p>No prior authorization requests match your filters.</p>
+          </div>
+        } @else {
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Request ID</th>
+                <th>Healthcare Provider</th>
+                <th>Patient Name</th>
+                <th>CPT Code</th>
+                <th>Est. Cost</th>
+                <th>Service Date</th>
+                <th>Urgency</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (req of filteredRequests; track req.id) {
+                <tr>
+                  <td><strong>REQ-{{ req.id }}</strong></td>
+                  <td>{{ req.providerOrganization || 'Provider' }}</td>
+                  <td>{{ req.patientFirstName }} {{ req.patientLastName }}</td>
+                  <td><span style="font-weight: 600;">CPT {{ req.procedureCode }}</span></td>
+                  <td>INR {{ req.estimatedCost | number }}</td>
+                  <td>{{ req.serviceDate | date:'mediumDate' }}</td>
+                  <td>
+                    <span class="urgency-badge" [ngClass]="req.urgency.toLowerCase()">
+                      {{ req.urgency }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="status-badge" [ngClass]="req.status?.toLowerCase()">
+                      {{ formatStatus(req.status || 'DRAFT') }}
+                    </span>
+                  </td>
+                  <td>
+                    <button mat-raised-button color="primary" style="font-size: 12px; height: 32px; font-weight: bold;"
+                            [routerLink]="['/payer/requests', req.id]">
+                      Review
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  }
+</div>
