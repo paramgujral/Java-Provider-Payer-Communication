@@ -1,0 +1,103 @@
+<div class="dashboard-shell">
+  <div class="card">
+    <h2>Payer Dashboard</h2>
+    <div class="card-grid" *ngIf="summary">
+      <div class="card-mini">
+        <h3>Pending Reviews</h3>
+        <div class="value">{{ summary.pendingReviews }}</div>
+      </div>
+      <div class="card-mini">
+        <h3>Today's Reviews</h3>
+        <div class="value">{{ summary.todaysReviews }}</div>
+      </div>
+      <div class="card-mini">
+        <h3>Average Review Time</h3>
+        <div class="value">{{ summary.averageReviewTimeHours }} hrs</div>
+      </div>
+      <div class="card-mini">
+        <h3>Approval Percentage</h3>
+        <div class="value">{{ summary.approvalPercentage }}%</div>
+      </div>
+    </div>
+    <p>{{ message }}</p>
+    <form (ngSubmit)="submit()">
+      <input [(ngModel)]="form.payerCode" name="payerCode" placeholder="Payer Code" required />
+      <input [(ngModel)]="form.companyName" name="companyName" placeholder="Company Name" required />
+      <input [(ngModel)]="form.website" name="website" placeholder="Website" required />
+      <input [(ngModel)]="form.phone" name="phone" placeholder="Phone" required />
+      <input [(ngModel)]="form.email" name="email" placeholder="Email" required />
+      <input [(ngModel)]="form.address" name="address" placeholder="Address" required />
+      <input [(ngModel)]="form.city" name="city" placeholder="City" required />
+      <input [(ngModel)]="form.state" name="state" placeholder="State" required />
+      <input [(ngModel)]="form.country" name="country" placeholder="Country" required />
+      <select [(ngModel)]="form.status" name="status">
+        <option value="ACTIVE">ACTIVE</option>
+        <option value="INACTIVE">INACTIVE</option>
+        <option value="PENDING">PENDING</option>
+      </select>
+      <button type="submit">Create Payer</button>
+    </form>
+  </div>
+
+  <div class="card review-layout">
+    <div>
+      <h3>Submitted Authorization Requests</h3>
+      <div class="list" *ngIf="requests.length; else noRequests">
+        <button type="button" class="request-item" *ngFor="let request of requests" (click)="selectRequest(request)">
+          <strong>{{ request.patientName || request.requestNumber }}</strong>
+          <span>{{ request.requestNumber }}</span>
+          <small>{{ request.status }}</small>
+        </button>
+      </div>
+      <ng-template #noRequests>
+        <p>No submitted requests available for payer review.</p>
+      </ng-template>
+    </div>
+
+    <div class="card detail-card" *ngIf="selectedRequest as request">
+      <h3>Review Request</h3>
+      <div class="detail-grid">
+        <div><strong>Patient</strong><span>{{ request.patientName }}</span></div>
+        <div><strong>Insurance</strong><span>{{ request.insuranceCompany }} / {{ request.memberId }}</span></div>
+        <div><strong>Diagnosis</strong><span>{{ request.diagnosis }} ({{ request.icd10Code }})</span></div>
+        <div><strong>Procedure</strong><span>{{ request.procedureName }} ({{ request.cptCode }})</span></div>
+        <div><strong>Doctor</strong><span>{{ request.doctorName }} / {{ request.npiNumber }}</span></div>
+        <div><strong>AI Score</strong><span>{{ request.aiScore ?? 0 }}%</span></div>
+      </div>
+
+      <div class="panel-block">
+        <strong>Attachments</strong>
+        <p>{{ request.mriReport || 'No MRI report' }}</p>
+        <p>{{ request.labReport || 'No lab report' }}</p>
+        <p>{{ request.prescription || 'No prescription' }}</p>
+        <p>{{ request.medicalHistory || 'No medical history' }}</p>
+      </div>
+
+      <div class="panel-block">
+        <strong>FHIR Claim</strong>
+        <pre>{{ request.claimResourceJson || 'FHIR Claim not generated yet.' }}</pre>
+      </div>
+
+      <textarea [(ngModel)]="decision.reason" name="decisionReason" placeholder="Decision reason or additional information request"></textarea>
+
+      <div class="decision-actions">
+        <button type="button" [disabled]="decidingRequestId === request.id" (click)="applyDecision('APPROVED')">Approve</button>
+        <button type="button" class="warn" [disabled]="decidingRequestId === request.id" (click)="applyDecision('NEED_MORE_INFO')">Need More Info</button>
+        <button type="button" class="danger" [disabled]="decidingRequestId === request.id" (click)="applyDecision('REJECTED')">Reject</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Registered Payers</h3>
+    <div class="list" *ngIf="payers.length; else empty">
+      <div class="item" *ngFor="let payer of payers">
+        <strong>{{ payer.companyName }}</strong> — {{ payer.payerCode }}
+        <div>{{ payer.website }} • {{ payer.email }}</div>
+      </div>
+    </div>
+    <ng-template #empty>
+      <p>No payers found yet.</p>
+    </ng-template>
+  </div>
+</div>

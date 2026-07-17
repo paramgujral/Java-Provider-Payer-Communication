@@ -1,0 +1,5 @@
+.dashboard-shell { padding: 24px; font-family: Arial, sans-serif; }
+.card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+.card-mini { background: #f8fafc; border-radius: 10px; padding: 12px; border: 1px solid #e2e8f0; }
+.value { font-size: 1.4rem; font-weight: 700; color: #0f172a; }

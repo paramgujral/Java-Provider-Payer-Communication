@@ -1,0 +1,125 @@
+<div class="upload-shell">
+  <div class="card hero-card">
+    <div>
+      <h2>New Prior Authorization</h2>
+      <p class="hint">Create a draft, review it with AI, fix issues, then submit only when the completeness score reaches 100%.</p>
+    </div>
+  </div>
+
+  <div class="layout-grid">
+    <div class="card form-card">
+      <div class="meta-grid">
+        <input [(ngModel)]="form.requestNumber" name="requestNumber" placeholder="Request Number" required />
+        <input [(ngModel)]="form.providerId" name="providerId" placeholder="Provider ID" type="number" required />
+        <input [(ngModel)]="form.payerId" name="payerId" placeholder="Payer ID" type="number" required />
+      </div>
+
+      <section class="section-card">
+        <h3>Patient Information</h3>
+        <div class="field-grid">
+          <input [(ngModel)]="form.patientName" name="patientName" placeholder="Patient Name (required)" required />
+          <input [(ngModel)]="form.patientDob" name="patientDob" placeholder="DOB" type="date" />
+          <input [(ngModel)]="form.patientGender" name="patientGender" placeholder="Gender" />
+          <input [(ngModel)]="form.patientPhone" name="patientPhone" placeholder="Phone" />
+        </div>
+        <textarea [(ngModel)]="form.patientAddress" name="patientAddress" placeholder="Address"></textarea>
+      </section>
+
+      <section class="section-card">
+        <h3>Insurance</h3>
+        <div class="field-grid">
+          <input [(ngModel)]="form.insuranceCompany" name="insuranceCompany" placeholder="Insurance Company" />
+          <input [(ngModel)]="form.policyNumber" name="policyNumber" placeholder="Policy Number" />
+          <input [(ngModel)]="form.memberId" name="memberId" placeholder="Member ID" />
+          <input [(ngModel)]="form.coverageType" name="coverageType" placeholder="Coverage Type" />
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h3>Provider</h3>
+        <div class="field-grid">
+          <input [(ngModel)]="form.doctorName" name="doctorName" placeholder="Doctor Name" />
+          <input [(ngModel)]="form.npiNumber" name="npiNumber" placeholder="NPI Number" />
+          <input [(ngModel)]="form.hospital" name="hospital" placeholder="Hospital" />
+          <input [(ngModel)]="form.specialty" name="specialty" placeholder="Speciality" />
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h3>Clinical Information</h3>
+        <div class="field-grid">
+          <input [(ngModel)]="form.diagnosis" name="diagnosis" placeholder="Diagnosis" />
+          <input [(ngModel)]="form.icd10Code" name="icd10Code" placeholder="ICD-10 Code" />
+          <input [(ngModel)]="form.procedureName" name="procedureName" placeholder="Procedure" />
+          <input [(ngModel)]="form.cptCode" name="cptCode" placeholder="CPT Code" />
+        </div>
+        <textarea [(ngModel)]="form.reasonForAuthorization" name="reasonForAuthorization" placeholder="Reason for Authorization"></textarea>
+      </section>
+
+      <section class="section-card">
+        <h3>Attachments</h3>
+        <div class="field-grid">
+          <input [(ngModel)]="form.mriReport" name="mriReport" placeholder="MRI Report" />
+          <input [(ngModel)]="form.labReport" name="labReport" placeholder="Lab Report" />
+          <input [(ngModel)]="form.prescription" name="prescription" placeholder="Prescription" />
+          <input [(ngModel)]="form.medicalHistory" name="medicalHistory" placeholder="Medical History" />
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="button" [disabled]="savingDraft" (click)="saveDraft()">Save as Draft</button>
+        <button type="button" class="secondary" [disabled]="reviewing" (click)="reviewWithAi()">Review with AI</button>
+        <button type="button" class="secondary" [disabled]="reviewing" (click)="reviewWithAi()">Review Again</button>
+        <button type="button" class="accent" [disabled]="submitting || !currentDraftId || !aiReview?.readyForSubmission" (click)="submitRequest()">Submit Request</button>
+      </div>
+
+      <p class="message">{{ message }}</p>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h3>AI Copilot Review</h3>
+        <div *ngIf="aiReview as review; else reviewPlaceholder">
+          <div class="score-row">
+            <span>Completeness Score</span>
+            <strong>{{ review.score }}%</strong>
+          </div>
+          <p class="ready" *ngIf="review.readyForSubmission">✓ Ready for Submission</p>
+          <div class="panel-block">
+            <h4>Missing</h4>
+            <ul *ngIf="review.missing && review.missing.length > 0; else noMissing">
+              <li *ngFor="let item of review.missing">{{ item }}</li>
+            </ul>
+            <ng-template #noMissing><p>No missing fields.</p></ng-template>
+          </div>
+          <div class="panel-block">
+            <h4>Warnings</h4>
+            <ul *ngIf="review.warnings && review.warnings.length > 0; else noWarnings">
+              <li *ngFor="let item of review.warnings">{{ item }}</li>
+            </ul>
+            <ng-template #noWarnings><p>No warnings.</p></ng-template>
+          </div>
+        </div>
+        <ng-template #reviewPlaceholder>
+          <p>Run AI review to see completeness score, missing fields, and warnings.</p>
+        </ng-template>
+      </div>
+
+      <div class="card" *ngIf="requests.length">
+        <h3>Recent Requests</h3>
+        <div class="request-row" *ngFor="let item of requests">
+          <div>
+            <strong>{{ item.requestNumber }}</strong>
+            <p>{{ item.patientName || 'Draft request' }}</p>
+            <small>Status: {{ item.status }}</small>
+            <small *ngIf="item.aiScore !== null && item.aiScore !== undefined">AI Score: {{ item.aiScore }}%</small>
+            <small *ngIf="item.decisionReason">Decision: {{ item.decisionReason }}</small>
+          </div>
+          <div class="request-actions">
+            <button type="button" [disabled]="loadingDraftId === item.id" (click)="loadDraft(item)">Open Draft</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

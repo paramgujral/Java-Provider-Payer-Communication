@@ -1,0 +1,26 @@
+<div class="dashboard-shell">
+  <h2>Admin Dashboard</h2>
+
+  <div class="card-grid" *ngIf="summary">
+    <div class="card">
+      <h3>Providers</h3>
+      <div class="value">{{ summary.providers }}</div>
+    </div>
+    <div class="card">
+      <h3>Payers</h3>
+      <div class="value">{{ summary.payers }}</div>
+    </div>
+    <div class="card">
+      <h3>Users</h3>
+      <div class="value">{{ summary.users }}</div>
+    </div>
+    <div class="card">
+      <h3>Requests</h3>
+      <div class="value">{{ summary.totalRequests }}</div>
+    </div>
+    <div class="card">
+      <h3>System Health</h3>
+      <div class="value">{{ summary.systemHealth }}</div>
+    </div>
+  </div>
+</div>

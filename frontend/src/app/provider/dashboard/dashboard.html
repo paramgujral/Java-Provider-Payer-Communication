@@ -1,0 +1,55 @@
+<div class="dashboard-shell">
+  <div class="card">
+    <h2>Provider Dashboard</h2>
+    <div class="card-grid" *ngIf="summary">
+      <div class="card-mini">
+        <h3>Total Requests</h3>
+        <div class="value">{{ summary.totalRequests }}</div>
+      </div>
+      <div class="card-mini">
+        <h3>Pending</h3>
+        <div class="value">{{ summary.pending }}</div>
+      </div>
+      <div class="card-mini">
+        <h3>Approved</h3>
+        <div class="value">{{ summary.approved }}</div>
+      </div>
+      <div class="card-mini">
+        <h3>Rejected</h3>
+        <div class="value">{{ summary.rejected }}</div>
+      </div>
+    </div>
+    <p>{{ message }}</p>
+    <form (ngSubmit)="submit()">
+      <input [(ngModel)]="form.providerCode" name="providerCode" placeholder="Provider Code" required />
+      <input [(ngModel)]="form.hospitalName" name="hospitalName" placeholder="Hospital Name" required />
+      <input [(ngModel)]="form.specialization" name="specialization" placeholder="Specialization" required />
+      <input [(ngModel)]="form.licenseNumber" name="licenseNumber" placeholder="License Number" required />
+      <input [(ngModel)]="form.phone" name="phone" placeholder="Phone" required />
+      <input [(ngModel)]="form.email" name="email" placeholder="Email" required />
+      <input [(ngModel)]="form.address" name="address" placeholder="Address" required />
+      <input [(ngModel)]="form.city" name="city" placeholder="City" required />
+      <input [(ngModel)]="form.state" name="state" placeholder="State" required />
+      <input [(ngModel)]="form.country" name="country" placeholder="Country" required />
+      <select [(ngModel)]="form.status" name="status">
+        <option value="ACTIVE">ACTIVE</option>
+        <option value="INACTIVE">INACTIVE</option>
+        <option value="PENDING">PENDING</option>
+      </select>
+      <button type="submit">Create Provider</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Registered Providers</h3>
+    <div class="list" *ngIf="providers.length; else empty">
+      <div class="item" *ngFor="let provider of providers">
+        <strong>{{ provider.hospitalName }}</strong> — {{ provider.providerCode }}
+        <div>{{ provider.specialization }} • {{ provider.email }}</div>
+      </div>
+    </div>
+    <ng-template #empty>
+      <p>No providers found yet.</p>
+    </ng-template>
+  </div>
+</div>

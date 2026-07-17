@@ -1,0 +1,11 @@
+.dashboard-shell { padding: 24px; font-family: Arial, sans-serif; }
+.card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+.card-mini { background: #f8fafc; border-radius: 10px; padding: 12px; border: 1px solid #e2e8f0; }
+.value { font-size: 1.4rem; font-weight: 700; color: #0f172a; }
+form { display: grid; gap: 10px; max-width: 560px; }
+input, select, button { padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+button { background: #2563eb; color: white; cursor: pointer; }
+button:hover { background: #1d4ed8; }
+.list { display: grid; gap: 8px; }
+.item { padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; }

@@ -1,0 +1,16 @@
+<header class="topbar" *ngIf="showNav">
+	<div class="brand">
+		<span class="brand-mark">HC</span>
+		<div>
+			<strong>Healthcare Connector</strong>
+			<small>Provider and payer authorization workflow</small>
+		</div>
+	</div>
+
+	<nav class="links">
+		<a *ngIf="isProvider()" routerLink="/provider/dashboard" routerLinkActive="active">Provider Dashboard</a>
+		<a *ngIf="isProvider()" routerLink="/authorization/upload" routerLinkActive="active">New Authorization</a>
+		<a *ngIf="isPayer()" routerLink="/payer/dashboard" routerLinkActive="active">Payer Dashboard</a>
+		<a *ngIf="isAdmin()" routerLink="/admin/dashboard" routerLinkActive="active">Admin Dashboard</a>
+	</nav>
+</header>

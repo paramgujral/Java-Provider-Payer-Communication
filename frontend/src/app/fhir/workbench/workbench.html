@@ -1,0 +1,105 @@
+<div class="fhir-shell">
+  <section class="hero card">
+    <div>
+      <p class="eyebrow">FHIR Flow</p>
+      <h1>Validate, persist, fetch, and forward claims data</h1>
+      <p class="lede">
+        Use this workspace to exercise the backend FHIR endpoints end-to-end from the browser.
+      </p>
+    </div>
+
+    <div class="status-grid" *ngIf="status as currentStatus">
+      <div>
+        <span>Validator</span>
+        <strong>{{ currentStatus.configured ? 'Ready' : 'Not ready' }}</strong>
+      </div>
+      <div>
+        <span>Remote base</span>
+        <strong>{{ currentStatus.remoteBaseUrl || 'None' }}</strong>
+      </div>
+      <div>
+        <span>Profiles</span>
+        <strong>{{ currentStatus.loadedDefinitions }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="toolbar card">
+    <button type="button" [class.active]="resourceType === 'Patient'" (click)="selectResourceType('Patient')">Patient</button>
+    <button type="button" [class.active]="resourceType === 'Coverage'" (click)="selectResourceType('Coverage')">Coverage</button>
+    <button type="button" [class.active]="resourceType === 'Claim'" (click)="selectResourceType('Claim')">Claim</button>
+    <button type="button" class="ghost" (click)="loadStatus()">Refresh validator</button>
+  </section>
+
+  <section class="layout">
+    <div class="card editor">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Resource Editor</p>
+          <h2>{{ resourceType }} JSON</h2>
+        </div>
+        <button type="button" class="ghost" (click)="useSample(resourceType)">Load sample</button>
+      </div>
+
+      <label>
+        Resource ID
+        <input [(ngModel)]="resourceId" name="resourceId" placeholder="1" />
+      </label>
+
+      <label>
+        Payer URL
+        <input [(ngModel)]="payerUrl" name="payerUrl" placeholder="http://localhost:8080/api/payer" />
+      </label>
+
+      <label class="checkbox-row">
+        <input type="checkbox" [(ngModel)]="validateBeforeCreate" name="validateBeforeCreate" />
+        Validate before create
+      </label>
+
+      <textarea [(ngModel)]="resourceJson" name="resourceJson"></textarea>
+
+      <div class="actions">
+        <button type="button" (click)="validateResource()">Validate</button>
+        <button type="button" class="secondary" (click)="createResource()">Save</button>
+        <button type="button" class="secondary" (click)="fetchResource()">Fetch by ID</button>
+        <button type="button" class="accent" (click)="sendToPayer()">Forward to payer</button>
+      </div>
+
+      <p class="message">{{ message }}</p>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <p class="eyebrow">Validation</p>
+        <pre *ngIf="validationResult as validation; else noValidation">{{ validation | json }}</pre>
+        <ng-template #noValidation>
+          <p class="empty">Run validation to see issues and suggestions here.</p>
+        </ng-template>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">Create Result</p>
+        <pre *ngIf="createResult as create; else noCreate">{{ create | json }}</pre>
+        <ng-template #noCreate>
+          <p class="empty">Saved resource metadata appears here after create.</p>
+        </ng-template>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">Fetched Resource</p>
+        <pre *ngIf="fetchResult; else noFetch">{{ fetchResult }}</pre>
+        <ng-template #noFetch>
+          <p class="empty">Load a resource by ID to inspect the stored JSON.</p>
+        </ng-template>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">Payer Forwarding</p>
+        <pre *ngIf="outboundResult as outbound; else noOutbound">{{ outbound | json }}</pre>
+        <ng-template #noOutbound>
+          <p class="empty">Forward a resource to a payer endpoint to see the response here.</p>
+        </ng-template>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,44 @@
+<div class="copilot-shell">
+  <div class="card">
+    <h2>AI Copilot Assistant</h2>
+    <textarea [(ngModel)]="requestText" placeholder="Paste a prior authorization request here..."></textarea>
+    <br />
+    <button (click)="analyze()">Generate AI Insight</button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div class="card" *ngIf="summaryResult">
+    <h3>AI Summary</h3>
+    <div class="result">{{ summaryResult.summary }}</div>
+
+    <h3>AI Recommendation</h3>
+    <div class="result">{{ summaryResult.recommendation }}</div>
+
+    <h3>AI Risk Score</h3>
+    <div class="result">{{ summaryResult.riskLevel }}</div>
+
+    <h3>Missing Information Detection</h3>
+    <div class="result">{{ summaryResult.missingFields }}</div>
+  </div>
+
+  <div class="card" *ngIf="recommendationResult || validationResult || missingFieldsResult">
+    <h3>Detailed Recommendation</h3>
+    <div class="result">{{ recommendationResult?.recommendation }}</div>
+    <p>{{ recommendationResult?.rationale }}</p>
+
+    <h3>Validation Results</h3>
+    <div class="result" *ngIf="validationResult">
+      <div>{{ validationResult.valid ? 'Valid request' : 'Validation issues found' }}</div>
+      <ul>
+        <li *ngFor="let issue of validationResult.issues">{{ issue }}</li>
+      </ul>
+    </div>
+
+    <h3>Missing Fields</h3>
+    <div class="result" *ngIf="missingFieldsResult">
+      <ul>
+        <li *ngFor="let field of missingFieldsResult.missingFields">{{ field }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

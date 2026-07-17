@@ -1,0 +1,36 @@
+.upload-shell { padding: 24px; font-family: Arial, sans-serif; }
+.card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08); margin-bottom: 16px; }
+.hero-card { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.layout-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.9fr); gap: 16px; }
+.stack { display: grid; gap: 16px; align-content: start; }
+.hint { margin: 8px 0 12px; color: #475569; line-height: 1.5; }
+.form-card { display: grid; gap: 16px; }
+.meta-grid, .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.section-card { padding: 16px; border: 1px solid #e2e8f0; border-radius: 14px; background: #f8fafc; }
+.section-card h3 { margin: 0 0 12px; }
+input, textarea, button { padding: 10px 12px; border-radius: 10px; border: 1px solid #cbd5e1; width: 100%; box-sizing: border-box; }
+textarea { min-height: 96px; font-family: Consolas, monospace; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.actions button, .request-actions button { width: auto; background: #4f46e5; color: #fff; cursor: pointer; }
+.actions button.secondary { background: #0f766e; }
+.actions button.accent { background: #2563eb; }
+.actions button:disabled, .request-actions button:disabled { opacity: 0.65; cursor: not-allowed; }
+.message { margin: 0; color: #334155; }
+.score-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-radius: 12px; background: #eef2ff; margin-bottom: 12px; }
+.score-row strong { font-size: 1.4rem; color: #312e81; }
+.ready { color: #15803d; font-weight: 700; }
+.panel-block h4 { margin-bottom: 8px; }
+.panel-block ul { margin: 0; padding-left: 20px; }
+.request-row { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid #e2e8f0; }
+.request-row:first-of-type { border-top: 0; }
+.request-row p, .request-row small { display: block; margin: 4px 0 0; color: #475569; }
+.request-actions { display: flex; align-items: center; }
+
+@media (max-width: 1100px) {
+	.layout-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+	.meta-grid, .field-grid { grid-template-columns: 1fr; }
+	.hero-card { flex-direction: column; }
+}

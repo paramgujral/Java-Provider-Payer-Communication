@@ -1,0 +1,7 @@
+.copilot-shell { padding: 24px; font-family: Arial, sans-serif; }
+.card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; }
+textarea, button { padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+textarea { width: 100%; min-height: 220px; }
+button { background: #7c3aed; color: white; cursor: pointer; }
+button:hover { background: #6d28d9; }
+.result { white-space: pre-wrap; }

@@ -1,0 +1,27 @@
+.dashboard-shell { padding: 24px; font-family: Arial, sans-serif; }
+.card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+.card-mini { background: #f8fafc; border-radius: 10px; padding: 12px; border: 1px solid #e2e8f0; }
+.value { font-size: 1.4rem; font-weight: 700; color: #0f172a; }
+form { display: grid; gap: 10px; max-width: 560px; }
+input, select, textarea, button { padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+button { background: #0f766e; color: white; cursor: pointer; }
+button:hover { background: #115e59; }
+.list { display: grid; gap: 8px; }
+.item { padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; }
+.review-layout { display: grid; grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr); gap: 16px; }
+.request-item { text-align: left; background: #f8fafc; color: #0f172a; display: grid; gap: 4px; }
+.detail-card { margin-bottom: 0; }
+.detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.detail-grid div { display: grid; gap: 4px; padding: 10px; background: #f8fafc; border-radius: 10px; }
+.panel-block { margin-bottom: 16px; }
+pre { background: #0f172a; color: #e2e8f0; border-radius: 10px; padding: 12px; overflow: auto; white-space: pre-wrap; }
+.decision-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.decision-actions .warn { background: #d97706; }
+.decision-actions .warn:hover { background: #b45309; }
+.decision-actions .danger { background: #dc2626; }
+.decision-actions .danger:hover { background: #b91c1c; }
+
+@media (max-width: 960px) {
+	.review-layout, .detail-grid { grid-template-columns: 1fr; }
+}
