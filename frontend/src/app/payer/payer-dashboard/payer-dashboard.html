@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="header">
+    <h2>Payer Dashboard</h2>
+    <div class="header-right">
+      <div class="notification-container">
+        <div class="notification-bell" (click)="toggleNotifications()">
+          🔔
+          <span class="badge" *ngIf="notifications.length > 0">
+            {{ notifications.length }}
+          </span>
+        </div>
+        <div class="notification-panel" *ngIf="showNotifications">
+          <h3>Notifications</h3>
+          <div class="notification-item" *ngFor="let notification of notifications">
+            {{ notification }}
+          </div>
+          <div *ngIf="notifications.length === 0">No notifications available</div>
+        </div>
+      </div>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+  <p>
+    Total Requests:
+    {{ requests.length }}
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Request ID</th>
+        <th>Patient Name</th>
+        <th>Diagnosis</th>
+        <th>Treatment</th>
+        <th>Estimated Cost</th>
+        <th>Provider</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of requests">
+        <td>{{ request.id }}</td>
+        <td>{{ request.patientName }}</td>
+        <td>{{ request.diagnosis }}</td>
+        <td>{{ request.treatment }}</td>
+        <td>{{ request.estimatedCost }}</td>
+        <td>{{ request.provider || '-' }}</td>
+        <td>{{ request.status }}</td>
+        <td>
+          <button
+            class="approve-btn"
+            (click)="approveRequest(request)"
+            [disabled]="request.status !== 'draft'"
+          >
+            Approve
+          </button>
+          <button
+            class="reject-btn"
+            (click)="rejectRequest(request)"
+            [disabled]="request.status !== 'draft'"
+          >
+            Reject
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

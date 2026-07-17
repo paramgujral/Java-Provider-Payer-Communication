@@ -1,0 +1,219 @@
+{
+  "info": {
+    "_postman_id": "08a1e04b-9d85-437c-8097-0e6c519aa640",
+    "name": "Health connector",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53509277",
+    "_collection_link": "https://go.postman.co/collection/53509277-08a1e04b-9d85-437c-8097-0e6c519aa640?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\":\"provider1\",\r\n    \"password\":\"provider12\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "submit request",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"patientName\": \"Sana\",\r\n  \"diagnosis\": \"Fever\",\r\n  \"treatment\": \"Dialysis\",\r\n  \"estimatedCost\": \"86000\",\r\n  \"payer\": \"United Health\",\r\n  \"provider\": \"provider1\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/fhir/Claim",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "fhir",
+            "Claim"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "payer dashboard",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/fhir/Claim",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "fhir",
+            "Claim"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "approve request",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/fhir/Claim/3/approve",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "fhir",
+            "Claim",
+            "3",
+            "approve"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "reject request",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/fhir/Claim/3/reject",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "fhir",
+            "Claim",
+            "3",
+            "reject"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Ai Copilot Request",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"patientName\": \"Sana\",\r\n  \"diagnosis\": \"Pneumonia\",\r\n  \"treatment\": \"Dialysis\",\r\n  \"estimatedCost\": 50000,\r\n  \"payer\": \"Aetna\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/fhir/Claim/validate",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "fhir",
+            "Claim",
+            "validate"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

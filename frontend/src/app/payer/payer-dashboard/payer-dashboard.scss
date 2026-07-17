@@ -1,0 +1,116 @@
+.container {
+  padding: 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.notification-container {
+  position: relative;
+}
+
+.notification-bell {
+  position: relative;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notification-panel {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  width: 320px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.notification-panel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.logout-btn {
+  background: #1565c0;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th {
+  background-color: #1565c0;
+  color: white;
+  padding: 12px;
+}
+
+td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.approve-btn {
+  background: green;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.reject-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
