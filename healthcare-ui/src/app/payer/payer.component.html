@@ -1,0 +1,183 @@
+<div class="container mt-4">
+
+  <h2 class="text-center mb-4">
+
+    Insurance Payer Dashboard
+
+  </h2>
+
+  <div class="row mb-4">
+
+    <div class="col-md-4">
+
+      <div class="card bg-warning text-center">
+
+        <div class="card-body">
+
+          <h2>{{pending}}</h2>
+
+          Pending
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+      <div class="card bg-success text-center text-white">
+
+        <div class="card-body">
+
+          <h2>{{approved}}</h2>
+
+          Approved
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+      <div class="card bg-danger text-center text-white">
+
+        <div class="card-body">
+
+          <h2>{{rejected}}</h2>
+
+          Rejected
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <table class="table table-bordered table-hover">
+
+    <thead>
+
+      <tr>
+
+        <th>ID</th>
+
+        <th>Patient</th>
+
+        <th>Diagnosis</th>
+
+        <th>Procedure</th>
+
+        <th>Status</th>
+
+        <th>Actions</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let req of requests">
+
+        <td>{{req.id}}</td>
+
+        <td>{{req.patientFirstName}} {{req.patientLastName}}</td>
+
+        <td>{{req.diagnosis}}</td>
+
+        <td>{{req.procedureName}}</td>
+
+        <td>
+
+          <span class="badge bg-warning" *ngIf="req.status=='Pending'">
+
+            Pending
+
+          </span>
+
+          <span class="badge bg-success" *ngIf="req.status=='Approved'">
+
+            Approved
+
+          </span>
+
+          <span class="badge bg-danger" *ngIf="req.status=='Rejected'">
+
+            Rejected
+
+          </span>
+
+        </td>
+
+        <td>
+
+          <button class="btn btn-info btn-sm me-2" (click)="showAIReview(req.id)">
+
+            AI
+
+          </button>
+
+          <button class="btn btn-primary btn-sm me-2" (click)="showFHIR(req.id)">
+
+            FHIR
+
+          </button>
+
+          <button class="btn btn-success btn-sm me-2" (click)="approve(req.id)">
+
+            Approve
+
+          </button>
+
+          <button class="btn btn-danger btn-sm" (click)="reject(req.id)">
+
+            Reject
+
+          </button>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <div class="card mt-4" *ngIf="selectedReview">
+
+    <div class="card-header bg-dark text-white">
+
+      Gemini AI Recommendation
+
+    </div>
+
+    <div class="card-body">
+
+      <pre>{{selectedReview}}</pre>
+
+    </div>
+
+  </div>
+
+  <div class="card mt-4" *ngIf="selectedFHIR">
+
+    <div class="card-header bg-success text-white">
+
+      FHIR Claim JSON
+
+    </div>
+
+    <div class="card-body">
+
+      <pre>{{selectedFHIR}}</pre>
+
+    </div>
+
+  </div>
+
+</div>

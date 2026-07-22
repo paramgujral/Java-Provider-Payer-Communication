@@ -1,0 +1,439 @@
+<h2 class="text-center mb-4">
+  Provider Portal - Prior Authorization Request
+</h2>
+
+<div class="container">
+
+  <form #form="ngForm" (ngSubmit)="submitRequest(form)">
+
+    <!-- ================= Patient ================= -->
+
+    <div class="card mb-4">
+
+      <div class="card-header bg-primary text-white">
+        Patient Information
+      </div>
+
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+            <label>First Name</label>
+            <input class="form-control" name="patientFirstName" [(ngModel)]="request.patientFirstName" required>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Last Name</label>
+            <input class="form-control" name="patientLastName" [(ngModel)]="request.patientLastName" required>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Date of Birth</label>
+            <input type="date" class="form-control" name="dateOfBirth" [(ngModel)]="request.dateOfBirth">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Gender</label>
+
+            <select class="form-control" name="gender" [(ngModel)]="request.gender">
+
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+
+            </select>
+
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Mobile</label>
+            <input class="form-control" name="mobileNumber" [(ngModel)]="request.mobileNumber">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Email</label>
+            <input class="form-control" name="email" [(ngModel)]="request.email">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= Insurance ================= -->
+
+    <div class="card mb-4">
+
+      <div class="card-header bg-success text-white">
+        Insurance Information
+      </div>
+
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label>Insurance ID</label>
+            <input class="form-control" name="insuranceId" [(ngModel)]="request.insuranceId">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Insurance Company</label>
+            <input class="form-control" name="insuranceCompany" [(ngModel)]="request.insuranceCompany">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Member ID</label>
+            <input class="form-control" name="memberId" [(ngModel)]="request.memberId">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Policy Number</label>
+            <input class="form-control" name="policyNumber" [(ngModel)]="request.policyNumber">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Group Number</label>
+            <input class="form-control" name="groupNumber" [(ngModel)]="request.groupNumber">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= Provider ================= -->
+
+    <div class="card mb-4">
+
+      <div class="card-header bg-info text-white">
+        Provider Information
+      </div>
+
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label>Provider Name</label>
+            <input class="form-control" name="providerName" [(ngModel)]="request.providerName">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>NPI Number</label>
+            <input class="form-control" name="providerNpi" [(ngModel)]="request.providerNpi">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Provider Address</label>
+            <input class="form-control" name="providerAddress" [(ngModel)]="request.providerAddress">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= Medical ================= -->
+
+    <div class="card mb-4">
+
+      <div class="card-header bg-warning">
+        Medical Information
+      </div>
+
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+            <label>Diagnosis</label>
+            <input class="form-control" name="diagnosis" [(ngModel)]="request.diagnosis">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Diagnosis Code (ICD-10)</label>
+            <input class="form-control" name="diagnosisCode" [(ngModel)]="request.diagnosisCode">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Procedure</label>
+            <input class="form-control" name="procedureName" [(ngModel)]="request.procedureName">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Procedure Code (CPT)</label>
+            <input class="form-control" name="procedureCode" [(ngModel)]="request.procedureCode">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Priority</label>
+
+            <select class="form-control" name="priority" [(ngModel)]="request.priority">
+
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
+
+            </select>
+
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Requested Date</label>
+            <input type="date" class="form-control" name="requestedDate" [(ngModel)]="request.requestedDate">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Expected Service Date</label>
+            <input type="date" class="form-control" name="expectedServiceDate"
+              [(ngModel)]="request.expectedServiceDate">
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Clinical Notes</label>
+
+            <textarea rows="5" class="form-control" name="clinicalNotes" [(ngModel)]="request.clinicalNotes">
+
+</textarea>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="text-center">
+
+      <button type="button" class="btn btn-warning me-2" (click)="reviewWithAI()" [disabled]="loading">
+
+        AI Review
+
+      </button>
+
+      <button type="submit" class="btn btn-success" [disabled]="loading">
+
+        Submit Request
+
+      </button>
+
+    </div>
+
+
+
+  </form>
+
+  <!-- Gemini AI Loader -->
+  <div class="loader-overlay" *ngIf="loading">
+
+    <div class="loader-card">
+
+      <div class="ai-spinner"></div>
+
+      <h3>AI is Validating...</h3>
+
+      <p class="text-muted">
+        Reviewing your authorization request...
+      </p>
+
+      <div class="steps">
+
+        <div>✔ Validating Patient Information</div>
+
+        <div>✔ Checking Insurance Details</div>
+
+        <div>✔ Verifying Provider Information</div>
+
+        <div>✔ Validating ICD-10 Diagnosis</div>
+
+        <div>✔ Validating CPT Procedure</div>
+
+        <div>✔ Reviewing Clinical Notes</div>
+
+        <div>✔ Preparing AI Suggestions</div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- ================= Notification ================= -->
+
+  <div *ngIf="notification" class="alert alert-info mt-4">
+
+    {{ notification }}
+
+  </div>
+
+
+
+  <!-- AI Validation Result -->
+
+  <div *ngIf="!loading && aiErrors.length > 0" class="card mt-4">
+
+    <div class="card-header bg-danger text-white">
+      AI Validation
+    </div>
+
+    <div class="card-body">
+
+      <div *ngFor="let error of aiErrors" class="alert alert-warning">
+
+        <strong>{{ error.field }}</strong>
+
+        <br>
+
+        {{ error.message }}
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ================= FHIR JSON ================= -->
+
+  <div class="card mt-4" *ngIf="fhirJson">
+
+    <div class="card-header bg-success text-white">
+      Generated FHIR Claim
+    </div>
+
+    <div class="card-body">
+
+      <pre style="max-height:500px;overflow:auto;">
+{{ fhirJson }}
+</pre>
+
+    </div>
+
+  </div>
+
+  <!-- ================= Request History ================= -->
+
+  <div class="card mt-5">
+
+    <div class="card-header bg-primary text-white">
+
+      Submitted Requests
+
+    </div>
+
+    <div class="card-body table-responsive">
+
+      <table class="table table-bordered table-hover">
+
+        <thead class="table-light">
+
+          <tr>
+
+            <th>ID</th>
+
+            <th>Patient</th>
+
+            <th>Diagnosis</th>
+
+            <th>Procedure</th>
+
+            <th>Insurance</th>
+
+            <th>Status</th>
+
+            <th width="240">
+
+              Actions
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let req of requests">
+
+            <td>
+
+              {{ req.id }}
+
+            </td>
+
+            <td>
+
+              {{ req.patientFirstName }}
+              {{ req.patientLastName }}
+
+            </td>
+
+            <td>
+
+              {{ req.diagnosis }}
+
+            </td>
+
+            <td>
+
+              {{ req.procedureName }}
+
+            </td>
+
+            <td>
+
+              {{ req.insuranceId }}
+
+            </td>
+
+            <td>
+
+              <span class="badge bg-warning" *ngIf="req.status=='Pending'">
+
+                Pending
+
+              </span>
+
+              <span class="badge bg-success" *ngIf="req.status=='Approved'">
+
+                Approved
+
+              </span>
+
+              <span class="badge bg-danger" *ngIf="req.status=='Rejected'">
+
+                Rejected
+
+              </span>
+
+            </td>
+
+            <td>
+
+              <button class="btn btn-primary btn-sm me-2" (click)="viewFHIR(req.id)">
+
+                FHIR
+
+              </button>
+
+              <button class="btn btn-danger btn-sm" (click)="deleteRequest(req.id)">
+
+                Delete
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>

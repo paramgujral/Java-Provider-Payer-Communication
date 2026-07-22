@@ -1,0 +1,45 @@
+.card {
+
+    border: none;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 12px rgba(0, 0, 0, .08);
+
+}
+
+.table {
+
+    background: white;
+
+}
+
+pre {
+
+    background: #272822;
+
+    color: #7CFC00;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    max-height: 400px;
+
+    overflow: auto;
+
+}
+
+.btn {
+
+    margin-bottom: 5px;
+
+}
+
+.badge {
+
+    padding: 8px 12px;
+
+    font-size: 13px;
+
+}
