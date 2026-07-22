@@ -1,0 +1,48 @@
+<aside class="ref-sidebar">
+  <div class="mobile-sidebar-close md-hidden">
+    <button mat-icon-button (click)="closeSidebar()" aria-label="Close sidebar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <nav class="ref-sidebar__nav">
+    <a *ngIf="role === 'ADMIN' || role === 'PROVIDER' || role === 'PAYER' || role === 'MANAGER'"
+       routerLink="/dashboard"
+       routerLinkActive="active"
+       (click)="closeSidebar()">Dashboard</a>
+
+    <a *ngIf="role === 'ADMIN' || role === 'PROVIDER'"
+       routerLink="/provider"
+       [queryParams]="{ view: 'create' }"
+       routerLinkActive="active"
+       (click)="closeSidebar()">Create Authorization</a>
+
+    <a *ngIf="role === 'ADMIN' || role === 'PROVIDER'"
+       routerLink="/provider"
+       [queryParams]="{ view: 'list' }"
+       routerLinkActive="active"
+       (click)="closeSidebar()">Authorization List</a>
+
+    <a *ngIf="role === 'ADMIN' || role === 'PAYER'"
+       routerLink="/payer"
+       routerLinkActive="active"
+       (click)="closeSidebar()">Authorization Requests</a>
+
+    <a *ngIf="role === 'PAYER'"
+       routerLink="/payer-profile"
+       routerLinkActive="active"
+       (click)="closeSidebar()">Payer Profile</a>
+
+    <a *ngIf="role === 'ADMIN'"
+       routerLink="/admin"
+       routerLinkActive="active"
+       (click)="closeSidebar()">Admin</a>
+
+    <a *ngIf="role === 'ADMIN' || role === 'PROVIDER' || role === 'PAYER' || role === 'MANAGER'"
+       routerLink="/notifications"
+       routerLinkActive="active"
+       (click)="closeSidebar()">Notifications</a>
+  </nav>
+</aside>
+
+<div class="sidebar-overlay" (click)="closeSidebar()"></div>

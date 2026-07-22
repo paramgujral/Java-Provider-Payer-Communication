@@ -1,0 +1,13 @@
+<header class="app-header">
+  <div class="app-header__left">
+    <button mat-icon-button class="app-header__menu" aria-label="Open sidebar" (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="app-header__title">Prior Authorization Platform</h1>
+  </div>
+
+  <div class="app-header__actions">
+    <app-notification-bell></app-notification-bell>
+    <button mat-flat-button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</header>

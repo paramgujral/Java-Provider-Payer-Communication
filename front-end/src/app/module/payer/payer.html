@@ -1,0 +1,90 @@
+<div class="payer-page">
+  <mat-card *ngIf="!selectedRequest" class="auth-list-card">
+    <div class="auth-list-card__head">
+      <span>Authorization Requests</span>
+      <button mat-stroked-button type="button" (click)="loadPendingRequests()">Refresh</button>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</div>
+    <div *ngIf="loading" class="table-empty">Loading requests...</div>
+    <div *ngIf="!loading && requests.length === 0" class="table-empty">No pending requests</div>
+
+    <div *ngIf="!loading && requests.length > 0" class="table-wrap">
+      <table class="auth-table">
+        <thead>
+          <tr>
+            <th>Request No</th>
+            <th>Patient</th>
+            <th>Provider</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of requests">
+            <td>AUTH{{ request.id }}</td>
+            <td>{{ request.patientName }}</td>
+            <td>{{ request.providerName }}</td>
+            <td>
+              <span class="status-pill" [ngClass]="getStatusClass(request.status)">{{ request.status }}</span>
+            </td>
+            <td>
+              <button mat-flat-button color="primary" type="button" class="review-btn" (click)="openRequestDetails(request)">Review</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
+
+  <mat-card *ngIf="selectedRequest" class="auth-detail-card">
+    <div class="auth-detail-card__head">
+      <span>Review Authorization</span>
+      <button mat-stroked-button type="button" (click)="closeRequestDetails()">Back</button>
+    </div>
+
+    <div class="auth-detail-card__body">
+      <div class="detail-grid">
+        <div>
+          <h3 class="section-title">Patient Information</h3>
+          <div class="detail-row"><strong>Patient Name:</strong> <span>{{ selectedRequest.patientName }}</span></div>
+          <div class="detail-row"><strong>Patient ID:</strong> <span>{{ selectedRequest.patientId }}</span></div>
+          <div class="detail-row"><strong>Insurance ID:</strong> <span>{{ selectedRequest.insuranceId }}</span></div>
+        </div>
+        <div>
+          <h3 class="section-title">Authorization</h3>
+          <div class="detail-row"><strong>Request Number:</strong> <span>AUTH{{ selectedRequest.id }}</span></div>
+          <div class="detail-row"><strong>Provider:</strong> <span>{{ selectedRequest.providerName }}</span></div>
+          <div class="detail-row">
+            <strong>Status:</strong>
+            <span class="status-pill" [ngClass]="getStatusClass(selectedRequest.status)">{{ selectedRequest.status }}</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-title">Clinical Information</h3>
+      <div class="detail-row"><strong>Diagnosis:</strong> <span>{{ selectedRequest.diagnosisCode }}</span></div>
+      <div class="detail-row"><strong>Procedure:</strong> <span>{{ selectedRequest.procedureCode }}</span></div>
+      <div class="detail-row"><strong>Admission Date:</strong> <span>{{ selectedRequest.admissionDate }}</span></div>
+      <div class="detail-row"><strong>Clinical Notes:</strong> <span>{{ selectedRequest.treatmentDescription }}</span></div>
+
+      <div class="review-actions" *ngIf="isActionable(selectedRequest.status)">
+        <button mat-flat-button class="approve-btn" type="button" (click)="approveRequest(selectedRequest)">Approve</button>
+        <button mat-flat-button class="reject-btn" type="button" (click)="openRejectModal(selectedRequest)">Reject</button>
+      </div>
+    </div>
+  </mat-card>
+
+  <div *ngIf="showRejectModal" class="modal-backdrop">
+    <mat-card class="modal-card">
+      <h3>Reject Request</h3>
+      <p>{{ rejectingRequest?.patientName }}</p>
+      <label>Rejection Reason</label>
+      <textarea [(ngModel)]="rejectionReason" rows="3" placeholder="Enter reason for rejection..."></textarea>
+      <div class="modal-actions">
+        <button mat-button type="button" (click)="closeRejectModal()">Cancel</button>
+        <button mat-flat-button class="reject-btn" type="button" (click)="confirmReject()">Confirm Reject</button>
+      </div>
+    </mat-card>
+  </div>
+</div>

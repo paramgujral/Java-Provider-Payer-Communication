@@ -1,0 +1,57 @@
+<div class="admin-page">
+  <mat-card class="admin-card">
+    <div class="admin-card__head">User Creation</div>
+
+    <form [formGroup]="userForm" (ngSubmit)="createUserAccount()" class="admin-card__body">
+      <p class="admin-subtitle">Create new users for the Healthcare Connector.</p>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Full Name</label>
+          <input type="text" formControlName="fullName" />
+          <p *ngIf="userForm.get('fullName')?.touched && userForm.get('fullName')?.invalid" class="field-error">Full Name is required.</p>
+        </div>
+
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" formControlName="email" />
+          <p *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.required" class="field-error">Email is required.</p>
+          <p *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.email" class="field-error">Invalid email address.</p>
+        </div>
+
+        <div class="form-field">
+          <label>Password</label>
+          <input type="password" formControlName="password" />
+          <p *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.required" class="field-error">Password is required.</p>
+          <p *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.minlength" class="field-error">Minimum 6 characters required.</p>
+        </div>
+
+        <div class="form-field">
+          <label>Role</label>
+          <select formControlName="role">
+            <option value="">Select Role</option>
+            <option value="ADMIN">Admin</option>
+            <option value="PROVIDER">Provider</option>
+            <option value="PAYER">Payer</option>
+          </select>
+          <p *ngIf="userForm.get('role')?.touched && userForm.get('role')?.invalid" class="field-error">Role is required.</p>
+        </div>
+      </div>
+
+      <div class="enabled-row">
+        <input id="enabled" type="checkbox" formControlName="enabled" />
+        <label for="enabled">User Enabled</label>
+      </div>
+
+      <div *ngIf="successMessage" class="alert success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert error">{{ errorMessage }}</div>
+
+      <div class="actions">
+        <button mat-stroked-button type="button" (click)="userForm.reset({ enabled: true })">Reset</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+          {{ loading ? 'Creating...' : 'Create User' }}
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

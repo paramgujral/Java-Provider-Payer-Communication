@@ -1,0 +1,17 @@
+# Root ignores for monorepo
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+.env
+*.env
+
+# Backend
+**/target/
+**/application-local.properties
+
+# Frontend
+**/node_modules/
+**/dist/
+**/.angular/

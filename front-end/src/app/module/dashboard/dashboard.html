@@ -1,0 +1,130 @@
+<div class="dash-page">
+  <div class="dash-page__header">
+    <h1>
+      <span *ngIf="role === 'PAYER'">📊 Payer Dashboard</span>
+      <span *ngIf="role === 'ADMIN' || role === 'MANAGER'">📊 Admin Dashboard</span>
+      <span *ngIf="role !== 'PAYER' && role !== 'ADMIN' && role !== 'MANAGER'">📊 Provider Dashboard</span>
+    </h1>
+  </div>
+
+  <div *ngIf="loading" class="dash-empty">Loading dashboard...</div>
+
+  <div *ngIf="!loading && stats">
+    <div class="metric-row">
+      <mat-card class="metric-card metric-card--total">
+        <div class="metric-label">Total Requests</div>
+        <div class="metric-value">{{ stats.totalRequests }}</div>
+      </mat-card>
+
+      <mat-card class="metric-card metric-card--submitted">
+        <div class="metric-label">Submitted</div>
+        <div class="metric-value">{{ stats.submitted }}</div>
+      </mat-card>
+
+      <mat-card class="metric-card metric-card--approved">
+        <div class="metric-label">Approved</div>
+        <div class="metric-value">{{ stats.approved }}</div>
+      </mat-card>
+
+      <mat-card class="metric-card metric-card--rejected">
+        <div class="metric-label">Rejected</div>
+        <div class="metric-value">{{ stats.rejected }}</div>
+      </mat-card>
+    </div>
+
+    <div class="chart-row">
+      <mat-card class="chart-card">
+        <div *ngIf="isPieEmpty" class="dash-empty">No data</div>
+        <highcharts-chart
+          *ngIf="!isPieEmpty"
+          [Highcharts]="highcharts"
+          [options]="pieChartOptions"
+          style="width:100%;height:360px;display:block;">
+        </highcharts-chart>
+      </mat-card>
+
+      <mat-card class="chart-card">
+        <div *ngIf="isBarEmpty" class="dash-empty">No data</div>
+        <highcharts-chart
+          *ngIf="!isBarEmpty"
+          [Highcharts]="highcharts"
+          [options]="barChartOptions"
+          style="width:100%;height:360px;display:block;">
+        </highcharts-chart>
+      </mat-card>
+    </div>
+
+    <div *ngIf="role === 'ADMIN'">
+      <div class="chart-row">
+        <mat-card class="chart-card">
+          <highcharts-chart
+            [Highcharts]="highcharts"
+            [options]="providerChartOptions"
+            style="width:100%;height:360px;display:block;">
+          </highcharts-chart>
+        </mat-card>
+        <mat-card class="chart-card">
+          <highcharts-chart
+            [Highcharts]="highcharts"
+            [options]="payerChartOptions"
+            style="width:100%;height:360px;display:block;">
+          </highcharts-chart>
+        </mat-card>
+      </div>
+
+      <mat-card class="table-card">
+        <div class="table-card__head">Provider Request Summary</div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Provider</th>
+                <th>Email</th>
+                <th>Total</th>
+                <th>Approved</th>
+                <th>Rejected</th>
+                <th>Pending</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let provider of stats.providerSummary">
+                <td>{{ provider.providerName }}</td>
+                <td>{{ provider.email }}</td>
+                <td>{{ provider.totalSubmitted }}</td>
+                <td>{{ provider.approved }}</td>
+                <td>{{ provider.rejected }}</td>
+                <td>{{ provider.pending }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-card>
+
+      <mat-card class="table-card">
+        <div class="table-card__head">Payer Review Summary</div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Payer</th>
+                <th>Email</th>
+                <th>Total Reviewed</th>
+                <th>Approved</th>
+                <th>Rejected</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payer of stats.payerSummary">
+                <td>{{ payer.payerName }}</td>
+                <td>{{ payer.email }}</td>
+                <td>{{ payer.totalReviewed }}</td>
+                <td>{{ payer.approved }}</td>
+                <td>{{ payer.rejected }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

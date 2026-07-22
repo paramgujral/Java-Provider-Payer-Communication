@@ -1,0 +1,12 @@
+<div class="notif-wrap">
+  <button
+    mat-icon-button
+    class="notif-bell"
+    (click)="openNotificationsPage()"
+    [matBadge]="unreadCount > 9 ? '9+' : unreadCount"
+    [matBadgeHidden]="unreadCount === 0"
+    matBadgeColor="warn"
+    aria-label="Notifications">
+    <mat-icon>notifications</mat-icon>
+  </button>
+</div>

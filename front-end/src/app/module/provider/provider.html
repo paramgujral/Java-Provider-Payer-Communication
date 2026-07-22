@@ -1,0 +1,211 @@
+<div class="provider-page">
+  <mat-card *ngIf="showForm && !selectedRequest" class="auth-request-card">
+    <div class="auth-request-card__head">
+      <span>Prior Authorization Request</span>
+      <button mat-stroked-button type="button" (click)="toggleRequestView()">View My Requests</button>
+    </div>
+
+    <div class="auth-request-card__body">
+      <div *ngIf="successMessage" class="provider-alert provider-alert--success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="provider-alert provider-alert--error">{{ errorMessage }}</div>
+
+      <form [formGroup]="providerForm" (ngSubmit)="submitProviderRequest()">
+        <h3 class="section-title">Patient Information</h3>
+        <div class="form-grid form-grid--2">
+          <div class="form-field">
+            <label>Patient Name</label>
+            <input formControlName="patientName" type="text" />
+          </div>
+
+          <div class="form-field">
+            <label>Patient ID</label>
+            <input formControlName="patientId" type="text" />
+          </div>
+        </div>
+
+        <h3 class="section-title">Insurance Information</h3>
+        <div class="form-grid form-grid--2">
+          <div class="form-field">
+            <label>Insurance ID</label>
+            <input formControlName="insuranceId" type="text" />
+          </div>
+
+          <div class="form-field">
+            <label>Priority</label>
+            <select formControlName="priority">
+              <option value="NORMAL">Normal</option>
+              <option value="URGENT">Urgent</option>
+              <option value="EMERGENCY">Emergency</option>
+            </select>
+          </div>
+        </div>
+
+        <h3 class="section-title">Clinical Information</h3>
+        <div class="form-grid form-grid--2">
+          <div class="form-field">
+            <label>Diagnosis Code (ICD-10)</label>
+            <input formControlName="diagnosisCode" type="text" />
+          </div>
+
+          <div class="form-field">
+            <label>Procedure Code (CPT)</label>
+            <input formControlName="procedureCode" type="text" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Treatment Description</label>
+          <textarea formControlName="treatmentDescription" rows="4"></textarea>
+        </div>
+
+        <div class="form-grid form-grid--2 form-grid--3">
+          <div class="form-field">
+            <label>Admission Date</label>
+            <input formControlName="admissionDate" type="date" />
+          </div>
+
+          <div class="form-field">
+            <label>Expected Discharge Date</label>
+            <input formControlName="expectedDischargeDate" type="date" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button mat-flat-button color="primary" type="button" class="review-btn"
+                  (click)="reviewWithAi()" [disabled]="reviewingAi">
+            {{ reviewingAi ? 'Reviewing with AI...' : 'Review with AI' }}
+          </button>
+          <button mat-flat-button color="primary" type="submit" class="submit-btn"
+                  [disabled]="submitting || !canSubmitAfterAiReview">
+            {{ submitting ? 'Submitting...' : 'Submit' }}
+          </button>
+        </div>
+
+        <div class="ai-review-box" *ngIf="aiReviewResult || aiReviewMessage">
+          <div class="ai-review-head">
+            <h4>AI Review Result</h4>
+            <span class="ai-refreshing" *ngIf="reviewingAi">Reviewing...</span>
+          </div>
+
+          <div class="ai-metrics" *ngIf="aiReviewResult">
+            <div class="metric">
+              <span class="metric-label">Score</span>
+              <span class="metric-value score">{{ aiReviewResult.score }}</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Ready</span>
+              <span class="metric-value" [class.ready-yes]="aiReviewResult.ready" [class.ready-no]="!aiReviewResult.ready">
+                {{ aiReviewResult.ready ? 'YES' : 'NO' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="ai-panels" *ngIf="aiReviewResult && (hasMissing() || hasWarnings())">
+            <section class="ai-panel ai-panel--missing" *ngIf="hasMissing()">
+              <h5>Missing columns</h5>
+              <div class="ai-card" *ngFor="let tip of aiReviewResult.missing; trackBy: trackGuide">
+                <div class="ai-card-field">{{ tip.field }}</div>
+                <div class="ai-card-issue" *ngIf="tip.issue">{{ tip.issue }}</div>
+              </div>
+            </section>
+
+            <section class="ai-panel ai-panel--warning" *ngIf="hasWarnings()">
+              <h5>Warnings</h5>
+              <div class="ai-card" *ngFor="let tip of aiReviewResult.warnings; trackBy: trackGuide">
+                <div class="ai-card-field">{{ tip.field }}</div>
+                <div class="ai-card-issue" *ngIf="tip.issue">{{ tip.issue }}</div>
+                <div class="ai-card-expected" *ngIf="tip.expected">
+                  <span>Expected:</span> {{ tip.expected }}
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="ai-block ai-ok" *ngIf="aiReviewResult?.ready && !hasMissing() && !hasWarnings()">
+            <p>All fields look good. You can Submit.</p>
+          </div>
+
+          <p class="ai-hint" *ngIf="aiReviewMessage">{{ aiReviewMessage }}</p>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+
+  <mat-card *ngIf="!showForm && !selectedRequest" class="auth-list-card">
+    <div class="auth-list-card__head">
+      <span>My Authorizations</span>
+      <button mat-stroked-button type="button" (click)="toggleRequestView()">+ New Authorization</button>
+    </div>
+
+    <div *ngIf="loading" class="table-empty">Loading...</div>
+    <div *ngIf="!loading && requests.length === 0" class="table-empty">No requests yet.</div>
+
+    <div *ngIf="!loading && requests.length > 0" class="table-wrap">
+      <table class="auth-table">
+        <thead>
+          <tr>
+            <th>Request #</th>
+            <th>Patient</th>
+            <th>Diagnosis</th>
+            <th>Procedure</th>
+            <th>Status</th>
+            <th>Submitted</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of requests">
+            <td>AUTH{{ request.id }}</td>
+            <td>
+              <div class="patient-name">{{ request.patientName }}</div>
+              <div class="patient-id">{{ request.patientId }}</div>
+            </td>
+            <td>{{ request.diagnosisCode }}</td>
+            <td>{{ request.procedureCode }}</td>
+            <td>
+              <span class="status-pill" [ngClass]="getStatusClass(request.status)">{{ request.status }}</span>
+            </td>
+            <td>{{ request.createdAt | date:'dd-MM-yyyy' }}</td>
+            <td>
+              <button mat-flat-button color="primary" type="button" class="view-btn" (click)="openRequestDetails(request)">View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
+
+  <mat-card *ngIf="selectedRequest" class="auth-detail-card">
+    <div class="auth-detail-card__head">
+      <span>Authorization Details</span>
+      <button mat-stroked-button type="button" (click)="closeRequestDetails()">Back</button>
+    </div>
+
+    <div class="auth-detail-card__body">
+      <div class="detail-grid">
+        <div>
+          <h3 class="section-title">Patient Information</h3>
+          <div class="detail-row"><strong>Patient Name:</strong> <span>{{ selectedRequest.patientName }}</span></div>
+          <div class="detail-row"><strong>Patient ID:</strong> <span>{{ selectedRequest.patientId }}</span></div>
+          <div class="detail-row"><strong>Insurance ID:</strong> <span>{{ selectedRequest.insuranceId }}</span></div>
+        </div>
+        <div>
+          <h3 class="section-title">Authorization</h3>
+          <div class="detail-row"><strong>Request Number:</strong> <span>AUTH{{ selectedRequest.id }}</span></div>
+          <div class="detail-row">
+            <strong>Status:</strong>
+            <span class="status-pill" [ngClass]="getStatusClass(selectedRequest.status)">{{ selectedRequest.status }}</span>
+          </div>
+          <div class="detail-row"><strong>Submitted:</strong> <span>{{ selectedRequest.createdAt | date:'dd-MM-yyyy HH:mm' }}</span></div>
+        </div>
+      </div>
+
+      <h3 class="section-title">Clinical Information</h3>
+      <div class="detail-row"><strong>Diagnosis:</strong> <span>{{ selectedRequest.diagnosisCode }}</span></div>
+      <div class="detail-row"><strong>Procedure:</strong> <span>{{ selectedRequest.procedureCode }}</span></div>
+      <div class="detail-row"><strong>Admission Date:</strong> <span>{{ selectedRequest.admissionDate }}</span></div>
+      <div class="detail-row"><strong>Treatment Description:</strong> <span>{{ selectedRequest.treatmentDescription }}</span></div>
+      <div class="detail-row" *ngIf="selectedRequest.rejectionReason"><strong>Rejection Reason:</strong> <span>{{ selectedRequest.rejectionReason }}</span></div>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,51 @@
+<div class="notifications-page">
+  <mat-card class="notifications-card">
+    <div class="notifications-card__head">
+      <span>Notifications</span>
+      <button mat-stroked-button type="button" (click)="markAllRead()" [disabled]="loading || notifications.length === 0">
+        Mark All Read
+      </button>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</div>
+    <div *ngIf="loading" class="table-empty">Loading notifications...</div>
+    <div *ngIf="!loading && notifications.length === 0" class="table-empty">No notifications yet.</div>
+
+    <div *ngIf="!loading && notifications.length > 0" class="table-wrap">
+      <table class="notifications-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Message</th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of notifications">
+            <td class="title-cell">{{ item.title }}</td>
+            <td>{{ item.message }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.createdAt | date:'dd-MM-yyyy HH:mm' }}</td>
+            <td>
+              <span class="status-pill" [ngClass]="getStatusClass(item.isRead)">
+                {{ getStatusLabel(item.isRead) }}
+              </span>
+            </td>
+            <td>
+              <a
+                href="javascript:void(0)"
+                class="read-link"
+                [class.read-link--disabled]="item.isRead || markingId === item.id"
+                (click)="markOneRead(item)">
+                Read
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
+</div>

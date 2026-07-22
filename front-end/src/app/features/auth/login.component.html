@@ -1,0 +1,64 @@
+<div class="auth-shell">
+  <div class="brand-panel">
+    <div class="brand-inner">
+      <h1 class="brand-title">Healthcare AI</h1>
+      <h2 class="brand-subtitle">Prior Authorization Platform</h2>
+      <p class="brand-footer">Provider • Payer • Real-Time Notifications</p>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <mat-card class="login-card">
+      <h1 class="login-title">Login</h1>
+
+      <form (ngSubmit)="handleSignIn()" [formGroup]="signInForm" class="login-form">
+        <div class="field-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            matInput
+            formControlName="email"
+            type="email"
+            autocomplete="email"
+            class="login-input"
+          />
+          <div *ngIf="signInForm.get('email')?.invalid && signInForm.get('email')?.touched" class="field-error">
+            A valid email address is required
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            autocomplete="current-password"
+            class="login-input"
+          />
+          <div *ngIf="signInForm.get('password')?.invalid && signInForm.get('password')?.touched" class="field-error">
+            Password must be at least 6 characters
+          </div>
+        </div>
+
+        <div *ngIf="error" class="form-error-banner">{{ error }}</div>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="loading" class="login-btn">
+          {{ loading ? 'Signing in...' : 'Login' }}
+        </button>
+      </form>
+
+      <p class="register-hint">
+        Don't have an account?
+        <a routerLink="/register">Register</a>
+      </p>
+      <p class="demo-hint">
+        Quick demo:
+        <a href="javascript:void(0)" (click)="fillDemoCredentials('provider1')">Provider</a>
+        ·
+        <a href="javascript:void(0)" (click)="fillDemoCredentials('payer1')">Payer</a>
+      </p>
+    </mat-card>
+  </div>
+</div>
